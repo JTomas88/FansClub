@@ -1,0 +1,11 @@
+.carousel_image {
+    height: 300px; 
+    width: auto; /* Cambiado de w-40 a width auto */
+    max-width: 100%; /* Esto asegura que la imagen no desborde el contenedor */
+    object-fit: cover; /* Mantiene la proporción y recorta si es necesario */
+}
+
+.carousel_item {
+    align-items: center; /* Centrar verticalmente si es necesario */
+    height: 300px; /* Mantener la altura del item */
+}

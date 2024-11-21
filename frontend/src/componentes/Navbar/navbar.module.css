@@ -1,0 +1,34 @@
+/* @font-face {
+    font-family: 'Trance';
+    src: url("../../assets/whoaskssatan.ttf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.font_name {
+    font-family: 'Trance';
+    font-size: 3px;
+    color: black;
+}
+
+.font_name:hover{
+    color: red
+}
+
+.font_name:focus {
+    color: red;
+}
+
+.font_name:focus:not(:hover){
+    color: black;
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+
+.login_signup {
+    font-family: "Caveat", cursive;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    margin-right: 3%;
+  }

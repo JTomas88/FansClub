@@ -1,0 +1,23 @@
+.jumbotron_edit, .jumbotron_edit_home, .jumbotron_edit_foto {
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    height: 30vh; /* Ajusta la altura */
+  }
+  
+  .jumbotron_content_edit {
+    position: relative;
+    z-index: 2;
+    text-align: start;
+    padding: 1rem 2rem; /* Reduce el padding */
+  }
+  
+  .jumbotron_content_edit h1 {
+    font-size: 2rem; /* Ajusta el tamaño del título */
+  }
+  
+  .jumbotron_content_edit p {
+    font-size: 1.25rem; /* Ajusta el tamaño del subtítulo */
+  }
