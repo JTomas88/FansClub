@@ -23,11 +23,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             usuarios: [],
 
+            eventos: [],
+
         },
 
         actions: {
 
-            // ---------- >> USUARIOS, ACCESO Y CREACIÓN DE TOKENS << ------------- //
+            // ------------------------------- >> USUARIOS, ACCESO Y CREACIÓN DE TOKENS << -------------------------------- //
 
             //Creación de un nuevo usuario
             crear_usuario: async (email, userName, password) => {
@@ -179,6 +181,15 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
 
 
+
+
+
+
+
+
+            // --------------------------------------- >> API GOOGLE MAPS << ----------------------------------------------- //
+
+            //Busca una localidad según los caracteres que introduzca el usuario
             buscarlocalidad: async (query) => {
                 const store = getStore()
                 try {
@@ -194,6 +205,103 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.error("Network error:", error);
                 }
             },
+
+
+
+
+            // -------------------------------------- >> ADMIN : AGENDA Y CONCIERTOS << ----------------------------------- //
+
+            //crear evento desde perfil de administrador
+            admin_crearevento: async (fecha, poblacion, provincia, lugar, hora, entradas, observaciones) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/crearevento`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            evFecha: fecha,
+                            evPoblacion: poblacion,
+                            evProvincia: provincia,
+                            evLugar: lugar,
+                            evHora: hora,
+                            evEntradas: entradas,
+                            evObservaciones: observaciones
+                        }),
+                        headers: { "Content-Type": "application/json" }
+                    });
+
+                    if (!respuesta.ok) {
+                        const error = await respuesta.json();
+                        console.error("Error:", error)
+                        return error;
+                    }
+
+                    const data = await respuesta.json();
+
+
+                    if (data) {
+                        setStore({
+                            ...store,
+                            eventos: data
+                        });
+                        console.log("Success:", data);
+                    } else {
+                        console.error("Datos no recibidos:", data)
+                    }
+                } catch (error) {
+                    console.error("Error:", error)
+                }
+            },
+
+
+            //Función para obtener todos los eventos creados
+            admin_obtenereventos: async () => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/obtenereventos`, {
+                        method: 'GET'
+                    });
+                    const data = await respuesta.json();
+                    setStore({
+                        ...store,
+                        eventos: data
+                    });
+
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
+
+            // #Función para editar un evento de la agenda
+            admin_editarevento: async (evento, eventoId) => {
+                const store = getStore()
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/editarevento/${eventoId}`, {
+                        method: 'PUT',
+                        body: JSON.stringify(evento),
+                        headers: { "Content-Type": "application/json" }
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status: ${respuesta.status}`);
+                    }
+                    const data = await respuesta.json();
+                    setStore({
+                        ...store,
+                        eventos: store.eventos.map((evt) => (evt.id === eventoId ? { ...evt, ...evento } : evt))
+                    });
+                    console.log('Evento actualizado:', data);
+                } catch (error) {
+                    console.error('Error durante la edición del evento:', error)
+                }
+            },
+
+
+
+
+
+
+
+
 
 
 

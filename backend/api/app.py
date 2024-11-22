@@ -6,6 +6,7 @@ from flask_jwt_extended import JWTManager, create_access_token
 from api.utils import generate_sitemap, APIException
 from api.models import db, Usuario, Sorteo, Evento, Entrevista
 from dotenv import load_dotenv
+from datetime import datetime
 import os
 import requests
 from api.admin import setup_admin
@@ -134,18 +135,19 @@ def editar_usuario(usId):
         return jsonify({"Error": str(error)}), 500
 
 
+## -------------------------------------- >> API GOOGLE MAPS << ----------------------------------- ##
 
 
+#Busca una localidad según los caracteres que introduzca el usuario
 @app.route('/buscar_localidad', methods=['GET'])
 def buscar_localidad():
     query = request.args.get('q')
     url = f'https://maps.googleapis.com/maps/api/place/autocomplete/json?input={query}&language=es&types=locality&components=country:ES&key={googleapykey}'
     
-    try:
-        # Hacer la solicitud a la API de Google Places
+    try:        
         response = requests.get(url)
-        response.raise_for_status()  # Verificar si la solicitud fue exitosa
-        data = response.json()  # Parsear la respuesta en formato JSON
+        response.raise_for_status()  
+        data = response.json()  
 
         # Extraer las predicciones de la respuesta
         localidades = []
@@ -155,18 +157,18 @@ def buscar_localidad():
             provincia = detalle_localidad(place_id)
 
             localidades.append({
-                'descripcion': item['description'],  # Descripción completa de la localidad
-                'place_id': item['place_id'],    # Identificador único del lugar
+                'descripcion': item['description'],  
+                'place_id': item['place_id'],    
                 'provincia': provincia
             })
 
-        # Devolver las localidades en formato JSON
+        
         return jsonify(localidades), 200
-    except requests.exceptions.RequestException as e:
-        # Manejar errores y devolver un mensaje de error
+    except requests.exceptions.RequestException as e:        
         return jsonify({'error': str(e)}), 500
     
 
+#Vinculada a la función anterior, devuelve la provincia según el municipio escogido
 def detalle_localidad(place_id):
         url = f'https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&key={googleapykey}'
         respuesta = requests.get(url)
@@ -184,6 +186,111 @@ def detalle_localidad(place_id):
         else:
             print (f"Error: {respuesta.status_code}")
             return None
+        
+
+
+
+
+## -------------------------------------- >> ADMIN : AGENDA Y CONCIERTOS << ----------------------------------- ##
+
+#crear evento desde perfil de administrador
+@app.route('/admin/crearevento', methods=['POST'])
+def crearevento():
+    data = request.json
+
+    fecha_str = data['evFecha']
+    try:
+        fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+    except ValueError:
+        return jsonify({"mensaje": "formato no valido"}), 400
+    
+    nuevoEvento = Evento(
+        evFecha = fecha,
+        evPoblacion = data['evPoblacion'],
+        evProvincia = data['evProvincia'],
+        evLugar = data['evLugar'],
+        evHora = data['evHora'],
+        evEntradas = data['evEntradas'],
+        evObservaciones = data['evObservaciones']
+    )
+
+    db.session.add(nuevoEvento)
+    db.session.commit()
+
+    return jsonify({
+        "mensaje": "Evento creado correctamente",
+        **nuevoEvento.serialize()
+    }), 201
+
+
+
+#Función para obtener todos los eventos creados
+@app.route('/admin/obtenereventos', methods=['GET'])
+def obtenereventos():
+    todosLosEventos = Evento.query.all()
+    return jsonify([evento.serialize() for evento in todosLosEventos])
+
+
+
+# Función para editar un evento de la agenda
+@app.route('/admin/editarevento/<int:evId>', methods = ['PUT'])
+def editarevento(evId):
+    evento = Evento.query.get(evId)
+
+    if evento is None:
+        return jsonify({"error": "el evento no se encuentra"}), 404
+    
+    data = request.json
+    print("Datos recibidos:", data)  # Verifica qué datos recibe el backend
+
+    if not data:
+        return jsonify({"error": "no se han recibido datos"}), 400
+
+    # Solo se actualizan los campos si están presentes en los datos recibidos
+    if 'evFecha' in data:        
+        try:
+            fecha_str = data['evFecha']
+            fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+            evento.evFecha = fecha
+        except ValueError:
+            return jsonify({"mensaje": "formato no valido"}), 400
+
+    if 'evPoblacion' in data:
+        evento.evPoblacion = data['evPoblacion']
+    if 'evProvincia' in data:
+        evento.evProvincia = data['evProvincia']
+    if 'evLugar' in data:
+        evento.evLugar = data['evLugar']
+    if 'evHora' in data:
+        evento.evHora = data['evHora']
+    if 'evEntradas' in data:
+        evento.evEntradas = data['evEntradas']
+    if 'evObservaciones' in data:
+        evento.evObservaciones = data['evObservaciones']
+
+    try: 
+        db.session.commit()
+        return jsonify({"mensaje": "evento actualizado"}), 200
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": str(error)}), 500
+
+
+# Función para eliminar un evento de la agenda
+@app.route('/admin/eliminarevento/<int:evId>', methods= ['DELETE'])
+def eliminarevento(evId):
+    evento = Evento.query.get(evId)
+    
+    if evento is None:
+        return jsonify({"error": "el evento no se encuentra"}), 400
+    
+    try:
+        db.session.delete(evento)
+        db.session.commit()
+        return jsonify({"mensaje": "evento borrado correctamente"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
 
 
 

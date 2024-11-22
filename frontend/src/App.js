@@ -6,6 +6,8 @@ import { Registro } from "./paginas/Registro/Registro.jsx";
 import { RegistroCompleto } from "./componentes/FormRegistro/RegistroCompleto.jsx";
 import { QuienEsSienna } from "./paginas/QuienEsSienna/QuienEsSienna.jsx";
 import { ObjetivosCF } from "./paginas/ObjetivosCF/ObjetivosCF.jsx";
+import { Admin } from "./paginas/Admin/Admin.jsx";
+import { Agenda } from "./paginas/Admin/Agenda.jsx";
 
 function App() {
   return (
@@ -19,6 +21,9 @@ function App() {
             <Route path="/completar-registro" element={<RegistroCompleto />} />
             <Route path="/quienessienna" element={<QuienEsSienna />} />
             <Route path="/objetivoscf" element={<ObjetivosCF />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/agenda" element={<Agenda />} />
+
 
 
 
