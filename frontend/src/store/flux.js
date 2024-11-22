@@ -37,7 +37,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                         method: 'POST',
                         body: JSON.stringify({
                             usEmail: email,
-                            usUserName: userName,
+                            usUsername: userName,
                             usPassword: password
                         }),
                         headers: { 'Content-Type': 'application/json' }
@@ -60,7 +60,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                             error: null
                         });
                         console.log(("Datos del usuario recogidos:", datosRecogidos));
-                        // window.location.href = '/completar-datos'; // Asumiendo que esta es la ruta de la página de "completar datos"
+                        window.location.href = '/completar-registro'; // Asumiendo que esta es la ruta de la página de "completar registro"
                     } else {
                         // Si no se obtiene el access_token, entonces hubo un error
                         setStore({
@@ -132,6 +132,66 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
                 } catch (error) {
                     console.error('Error al obtener los detalles del usuario ', error)
+                }
+            },
+
+
+            //Editar datos desde perfil de usuario - Completar registro
+            editar_usuario: async (usuarioId, email, nombre, apellidos, pueblo, provincia, direccion) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/usuario/editar/${usuarioId}`, {
+                        method: 'PUT',
+                        body: JSON.stringify({
+                            usEmail: email,
+                            usNombre: nombre,
+                            usApellidos: apellidos,
+                            usPueblo: pueblo,
+                            usProvincia: provincia,
+                            usDireccion: direccion
+                        }),
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status: ${respuesta.status}`)
+                    }
+                    const data = await respuesta.json();
+                    const datosUsuario = {
+                        email: data.usEmail,
+                        nombre: data.usNombre,
+                        apellidos: data.usApellidos,
+                        pueblo: data.usPueblo,
+                        provincia: data.usProvincia,
+                        direccion: data.usDireccion
+                    };
+                    localStorage.setItem('userData', JSON.stringify(datosUsuario))
+
+                    setStore({
+                        ...store,
+                        usuarios: store.usuarios.map(usuario => (usuario.usId === usuarioId ? data : usuario))
+                    })
+                    setStore({
+                        userData: datosUsuario
+                    })
+                } catch (error) {
+                    console.error("Error al actualizar el usuario:", error)
+                }
+            },
+
+
+            buscarlocalidad: async (query) => {
+                const store = getStore()
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/buscar_localidad?q=${query}`, {
+                        method: 'GET',
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status ${respuesta.status}`);
+                    }
+                    return respuesta;
+
+                } catch (error) {
+                    console.error("Network error:", error);
                 }
             },
 
