@@ -1,27 +1,3 @@
-/* @font-face {
-    font-family: 'Trance';
-    src: url("../../assets/whoaskssatan.ttf");
-    font-weight: bold;
-    font-style: normal;
-}
-
-.font_name {
-    font-family: 'Trance';
-    font-size: 3px;
-    color: black;
-}
-
-.font_name:hover{
-    color: red
-}
-
-.font_name:focus {
-    color: red;
-}
-
-.font_name:focus:not(:hover){
-    color: black;
-} */
 
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
 
@@ -32,3 +8,15 @@
     font-style: normal;
     margin-right: 3%;
   }
+
+  @font-face {
+    font-family: 'NavBarFont';
+    src: url("../../assets//Punk\ Typewriter.otf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+.enlaces{
+    font-family: 'NavBarFont';
+}

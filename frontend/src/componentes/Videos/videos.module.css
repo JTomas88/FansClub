@@ -1,0 +1,57 @@
+ul {
+    list-style-type: none;
+}
+
+@font-face {
+    font-family: 'Trance';
+    src: url("../../assets//whoaskssatan.ttf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.tranceVideos {
+    font-family: 'Trance';
+    font-size: 60px;
+    color: white;
+}
+
+.canciones {
+    font-size: 20px;
+    color: ghostwhite
+}
+
+.contenedor {
+    min-height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: start;
+
+}
+
+@media (max-width: 768px) {
+
+    /* Contenedor de títulos y reproductor centrado en móviles */
+    .vistaMovil {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    iframe {
+        width: 390px;
+        max-width: auto;
+        height: 219px;
+    }
+
+    .tranceVideos {
+        font-family: 'Trance';
+        font-size: 40px;
+        color: white;
+    }
+
+
+
+
+}

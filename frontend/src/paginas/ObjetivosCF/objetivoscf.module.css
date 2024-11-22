@@ -1,0 +1,31 @@
+.objetivoscf{
+    background-color: black;
+}
+
+@font-face {
+    font-family: 'Trance';
+    src: url("../../assets//whoaskssatan.ttf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.titulocol {
+    font-family: 'Trance';
+    font-size: 40px;
+    color: white
+}
+
+.texto{
+    margin: 20px;
+    justify-content: center;
+    text-align: justify;
+    align-items: center;
+    font-size: 16px;
+    cursor: default;
+}
+
+.foto{
+    border-radius: 2%;
+    width: 500px;
+    height: 600px;
+}

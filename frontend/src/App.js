@@ -4,6 +4,8 @@ import { Navbar } from "./componentes/Navbar/Navbar.jsx";
 import { Home } from "./paginas/Home/Home.jsx";
 import { Registro } from "./paginas/Registro/Registro.jsx";
 import { RegistroCompleto } from "./componentes/FormRegistro/RegistroCompleto.jsx";
+import { QuienEsSienna } from "./paginas/QuienEsSienna/QuienEsSienna.jsx";
+import { ObjetivosCF } from "./paginas/ObjetivosCF/ObjetivosCF.jsx";
 
 function App() {
   return (
@@ -15,6 +17,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/registro" element={<Registro />} />
             <Route path="/completar-registro" element={<RegistroCompleto />} />
+            <Route path="/quienessienna" element={<QuienEsSienna />} />
+            <Route path="/objetivoscf" element={<ObjetivosCF />} />
+
 
 
           </Routes>

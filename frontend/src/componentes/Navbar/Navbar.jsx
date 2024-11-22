@@ -9,10 +9,10 @@ export const Navbar = () => {
 
 
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className={`navbar navbar-expand-lg bg-body-tertiary ${styles.enlaces}`} style={{ fontSize: "26px" }}>
             <div className="container-fluid">
 
-                <a className="navbar-brand ml-3" href="/">Club Fans Oficial Sienna</a>
+                <a className="navbar-brand" style={{ marginLeft: "3%", fontSize: "30px", fontWeight: "bold" }} href="/">Club Fans Oficial Sienna</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -20,7 +20,7 @@ export const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/quienesSienna">Quién es Sienna</Link>
+                            <Link className="nav-link" to="/quienessienna">Quién es Sienna</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/objetivoscf">Objetivos CF</Link>
@@ -33,12 +33,12 @@ export const Navbar = () => {
                             <ul className="dropdown-menu">
 
                                 <li>
-                                    <Link to="/multimediafotos" className="dropdown-item" >Fotos</Link>
+                                    <Link to="/multimediafotos" className="dropdown-item" style={{ fontSize: "26px" }}>Fotos</Link>
                                 </li>
 
 
                                 <li>
-                                    <Link to="/entrevistas" className="dropdown-item" >Entrevistas</Link>
+                                    <Link to="/entrevistas" className="dropdown-item" style={{ fontSize: "26px" }}>Entrevistas</Link>
                                 </li>
                             </ul>
                         </li>
@@ -51,6 +51,12 @@ export const Navbar = () => {
                         <li className="nav-item">
                             <Link className="nav-link" to="/objetivoscf">Links de interés</Link>
                         </li>
+
+
+
+
+
+
 
                         {store.userData.role === 'admin' ? (
                             <li className="nav-item">

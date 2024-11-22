@@ -1,15 +1,15 @@
 import React from "react";
-import { Quien } from "../../component/Quien/Quien";
-import { Jumbotron } from "../../component/Jumbotron/Jumbotron";
-import { Timeline } from "../../component/Timeline/Timeline";
+import { Quien } from "../../componentes/Quien/Quien";
+import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
+import { Timeline } from "../../componentes/Timeline/Timeline";
 import styles from "../QuienEsSienna/quienessienna.module.css"
-import img from "../../../assets/20.jpg";
+import img from "../../assets/imagenes_jumbotron/Jumbotron_Quien.jpg";
 
 export const QuienEsSienna = () => {
     return (
         <div className="bg-color mb-3">
             <div>
-                <Jumbotron imagenFondo={{ backgroundImage: `url(${img})`, backgroundPosition: 'center 23%' }} subtitulo={"Y sin embargo, solo te noto a ti"} referencia={'home'} ></Jumbotron>
+                <Jumbotron imagenFondo={{ backgroundImage: `url(${img})`, backgroundPosition: 'center 50%' }} subtitulo={"Y sin embargo, solo te noto a ti"} referencia={'home'} ></Jumbotron>
             </div>
             <div>
                 <Quien />

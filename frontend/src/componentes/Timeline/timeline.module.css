@@ -1,0 +1,24 @@
+.blurBackground {
+    background: rgba(248, 72, 72, 0.8);
+    filter: blur(10px);
+    z-index: -1;
+    border-radius: 8px;
+}
+
+.hFrYSD {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    position: absolute;
+    top: calc(50%);
+    background: #ffffff;
+    transform: translateY(-50%) rotate(225deg);
+    z-index: -2;
+    right: -8px;
+}
+
+@media (max-width: 768px){
+    
+}

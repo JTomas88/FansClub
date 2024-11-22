@@ -2,6 +2,7 @@ import React from "react";
 import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
 import imgJumbo from "../../assets/imagenes_jumbotron/JumboHome.png"
 import { SliderHome } from "../../componentes/Slider/SliderHome";
+import { Videos } from "../../componentes/Videos/Videos";
 
 export const Home = () => {
     return (
@@ -16,8 +17,26 @@ export const Home = () => {
                     referencia={"home"}
                 >
                 </Jumbotron>
+
+                <div className="d-flex justify-content-center align-items-center text-center">
+                    <iframe
+                        style={{ borderRadius: "12px" }}
+                        src="https://open.spotify.com/embed/artist/4PSNWFX3rYscMdKRp59uYA?utm_source=generator&theme=0"
+                        width="50%"
+                        height="100"
+                        frameBorder="0"
+                        allowFullScreen
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy"
+                    ></iframe>
+                </div>
+
+
                 <div className="mt-3">
                     <SliderHome />
+                </div>
+                <div className="mt-3">
+                    <Videos />
                 </div>
 
             </div>
