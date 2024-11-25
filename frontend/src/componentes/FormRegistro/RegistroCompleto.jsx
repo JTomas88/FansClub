@@ -27,14 +27,7 @@ export const RegistroCompleto = () => {
     const [provincia, setProvincia] = useState("")
     const [direccion, setDireccion] = useState("")
     const [token, setToken] = useState("")
-
     const [sugerencias, setSugerencias] = useState([])
-
-    //Variables para el cambio de contraseña//
-    // const [password, setPassword] = useState('') //password actual
-    // const [esValida, setEsValida] = useState(false);
-    // const [nuevaPassword, setNuevaPassword] = useState('')
-    // const [confNuevaPassword, setConfNuevaPassword] = useState('')
 
 
 
@@ -76,27 +69,6 @@ export const RegistroCompleto = () => {
     }
 
 
-    const changePueblo = async (evento) => {
-        const { nombrePueblo, caracteres } = evento.target
-        if (nombrePueblo === 'pueblo' && caracteres.length > 2) {
-            try {
-                const respuesta = await actions.buscarlocalidad(caracteres);
-                const datos = await respuesta.json();
-                setSugerencias(datos)
-            } catch (error) {
-                console.error("Error al buscar localidades:", error)
-            }
-        } else {
-            setSugerencias([])
-        }
-    }
-
-
-    const changeDireccion = (evento) => {
-        const direccionUsu = evento.target.value;
-        setDireccion(direccionUsu)
-    }
-
 
     //Cargamos los datos del usuario si ya está registrado, si no se muestran los campos en blanco
     useEffect(() => {
@@ -125,8 +97,9 @@ export const RegistroCompleto = () => {
     }, [store.userData]);
 
 
+    //Para manejar el estado del botón
     const hasChanges = (
-        nombre !== datosIniciales.name ||
+        nombre !== datosIniciales.nombre ||
         apellidos !== datosIniciales.apellidos ||
         email !== datosIniciales.email ||
         telefono !== datosIniciales.telefono ||
@@ -134,10 +107,6 @@ export const RegistroCompleto = () => {
         provincia !== datosIniciales.provincia ||
         direccion !== datosIniciales.direccion
     );
-
-
-
-
 
     //
     const editarDatos = async (evento) => {
@@ -165,54 +134,58 @@ export const RegistroCompleto = () => {
         setSugerencias([])
     }
 
-    // //Verificar contraseña actual: envía la contraseña actual al backend para comprobarla
-    // const verifPassActual = async () => {
-    //     const isValid = await actions.verificarpwactual(store.userData.id, password);
-    //     setEsValida(isValid);
-    //     if (!isValid) {
-    //         setError('La contraseña actual no es correcta')
-    //     } else {
-    //         setError('')
-    //     }
-    // }
-
-    //para mostrar un botón u otro. 
-    // const validarPasswordNueva = (
-    //     password !== store.userData.password &&
-    //     nuevaPassword !== "" &&
-    //     confNuevaPassword !== "" &&
-    //     nuevaPassword === confNuevaPassword
-    // )
-
-    // const verificarnuevaPw = () => {
-    //     if (nuevaPassword !== confNuevaPassword) {
-    //         setErrorvalidnuevapw('La nueva contraseña no coincide')
-    //     } else {
-    //         setErrorvalidnuevapw('')
-    //     }
-    // }
+    //Variables para el cambio de contraseña//
+    const [password, setPassword] = useState('') //password actual
+    const [esValida, setEsValida] = useState(false);
+    const [nuevaPassword, setNuevaPassword] = useState('')
+    const [confNuevaPassword, setConfNuevaPassword] = useState('')
+    const handleChangeNPassword = (e) => setNuevaPassword(e.target.value) //para introducir la 1ª vez la nueva contraseña
+    const handleChangeCNPassword = (e) => setConfNuevaPassword(e.target.value) //para confirmar la nueva contraseña. 
 
 
-    // //---CAMBIO DE CONTRASEÑA!!!!---
-    // const handleClickCambioPw = async (evento) => {
-    //     evento.preventDefault();
-    //     try {
-    //         await actions.cambiopassword(store.userData.id, nuevaPassword)
+    //Verificar contraseña actual: envía la contraseña actual al backend para comprobarla
+    const verifPassActual = async () => {
+        const isValid = await actions.verificarpwactual(store.userData.id, password, store.userData.email);
+        setEsValida(isValid);
+        if (!isValid) {
+            setError('La contraseña actual no es correcta')
+        } else {
+            setError('')
+        }
+    }
 
-    //         await actions.getUserById()
+    // Cambio de contraseña: para mostrar un botón u otro. 
+    const validarPasswordNueva = (
+        password !== store.userData.password &&
+        nuevaPassword !== "" &&
+        confNuevaPassword !== "" &&
+        nuevaPassword === confNuevaPassword
+    )
 
-    //     } catch (error) {
-    //         console.error("Error al actualizar el password:", error)
-    //     }
-    // }
+    const verificarnuevaPw = () => {
+        if (nuevaPassword !== confNuevaPassword) {
+            setErrorvalidnuevapw('La nueva contraseña no coincide')
+        } else {
+            setErrorvalidnuevapw('')
+        }
+    }
 
 
+    //---CAMBIO DE CONTRASEÑA!!!!---
+    const handleClickCambioPw = async (evento) => {
+        evento.preventDefault();
+        try {
+            await actions.cambiopassword(store.userData.id, nuevaPassword)
 
+            await actions.obtenerUsuarioPorId()
+            setPassword('')
+            setNuevaPassword('');
+            setConfNuevaPassword('');
 
-
-
-
-
+        } catch (error) {
+            console.error("Error al actualizar el password:", error)
+        }
+    }
 
 
     return (
@@ -327,11 +300,12 @@ export const RegistroCompleto = () => {
             </form>
 
             {/* //Formulario para cambiar la contraseña */}
-            {/* <form onSubmit={handleClickCambioPw}>
-                <p className="mb-4">Aquí podrás cambiar tu contraseña</p>
+            <form onSubmit={handleClickCambioPw}>
+                <p className="mb-1">Aquí podrás cambiar tu contraseña</p>
                 <div className="row">
-                    <div className="col">
+                    <div className="col-6">
                         <div class="mb-3">
+                            {/* Campo para introducir la contraseña actual */}
                             <label htmlFor="actualpassword" class="form-label">Escribe aquí tu contraseña actual:</label>
                             <input type="password"
                                 class="form-control"
@@ -343,6 +317,7 @@ export const RegistroCompleto = () => {
                             {error && <p style={{ color: 'red' }}>{error}</p>}
                         </div>
 
+                        {/* Campos para nueva contraseña y confirmación de nueva contraseña */}
                         <div class="mb-3">
                             <label htmlFor="nuevapassword" class="form-label">Introduce tu nueva contraseña:</label>
                             <input type="password"
@@ -365,9 +340,9 @@ export const RegistroCompleto = () => {
                             />
                             {errorValidnuevapw && <p style={{ color: 'red' }}>{errorValidnuevapw}</p>}
                         </div>
-                    </div>
-                    <div className="col">
-                        <div className="align-content-center d-flex justify-content-start">
+
+
+                        <div className="align-content-center d-flex justify-content-center">
 
                             {validarPasswordNueva ? (
                                 <button type="submit" className="btn btn-outline-light" >Cambiar contraseña</button>
@@ -376,11 +351,11 @@ export const RegistroCompleto = () => {
 
                             )}
                         </div>
-
                     </div>
+
                 </div>
 
-            </form> */}
+            </form>
         </div>
     );
 };

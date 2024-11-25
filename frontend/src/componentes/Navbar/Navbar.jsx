@@ -1,11 +1,19 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import styles from "../Navbar/navbar.module.css"
 
 export const Navbar = () => {
 
     const { store, actions } = useContext(Context);
+
+    const navigate = useNavigate();
+
+
+    const logout = () => {
+        actions.logOut();
+        navigate('/')
+    }
 
 
     return (
@@ -54,33 +62,26 @@ export const Navbar = () => {
 
 
 
-
-
-
-
                         {store.userData.role === 'admin' ? (
                             <li className="nav-item">
                                 <Link className="nav-link" to="/admin">ADMINISTRADOR</Link>
                             </li>
                         ) : (<></>)}
-
-
-
                     </ul>
 
 
                     {store.userData.token ?
-                        <li className="dropdown">
+                        <li className="dropdown" style={{ color: "black" }}>
                             <button type="button" className={`${styles.font_name} btn dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
                                 {store.userData.username}
                             </button>
                             <ul className="dropdown-menu">
                                 <Link to="/completar-registro" >
-                                    <li className="dropdown-item">Mi perfil</li>
+                                    <li className="dropdown-item" style={{ color: "black" }}>Mi perfil</li>
                                 </Link>
 
                                 <li className="dropdown-item"
-                                // onClick={logout}
+                                    onClick={logout}
                                 > Salir </li>
 
                             </ul>

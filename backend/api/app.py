@@ -39,8 +39,6 @@ jwt = JWTManager(app)
 
 
 
-
-
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
@@ -143,19 +141,70 @@ def editar_usuario(usId):
 def crear_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
+    
 
-    usuarios = Usuario.query.filter_by(email = email).first()
+    usuarios = Usuario.query.filter_by(usEmail = email).first()
+    print ('usuario: ', usuarios)
 
     if usuarios is None:
         return jsonify({'Error': "No se ha encontrado el correo o contraseña"}), 404
     
-    if not check_password_hash(usuarios.password, password):
+    if not check_password_hash(usuarios.usPassword, password):
         return jsonify ({'Error': 'Contraseña incorrecta'})
     
     # Se crea nuevo token de entrada del usuario a la pagina
-    access_token = create_access_token(identity = usuarios.id)
+    access_token = create_access_token(identity = usuarios.usId)
 
-    return jsonify({"token": access_token, "email":usuarios.email, "username":usuarios.username, "id": usuarios.id, "role":usuarios.role})
+    return jsonify({"token": access_token, "email":usuarios.usEmail, "username":usuarios.usUsername, "id": usuarios.usId, "rol":usuarios.usRol})
+
+
+#Verificar si la contraseña actual es la correcta
+@app.route('/verificarpwactual', methods=['POST'])
+def verificarpwactual():
+    # Extraemos los datos enviados por el front
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    
+
+    usuarios = Usuario.query.filter_by(usEmail = email).first()
+    print ('usuario: ', usuarios)
+
+    if usuarios is None:
+        return jsonify({'Error': "No se ha encontrado el correo o contraseña"}), 404
+    
+    if not check_password_hash(usuarios.usPassword, password):
+        return jsonify ({'Error': 'Contraseña incorrecta'}), 404
+    else:
+        return jsonify({'isValid': True}), 200
+    # # Verificar la contraseña ingresada usando check_password_hash
+    # isValid = check_password_hash(usuarios.usPassword, password)
+    # print("¿Es válida?", isValid)
+
+    # if isValid:
+    #     return jsonify({'isValid': True}), 200
+    # else:
+    #     return jsonify({'isValid': False}), 200
+
+    
+
+
+#Cambio de contraseña desde perfil del usuario
+@app.route('/users/cambiopassword/<int:usId>', methods=['PUT'])
+def cambiopassword(usId):
+    usuario = Usuario.query.get(usId)
+    print ('Usuario: ',usuario)
+    if usuario is None:
+        return jsonify({"error": "usuario no encontrado"}), 404
+    
+    data = request.json
+    print('Data: ',data)
+
+    codificar_password = generate_password_hash(data['password'])
+
+    usuario.password = codificar_password
+    db.session.add(usuario)
+    db.session.commit()
+    return jsonify({"mensaje": "cambio contrasena ok"}), 200
 
 
 ## -------------------------------------- >> API GOOGLE MAPS << ----------------------------------- ##

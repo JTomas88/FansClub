@@ -21,8 +21,8 @@ export const FormInicioSesion = () => {
 
         try {
             await actions.login(email, password);
-            if (store.userData.role && store.userData.email === email) {
-                if (store.userData.token && store.userData.rol === "user") {
+            if (store.userData.rol && store.userData.email === email) {
+                if (store.userData.token && store.userData.rol === "usuario") {
                     navigate('/')
                 } else if (store.userData.token && store.userData.rol === "admin") {
                     navigate('/')

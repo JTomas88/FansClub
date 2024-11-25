@@ -12,9 +12,9 @@ const getState = ({ getStore, getActions, setStore }) => {
                 id: null,
                 email: null,
                 password: null,
-                userName: null,
+                username: null,
                 nombre: null,
-                pellidos: null,
+                apellidos: null,
                 telefono: null,
                 provincia: null,
                 pueblo: null,
@@ -99,12 +99,12 @@ const getState = ({ getStore, getActions, setStore }) => {
             obtenerUsuarioPorId: async () => {
                 const store = getStore();
 
-                if (!store.userData.us_id) {
+                if (!store.userData.id) {
                     console.error('Id de usuario no disponible')
                     return;
                 }
                 try {
-                    const respuesta = await fetch(`${store.backendUrl}/todoslosusuarios/${store.userData.us_id}`, {
+                    const respuesta = await fetch(`${store.backendUrl}/todoslosusuarios/${store.userData.id}`, {
                         method: 'GET'
                     });
                     if (!respuesta.ok) {
@@ -115,15 +115,15 @@ const getState = ({ getStore, getActions, setStore }) => {
                     if (data) {
                         const detallesUsuario = {
                             ...store.userData, //cogemos lo que hay en userData, y lo actualizamos con lo siguiente
-                            us_email: data.email,
-                            us_password: data.password,
-                            us_userName: data.userName,
-                            us_name: data.name || '',
-                            us_apellidos: data.apellidos || '',
-                            us_telefono: data.telefono || '',
-                            us_provincia: data.provincia || '',
-                            us_pueblo: data.pueblo || '',
-                            us_direccion: data.direccion || ''
+                            email: data.usEmail,
+                            password: data.usPssword,
+                            userName: data.usUsername,
+                            name: data.usNombre || '',
+                            apellidos: data.usApellidos || '',
+                            telefono: data.usTelefono || '',
+                            provincia: data.usProvincia || '',
+                            pueblo: data.usPueblo || '',
+                            direccion: data.usDireccion || ''
                         }
                         // Guardar el objeto en localStorage (caché del navegador)
                         localStorage.setItem('userData', JSON.stringify(detallesUsuario));
@@ -207,7 +207,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                             username: data.username,
                             email: data.email,
                             id: data.id,
-                            role: data.role
+                            rol: data.rol
                         };
 
                         localStorage.setItem('userData', JSON.stringify(datoUsuario))
@@ -224,6 +224,90 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.error("Error login:", error);
                 }
             },
+
+            //Verificación del password
+            verificarpwactual: async (userId, password, email) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/verificarpwactual`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            usId: userId,
+                            password: password,
+                        })
+                    })
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status: ${respuesta.status}`);
+                    }
+
+                    const data = await respuesta.json()
+                    console.log("Respuesta del servidor: ", data)
+
+                    return data.isValid;
+                } catch (error) {
+                    console.error('Error al verificar la contraseña:', error);
+                    return false;
+                }
+            },
+
+
+            // Función que cambia la contraseña en sí
+            cambiopassword: async (usuarioId, password) => {
+                const store = getStore();
+                const actions = getActions();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/users/cambiopassword/${usuarioId}`, {
+                        method: 'PUT',
+                        body: JSON.stringify({ usuarioId, password }),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status: ${respuesta.status}`);
+                    }
+                    const data = await respuesta.json()
+                    await actions.obtenerUsuarioPorId()
+
+                    setStore({
+                        usuarios: store.usuarios.map(usuario => (usuario.id === usuarioId ? data : usuario)),
+                    })
+                } catch (error) {
+                    console.error("Error al actualizar el password:", error)
+                }
+
+            },
+
+
+            //Cerrar la sesión del perfil de usuario
+            logOut: () => {
+                const store = getStore();
+
+                localStorage.clear();
+                setStore({
+                    ...store,
+                    userData: {
+                        token: null,
+                        id: '',
+                        email: null,
+                        userName: null,
+                        nombre: null,
+                        apellidos: null,
+                        telefono: null,
+                        pueblo: null,
+                        provincia: null,
+                        direccion: null
+                    }
+                })
+            },
+
+
+
+
 
 
 
