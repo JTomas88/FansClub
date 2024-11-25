@@ -26,6 +26,7 @@ export const RegistroCompleto = () => {
     const [pueblo, setPueblo] = useState("")
     const [provincia, setProvincia] = useState("")
     const [direccion, setDireccion] = useState("")
+    const [token, setToken] = useState("")
 
     const [sugerencias, setSugerencias] = useState([])
 
@@ -44,6 +45,13 @@ export const RegistroCompleto = () => {
     const [claseAlerta, setClaseAlerta] = useState("")
 
 
+    //
+    useEffect(() => {
+        if (store.userData.id) {
+            actions.obtenerUsuarioPorId()
+            setEmail(store.userData.email)
+        }
+    }, [store.userData.id, store.userData.token]);
 
 
     const insertarPoblacion = async (evento) => {
@@ -92,24 +100,26 @@ export const RegistroCompleto = () => {
 
     //Cargamos los datos del usuario si ya está registrado, si no se muestran los campos en blanco
     useEffect(() => {
-        if (store.userData.us_id) {
-            setNombre(store.userData.us_nombre || '');
-            setApellidos(store.userData.us_apellidos || '');
-            setTelefono(store.userData.us_telefono || '');
-            setEmail(store.userData.us_email || '');
-            setPueblo(store.userData.us_pueblo)
-            setProvincia(store.userData.us_provincia || '');
-            setDireccion(store.userData.us_direccion || '');
+        if (store.userData.id) {
+            setToken(store.userData.token || "");
+            setNombre(store.userData.nombre || '');
+            setApellidos(store.userData.apellidos || '');
+            setTelefono(store.userData.telefono || '');
+            setEmail(store.userData.email || '');
+            setPueblo(store.userData.pueblo)
+            setProvincia(store.userData.provincia || '');
+            setDireccion(store.userData.direccion || '');
 
             //seteamos los valores: si ya los tiene o si los tiene en blanco. 
             setDatosIniciales({
-                nombre: store.userData.us_nombre || '',
-                apellidos: store.userData.us_apellidos || '',
-                telefono: store.userData.us_telefono || '',
-                email: store.userData.us_email || '',
-                pueblo: store.userData.us_pueblo || '',
-                provincia: store.userData.us_provincia || '',
-                direccion: store.userData.us_direccion || ''
+                token: store.userData.token || '',
+                nombre: store.userData.nombre || '',
+                apellidos: store.userData.apellidos || '',
+                telefono: store.userData.telefono || '',
+                email: store.userData.email || '',
+                pueblo: store.userData.pueblo || '',
+                provincia: store.userData.provincia || '',
+                direccion: store.userData.direccion || ''
             });
         }
     }, [store.userData]);
@@ -126,12 +136,7 @@ export const RegistroCompleto = () => {
     );
 
 
-    //
-    useEffect(() => {
-        if (store.userData.us_id) {
-            actions.obtenerUsuarioPorId()
-        }
-    }, [store.userData.us_id, store.userData.token]);
+
 
 
     //
@@ -143,31 +148,20 @@ export const RegistroCompleto = () => {
             return
         }
 
-        if (store.userData.us_id && store.userData.token) {
-            await actions.editar_usuario(store.userData.us_id, store.userData.us_email, store.userData.us_nombre, store.userData.us_apellidos, store.userData.us_pueblo, store.userData.provincia, store.userData.us_direccion, nombre, apellidos, email, telefono, pueblo, provincia, direccion)
+        if (store.userData.id && store.userData.token) {
+            await actions.editar_usuario(store.userData.id, token, email, nombre, apellidos, telefono, pueblo, provincia, direccion)
             setMsjOK("Has actualizado tus datos!");
             setError(null)
-            setClaseAlerta(styles.alert_enter)
-
-            setTimeout(() => {
-                setClaseAlerta(styles.alert_enter_active);
-            }, 50);
-
-            setTimeout(() => {
-                setClaseAlerta(styles.alert_exit_active);
-            }, 3000);
-
-            setTimeout(() => {
-                setMsjOK(null);
-                navigate("/");
-            }, 3500);
+            navigate('/')
         } else {
             console.error('No se ha encontrado al usuario')
         }
     };
 
     const editarPoblacion = (localidad) => {
-        const poblacion = poblacion.descripcion.split(",")[0].trim();
+        const poblacion = localidad.descripcion.split(",")[0].trim();
+        setPueblo(poblacion)
+        setProvincia(localidad.provincia)
         setSugerencias([])
     }
 
@@ -217,6 +211,10 @@ export const RegistroCompleto = () => {
 
 
 
+
+
+
+
     return (
         <div>
             <form onSubmit={editarDatos} className="mb-4" style={{ color: "white" }}>
@@ -252,7 +250,7 @@ export const RegistroCompleto = () => {
                                 className="form-label fs-5">Email</label>
                             <input type="email"
                                 className="form-control"
-                                value={store.userData.email}
+                                value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 id="email" />
 
@@ -277,8 +275,8 @@ export const RegistroCompleto = () => {
                             <input type="text"
                                 className="form-control"
                                 placeholder="¿Cuál es tu ciudad / pueblo?"
-                                onChange={changePueblo}
-                                value={insertarPoblacion}
+                                onChange={insertarPoblacion}
+                                value={pueblo}
                                 id="pueblo"
                             />
                             {sugerencias.length > 0 && (

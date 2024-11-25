@@ -1,3 +1,5 @@
+import { parse, format } from 'date-fns';
+
 const getState = ({ getStore, getActions, setStore }) => {
     return {
         store: {
@@ -7,17 +9,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             userData: JSON.parse(localStorage.getItem('userData')) || {
                 token: null,
-                us_id: null,
-                us_email: null,
-                us_password: null,
-                us_userName: null,
-                us_nombre: null,
-                us_apellidos: null,
-                us_telefono: null,
-                us_provincia: null,
-                us_pueblo: null,
-                us_direccion: null,
-                us_rol: null
+                id: null,
+                email: null,
+                password: null,
+                userName: null,
+                nombre: null,
+                pellidos: null,
+                telefono: null,
+                provincia: null,
+                pueblo: null,
+                direccion: null,
+                rol: null
             },
 
 
@@ -139,15 +141,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
             //Editar datos desde perfil de usuario - Completar registro
-            editar_usuario: async (usuarioId, email, nombre, apellidos, pueblo, provincia, direccion) => {
+            editar_usuario: async (usuarioId, token, email, nombre, apellidos, telefono, pueblo, provincia, direccion) => {
                 const store = getStore();
                 try {
                     const respuesta = await fetch(`${store.backendUrl}/usuario/editar/${usuarioId}`, {
                         method: 'PUT',
                         body: JSON.stringify({
+                            usToken: token,
+                            usId: usuarioId,
                             usEmail: email,
                             usNombre: nombre,
                             usApellidos: apellidos,
+                            usTelefono: telefono,
                             usPueblo: pueblo,
                             usProvincia: provincia,
                             usDireccion: direccion
@@ -158,13 +163,17 @@ const getState = ({ getStore, getActions, setStore }) => {
                         throw new Error(`HTTP error! status: ${respuesta.status}`)
                     }
                     const data = await respuesta.json();
+                    console.log('Datos de usuario: ', data)
                     const datosUsuario = {
+                        id: data.usId,
                         email: data.usEmail,
                         nombre: data.usNombre,
                         apellidos: data.usApellidos,
+                        telefono: data.usTelefono,
                         pueblo: data.usPueblo,
                         provincia: data.usProvincia,
-                        direccion: data.usDireccion
+                        direccion: data.usDireccion,
+                        token: data.usToken
                     };
                     localStorage.setItem('userData', JSON.stringify(datosUsuario))
 
@@ -179,6 +188,43 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.error("Error al actualizar el usuario:", error)
                 }
             },
+
+
+            // --Login a la pagina y creación de token
+            login: async (email, password) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/login`, {
+                        method: "POST",
+                        body: JSON.stringify({ email, password }),
+                        headers: { "Content-Type": "application/json" }
+                    });
+                    const data = await respuesta.json()
+
+                    if (data.token) {
+                        const datoUsuario = {
+                            token: data.token,
+                            username: data.username,
+                            email: data.email,
+                            id: data.id,
+                            role: data.role
+                        };
+
+                        localStorage.setItem('userData', JSON.stringify(datoUsuario))
+
+                        setStore({
+                            ...store,
+                            userData: datoUsuario
+                        });
+                        console.log("Datos:", data)
+                    } else {
+                        console.error("Error con token:", data)
+                    }
+                } catch (error) {
+                    console.error("Error login:", error);
+                }
+            },
+
 
 
 
@@ -215,10 +261,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             admin_crearevento: async (fecha, poblacion, provincia, lugar, hora, entradas, observaciones) => {
                 const store = getStore();
                 try {
+                    const fechaFormateada = format(new Date(fecha), 'dd/MM/yyyy')
                     const respuesta = await fetch(`${store.backendUrl}/admin/crearevento`, {
                         method: 'POST',
                         body: JSON.stringify({
-                            evFecha: fecha,
+                            evFecha: fechaFormateada,
                             evPoblacion: poblacion,
                             evProvincia: provincia,
                             evLugar: lugar,
@@ -276,6 +323,12 @@ const getState = ({ getStore, getActions, setStore }) => {
             admin_editarevento: async (evento, eventoId) => {
                 const store = getStore()
                 try {
+                    const fechaDate = new Date(evento.evFecha);
+                    if (isNaN(fechaDate.getTime())) {
+                        throw new Error("Error al parsear la fecha, formato incorrecto.");
+                    }
+                    const fechaFormateada = format(fechaDate, 'dd/MM/yyyy');
+                    evento.evFecha = fechaFormateada;
                     const respuesta = await fetch(`${store.backendUrl}/admin/editarevento/${eventoId}`, {
                         method: 'PUT',
                         body: JSON.stringify(evento),
@@ -292,6 +345,30 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.log('Evento actualizado:', data);
                 } catch (error) {
                     console.error('Error durante la edición del evento:', error)
+                }
+            },
+
+
+            // #Función para eliminar un evento de la agenda
+            admin_eliminarevento: async (eventoid) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/eliminarevento/${eventoid}`, {
+                        method: 'DELETE',
+                    });
+                    if (respuesta.ok) {
+                        console.log('Evento eliminado exitosamente');
+                        const updateEventos = store.eventos.filter(evs => evs.id !== eventoid);
+                        setStore({
+                            ...store,
+                            eventos: updateEventos
+                        })
+                    } else {
+                        console.error('Error al eliminar el evento')
+                    }
+
+                } catch (error) {
+                    console.error('Error en la solicitud de eliminación del evento', error)
                 }
             },
 

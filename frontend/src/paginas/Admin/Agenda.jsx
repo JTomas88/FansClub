@@ -6,11 +6,8 @@ import { MdOutlineDelete } from "react-icons/md";
 import { IoIosSave } from "react-icons/io";
 
 
-
-
 export const Agenda = () => {
     const { store, actions } = useContext(Context);
-
     const [fecha, setFecha] = useState('')
     const [poblacion, setPoblacion] = useState('')
     const [provincia, setProvincia] = useState('')
@@ -21,12 +18,19 @@ export const Agenda = () => {
     const [error, setError] = useState('')
     const [inputValue, setInputValue] = useState('');
     const [sugerencias, setSugerencias] = useState([]);
-
     const [idEditFila, setIdEditFila] = useState(null); //Almacena el Id de la fila que se está editando(
     const [filaEditada, setFilaEditada] = useState({}); // Almacenda los datos editados temporalmente.
 
 
-    /**
+
+    //Obtenemos todos los eventos al cargar la página
+    useEffect(() => {
+        actions.admin_obtenereventos();
+        console.log(store.eventos);
+    }, [])
+
+
+    /**PARA EDITAR CUALQUIER CAMPO DEL EVENTO
      * manejo del click del botón de editar
      * 
      * @param {setIdEditFila} Recoge el id del objeto seleccionado, en este caso el id de la fila. 
@@ -34,12 +38,12 @@ export const Agenda = () => {
      * @param {setFilaEditada} Agrega a la variable filaEditada los datos que recibe del obj 
      */
     const handleEditClick = (row) => {
-        setIdEditFila(row.id);
+        setIdEditFila(row.evId);
         setFilaEditada(row)
     }
 
 
-    /**
+    /**PARA EDITAR CUALQUIER DATO DEL EVENTO, SIN QUE SE PIERDA EL RESTO DE DATOS.
      * Recibe un evento (e).
      * Crea un objeto con name y value y le pasa lo que tenga el target. 
      * setFilaEditada crea una variable (datosYaguardados, lo que tenía antes de modificarlo), crea una copia
@@ -48,28 +52,39 @@ export const Agenda = () => {
      */
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFilaEditada((datosYaGuardados) => ({
-            ...datosYaGuardados,
-            [name]: value,
-        }));
+
+        if (idEditFila !== null) {
+            setFilaEditada((prev) => ({
+                ...prev,
+                [name]: value,
+            }));
+        }
     };
 
 
-
-    /**
+    /**GUARDA LOS CAMBIOS QUE YA HEMOS EDITADO. 
      * Crea fechaFormateada: en el campo fecha lo pasa formato a string y se queda con la fecha a secas
      * crea eventoParaGuardar: crea otra copia de filaEditada, y le pasa la fecha formateada al campo fecha en concreto
      */
     const handleClickGuardar = async () => {
-        const fechaFormateada = new Date(filaEditada.fecha).toISOString().split('T')[0]
+        // Verifica si la fecha es válida
+        const fechaObj = new Date(filaEditada.evFecha);
+
+        const fechaFormateada = fechaObj.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+
         const eventoParaGuardar = {
             ...filaEditada,
-            fecha: fechaFormateada
+            evFecha: fechaFormateada,
         }
-        await actions.admin_editarevento(eventoParaGuardar, filaEditada.id);
-        setIdEditFila(null)
-    }
-
+        try {
+            await actions.admin_editarevento(eventoParaGuardar, filaEditada.evId);
+            setIdEditFila(null); // Finaliza la edición
+            actions.admin_obtenereventos();
+        } catch (error) {
+            console.error('Error al guardar el evento:', error);
+            setError('Hubo un problema al guardar el evento');
+        }
+    };
 
 
     const changeFecha = (evento) => {
@@ -109,7 +124,7 @@ export const Agenda = () => {
         setSugerencias([])
     }
 
-    // ----- PARA EDITAR UN EVENTO ------- //
+    // ----- PARA EDITAR EL INPUT DE LA POBLACIÓN- //
     /**
      * Crea un objeto con name y value y le pasa el contenido del target. 
      * setFilaEditada: crea una variable (prev), crea una copia para mantener los datos y le pasa
@@ -127,7 +142,7 @@ export const Agenda = () => {
             [name]: value,
         }));
 
-        if (name === "poblacion" && value.length > 2) {
+        if (value.length > 2) {
             try {
                 const respuesta = await actions.buscarlocalidad(value);
                 const datos = await respuesta.json();
@@ -140,7 +155,8 @@ export const Agenda = () => {
         }
     };
 
-    // ----- PARA CREAR NUEVO EVENTO ------- //
+
+    // ----- PARA CREAR NUEVO EVENTO - afecta solo al campo "población" //
     /**
      * Crea una variable "valor" y le pasa lo que tenga el target. 
      * A población le pasa ese valor que haya recibido. 
@@ -156,8 +172,6 @@ export const Agenda = () => {
         if (valor.length === 0) {
             setProvincia('')
         }
-
-
         if (valor.length > 2) {
             try {
 
@@ -172,8 +186,10 @@ export const Agenda = () => {
         }
     };
 
-    // ----- PARA CREAR NUEVO EVENTO ------- //
+
+    // CUANDO CREAMOS UN EVENTO-- PARA DESCOMPONER LA INFORMACIÓN QUE LLEGA DEL BACKEND DEL CAMPO LOCALIDAD Y LA PROVINCIA //
     //REcoge lo que hay en la variable localidad y la descripcion la guarda en la variable "Población"
+    //La variable población tiene mucha información, entonces la separaamos solo para quedarnos con el nombre de la población
     // y hace lo mismo con la provincia. 
     //Finalmente limpia las sugerencias.
     const nuevoevento_controlPoblacion = (localidad) => {
@@ -184,7 +200,8 @@ export const Agenda = () => {
         setSugerencias([]); // Limpiar las sugerencias una vez seleccionada
     };
 
-    // ----- PARA EDITAR UN EVENTO ------- //
+
+    // CUANDO EDITAMOS UN EVENTO-- PARA DESCOMPONER LA INFORMACIÓN QUE LLEGA DEL BACKEND DEL CAMPO LOCALIDAD Y LA PROVINCIA //
     /**
      * Crea una variable "soloPoblacion" para quedarse sólamente con el nombre de la localidad. 
      * setFilaEditada crea prev, hace una copia de lo que tenga. 
@@ -196,24 +213,20 @@ export const Agenda = () => {
 
         setFilaEditada((prev) => ({
             ...prev,
-            poblacion: soloPoblacion,
-            provincia: localidad.provincia
+            evPoblacion: soloPoblacion,
+            evProvincia: localidad.provincia
         }));
+        setProvincia(localidad.provincia)
         setSugerencias([])
 
     };
-
-
-    useEffect(() => {
-        actions.admin_obtenereventos();
-    }, [])
 
 
     //Función para crear un evento nuevo
     const anadir_evento = async (evento, fecha, poblacion, provincia, lugar, hora, entradas, observaciones) => {
         evento.preventDefault()
         try {
-            const resultado = await actions.admin_crearevento(fecha, poblacion, provincia, lugar, hora, entradas, observaciones)
+            await actions.admin_crearevento(fecha, poblacion, provincia, lugar, hora, entradas, observaciones)
             await actions.admin_obtenereventos()
 
             const modalElement = document.querySelector('[data-bs-dismiss="modal"]');
@@ -224,17 +237,18 @@ export const Agenda = () => {
             reseteoFormulario()
 
         } catch (error) {
-            console.erro("Error durante la llamada al servicio:", error);
+            console.error("Error durante la llamada al servicio:", error);
             setError("Error al guardar los datos del evento")
         }
     };
 
     //Función para eliminar un evento. 
-    const eliminar_evento = async (evento_id, ev) => {
+    const eliminar_evento = async (evento, ev) => {
         ev.preventDefault();
         try {
-            const resultado = await actions.admin_eliminarevento(evento_id)
+            const resultado = await actions.admin_eliminarevento(evento.evId)
             console.log("Evento eliminado con exito", resultado)
+            actions.admin_obtenereventos()
 
         } catch (error) {
             console.error("Error durante la eliminación del evento:", error)
@@ -242,12 +256,9 @@ export const Agenda = () => {
     }
 
 
-    useEffect(() => {
-        actions.buscarlocalidad()
-    }, []);
-
-
-
+    // useEffect(() => {
+    //     actions.buscarlocalidad()
+    // }, []);
 
 
     return (
@@ -357,24 +368,24 @@ export const Agenda = () => {
                         {(Array.isArray(store.eventos) ? store.eventos : []).map((evento, index) => (
                             <tr key={index} className={styles.tableRow}>
                                 <td>
-                                    {idEditFila === evento.id ? (
+                                    {idEditFila === evento.evId ? (
                                         <input type="date"
-                                            name="fecha"
-                                            value={filaEditada.fecha || ""}
+                                            name="evFecha"
+                                            value={filaEditada.evFecha || ""}
                                             onChange={handleInputChange}
                                         />
                                     ) : (
-                                        evento.fecha
+                                        evento.evFecha
                                     )}
                                 </td>
 
                                 <td>
-                                    {idEditFila === evento.id ? (
+                                    {idEditFila === evento.evId ? (
                                         <>
                                             <input
                                                 type="text"
-                                                name="poblacion"
-                                                value={filaEditada.poblacion || ""}
+                                                name="evPoblacion"
+                                                value={filaEditada.evPoblacion || ""}
                                                 onChange={manejarCambio}
                                                 placeholder="Escribe una localidad..."
                                                 className="form-control"
@@ -394,66 +405,66 @@ export const Agenda = () => {
                                             )}
                                         </>
                                     ) : (
-                                        evento.poblacion
+                                        evento.evPoblacion
                                     )}
                                 </td>
 
                                 {/* se cambia automaticamente */}
-                                <td>{evento.provincia}</td>
+                                <td>{evento.evProvincia}</td>
 
                                 <td>
-                                    {idEditFila === evento.id ? (
+                                    {idEditFila === evento.evId ? (
                                         <input type="text"
-                                            name="lugar"
-                                            value={filaEditada.lugar || ""}
+                                            name="evLugar"
+                                            value={filaEditada.evLugar || ""}
                                             onChange={handleInputChange}
                                         />
                                     ) : (
-                                        evento.lugar
+                                        evento.evLugar
                                     )}
                                 </td>
 
                                 <td>
-                                    {idEditFila === evento.id ? (
+                                    {idEditFila === evento.evId ? (
                                         <input type="text"
                                             style={{ width: "90px" }}
-                                            name="hora"
-                                            value={filaEditada.hora || ""}
+                                            name="evHora"
+                                            value={filaEditada.evHora || ""}
                                             onChange={handleInputChange}
                                         />
                                     ) : (
-                                        evento.hora
+                                        evento.evHora
                                     )}
                                 </td>
 
                                 <td>
-                                    {idEditFila === evento.id ? (
+                                    {idEditFila === evento.evId ? (
                                         <input type="text"
                                             step={{ width: "120px" }}
-                                            name="entradas"
-                                            value={filaEditada.entradas || ""}
+                                            name="evEntradas"
+                                            value={filaEditada.evEntradas || ""}
                                             onChange={handleInputChange}
                                         />
                                     ) : (
-                                        evento.entradas
+                                        evento.evEntradas
                                     )}
                                 </td>
 
                                 <td>
-                                    {idEditFila === evento.id ? (
+                                    {idEditFila === evento.evId ? (
                                         <input type="text"
-                                            name="observaciones"
-                                            value={filaEditada.observaciones || ""}
+                                            name="evObservaciones"
+                                            value={filaEditada.evObservaciones || ""}
                                             onChange={handleInputChange}
                                         />
                                     ) : (
-                                        evento.observaciones
+                                        evento.evObservaciones
                                     )}
                                 </td>
 
                                 {/* Botnes para editar o eliminar */}
                                 <td >
-                                    {idEditFila === evento.id ? (
+                                    {idEditFila === evento.evId ? (
                                         <button onClick={handleClickGuardar} className="me-3">
                                             <IoIosSave />
                                         </button>
@@ -467,22 +478,22 @@ export const Agenda = () => {
 
 
                                     {/* //Botón eliminar y modal para confirmar eliminación */}
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleliminarevento">
+                                    <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleliminarevento">
                                         <MdOutlineDelete />
                                     </button>
-                                    <div class="modal fade" id="modaleliminarevento" tabindex="-1" aria-labelledby="modaleliminareventoLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="modaleliminareventoLabel">Eliminar Evento</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div className="modal fade" id="modaleliminarevento" tabIndex="-1" aria-labelledby="modaleliminareventoLabel" aria-hidden="true">
+                                        <div className="modal-dialog">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h1 className="modal-title fs-5" id="modaleliminareventoLabel">Eliminar Evento</h1>
+                                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <div class="modal-body">
+                                                <div className="modal-body">
                                                     ¿Seguro que deseas eliminar este evento?
                                                 </div>
                                                 <div class="modal-footer">
 
-                                                    <button type="button" data-bs-dismiss="modal" class="btn btn-primary" onClick={(ev) => eliminar_evento(evento, ev)}>Save changes</button>
+                                                    <button type="button" data-bs-dismiss="modal" class="btn btn-primary" onClick={(ev) => eliminar_evento(evento, ev)}>Eliminar</button>
                                                 </div>
                                             </div>
                                         </div>

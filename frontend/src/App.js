@@ -8,6 +8,7 @@ import { QuienEsSienna } from "./paginas/QuienEsSienna/QuienEsSienna.jsx";
 import { ObjetivosCF } from "./paginas/ObjetivosCF/ObjetivosCF.jsx";
 import { Admin } from "./paginas/Admin/Admin.jsx";
 import { Agenda } from "./paginas/Admin/Agenda.jsx";
+import { InicioSesion } from "./paginas/InicioSesion/InicioSesion.jsx";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/registro" element={<Registro />} />
             <Route path="/completar-registro" element={<RegistroCompleto />} />
+            <Route path="/inicioSesion" element={<InicioSesion />} />
             <Route path="/quienessienna" element={<QuienEsSienna />} />
             <Route path="/objetivoscf" element={<ObjetivosCF />} />
             <Route path="/admin" element={<Admin />} />

@@ -7,16 +7,17 @@
     font-weight: 700;
     font-style: normal;
     margin-right: 3%;
+    
   }
 
   @font-face {
     font-family: 'NavBarFont';
-    src: url("../../assets//Punk\ Typewriter.otf");
-    font-weight: bold;
-    font-style: normal;
+    src: url("../../assets/JMH\ Typewriter.otf");
 }
 
 
 .enlaces{
     font-family: 'NavBarFont';
+    font-size: 12px;
 }
+

@@ -31,7 +31,10 @@ db.init_app(app)
 
 migrate = Migrate(app, db)
 
-CORS(app)
+# CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
+
+
 jwt = JWTManager(app)
 
 
@@ -135,6 +138,26 @@ def editar_usuario(usId):
         return jsonify({"Error": str(error)}), 500
 
 
+# Login a la pagina y creación de token
+@app.route('/login', methods = ['POST'])
+def crear_token():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+
+    usuarios = Usuario.query.filter_by(email = email).first()
+
+    if usuarios is None:
+        return jsonify({'Error': "No se ha encontrado el correo o contraseña"}), 404
+    
+    if not check_password_hash(usuarios.password, password):
+        return jsonify ({'Error': 'Contraseña incorrecta'})
+    
+    # Se crea nuevo token de entrada del usuario a la pagina
+    access_token = create_access_token(identity = usuarios.id)
+
+    return jsonify({"token": access_token, "email":usuarios.email, "username":usuarios.username, "id": usuarios.id, "role":usuarios.role})
+
+
 ## -------------------------------------- >> API GOOGLE MAPS << ----------------------------------- ##
 
 
@@ -200,7 +223,7 @@ def crearevento():
 
     fecha_str = data['evFecha']
     try:
-        fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+        fecha = datetime.strptime(fecha_str, '%d/%m/%Y').date() 
     except ValueError:
         return jsonify({"mensaje": "formato no valido"}), 400
     
@@ -250,7 +273,7 @@ def editarevento(evId):
     if 'evFecha' in data:        
         try:
             fecha_str = data['evFecha']
-            fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+            fecha = datetime.strptime(fecha_str, '%d/%m/%Y').date() 
             evento.evFecha = fecha
         except ValueError:
             return jsonify({"mensaje": "formato no valido"}), 400
@@ -270,7 +293,9 @@ def editarevento(evId):
 
     try: 
         db.session.commit()
-        return jsonify({"mensaje": "evento actualizado"}), 200
+        fecha_formateada = evento.evFecha.strftime('%d/%m/%Y')
+        return jsonify({"mensaje": "evento actualizado", "evFecha": fecha_formateada}), 200
+
     except Exception as error:
         db.session.rollback()
         return jsonify({"error": str(error)}), 500
