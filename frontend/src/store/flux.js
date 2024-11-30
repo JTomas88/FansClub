@@ -118,7 +118,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                             email: data.usEmail,
                             password: data.usPssword,
                             userName: data.usUsername,
-                            name: data.usNombre || '',
+                            nombre: data.usNombre || '',
                             apellidos: data.usApellidos || '',
                             telefono: data.usTelefono || '',
                             provincia: data.usProvincia || '',
@@ -225,7 +225,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
-            //Verificación del password
+            //Verificación del password actual
             verificarpwactual: async (userId, password, email) => {
                 const store = getStore();
                 try {
@@ -255,6 +255,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
 
 
+
             // Función que cambia la contraseña en sí
             cambiopassword: async (usuarioId, password) => {
                 const store = getStore();
@@ -276,6 +277,9 @@ const getState = ({ getStore, getActions, setStore }) => {
                     setStore({
                         usuarios: store.usuarios.map(usuario => (usuario.id === usuarioId ? data : usuario)),
                     })
+                    if (respuesta.ok) {
+                        return ('Cambio de contraseña realizado')
+                    }
                 } catch (error) {
                     console.error("Error al actualizar el password:", error)
                 }
@@ -304,14 +308,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
                 })
             },
-
-
-
-
-
-
-
-
 
 
 
@@ -455,12 +451,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.error('Error en la solicitud de eliminación del evento', error)
                 }
             },
-
-
-
-
-
-
 
 
 

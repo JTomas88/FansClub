@@ -21,15 +21,19 @@ export const FormInicioSesion = () => {
 
         try {
             await actions.login(email, password);
-            if (store.userData.rol && store.userData.email === email) {
-                if (store.userData.token && store.userData.rol === "usuario") {
-                    navigate('/')
-                } else if (store.userData.token && store.userData.rol === "admin") {
-                    navigate('/')
+            setTimeout(() => {
+                if (store.userData.rol && store.userData.email === email) {
+                    if (store.userData.token && store.userData.rol === "usuario") {
+                        navigate('/')
+                    } else if (store.userData.token && store.userData.rol === "admin") {
+                        navigate('/')
+                    }
+                } else {
+                    setError("Los datos ingresados no coinciden con los de un usuario registrado")
                 }
-            } else {
-                setError("Los datos ingresados no coinciden con los de un usuario registrado")
-            }
+            }, 600
+            )
+
 
         } catch (error) {
             setError("Error al acceder")

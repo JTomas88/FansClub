@@ -3,6 +3,7 @@ import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
 import imgJumbo from "../../assets/imagenes_jumbotron/JumboHome.png"
 import { SliderHome } from "../../componentes/Slider/SliderHome";
 import { Videos } from "../../componentes/Videos/Videos";
+import { AgendaConciertos } from "../../componentes/AgendaConciertos/AgendaConciertos";
 
 export const Home = () => {
     return (
@@ -35,6 +36,10 @@ export const Home = () => {
                 <div className="mt-3">
                     <SliderHome />
                 </div>
+                <div className="mt-3">
+                    <AgendaConciertos />
+                </div>
+
                 <div className="mt-3">
                     <Videos />
                 </div>

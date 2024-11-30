@@ -9,6 +9,7 @@ import { ObjetivosCF } from "./paginas/ObjetivosCF/ObjetivosCF.jsx";
 import { Admin } from "./paginas/Admin/Admin.jsx";
 import { Agenda } from "./paginas/Admin/Agenda.jsx";
 import { InicioSesion } from "./paginas/InicioSesion/InicioSesion.jsx";
+import { Footer } from "./componentes/Footer/Footer.jsx";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
 
           </Routes>
         </div>
+        <Footer />
       </div>
     </BrowserRouter>
   );

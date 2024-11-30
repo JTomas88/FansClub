@@ -141,6 +141,7 @@ export const RegistroCompleto = () => {
     const [confNuevaPassword, setConfNuevaPassword] = useState('')
     const handleChangeNPassword = (e) => setNuevaPassword(e.target.value) //para introducir la 1ª vez la nueva contraseña
     const handleChangeCNPassword = (e) => setConfNuevaPassword(e.target.value) //para confirmar la nueva contraseña. 
+    const [cambioOK, setCambioOK] = useState('')
 
 
     //Verificar contraseña actual: envía la contraseña actual al backend para comprobarla
@@ -175,7 +176,15 @@ export const RegistroCompleto = () => {
     const handleClickCambioPw = async (evento) => {
         evento.preventDefault();
         try {
-            await actions.cambiopassword(store.userData.id, nuevaPassword)
+            const respuesta = await actions.cambiopassword(store.userData.id, nuevaPassword)
+            console.log(respuesta);
+
+            if (respuesta) {
+                setCambioOK('El cambio se ha realizado correctamente')
+            } else {
+                setError('NO se ha realizado')
+            }
+
 
             await actions.obtenerUsuarioPorId()
             setPassword('')
@@ -350,7 +359,9 @@ export const RegistroCompleto = () => {
                                 <button type="submit" className="btn btn-outline-light " disabled >Cambiar contraseña</button>
 
                             )}
+
                         </div>
+                        {cambioOK && <p style={{ color: 'white', fontSize: '15px', textAlign: 'center' }}>{cambioOK}</p>}
                     </div>
 
                 </div>

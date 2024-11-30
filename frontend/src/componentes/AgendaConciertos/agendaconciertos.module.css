@@ -1,0 +1,38 @@
+@font-face {
+    font-family:'Trance';
+    src: url("../../assets/whoaskssatan.ttf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .tablaResponsiva {
+    overflow-x: auto;
+  }
+  
+  .tit_agenda{
+    font-family: 'Trance';
+    font-size: 60px;
+    color: white;
+    text-align: center;
+}
+  
+  .table {
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 15px -15px 20px rgba(235, 199, 199, 0.5);
+    font-size: 16px;
+  }
+
+th, td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: center;
+    background-color: transparent !important;
+  }
+  
