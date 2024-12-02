@@ -10,6 +10,10 @@ import { Admin } from "./paginas/Admin/Admin.jsx";
 import { Agenda } from "./paginas/Admin/Agenda.jsx";
 import { InicioSesion } from "./paginas/InicioSesion/InicioSesion.jsx";
 import { Footer } from "./componentes/Footer/Footer.jsx";
+import { GestionUsuarios } from "./paginas/Admin/GestionUsuarios.jsx";
+import { GestionGalerias } from "./paginas/Admin/GestionGalerias.jsx";
+import { Fotos } from "./paginas/Multimedia/Fotos.jsx";
+import { GestionEntrevistas } from "./paginas/Admin/GestionEntrevistas.jsx";
 
 function App() {
   return (
@@ -26,7 +30,11 @@ function App() {
             <Route path="/objetivoscf" element={<ObjetivosCF />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/agenda" element={<Agenda />} />
+            <Route path="/admin/gestionusuarios" element={<GestionUsuarios />} />
+            <Route path="/admin/gestiongalerias" element={<GestionGalerias />} />
+            <Route path="/admin/gestionentrevistas" element={<GestionEntrevistas />} />
 
+            <Route path="/galeriasfotos" element={<Fotos />} />
 
 
 

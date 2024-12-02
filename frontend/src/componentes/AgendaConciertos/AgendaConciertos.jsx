@@ -9,8 +9,8 @@ export const AgendaConciertos = () => {
 
     // Llamar admin_obtenereventos una sola vez
     useEffect(() => {
-        actions.admin_obtenereventos(); // Llamada directa
-    }, []); // Sin dependencias para ejecutarse solo una vez
+        actions.admin_obtenereventos(); // 
+    }, []); // 
 
     useEffect(() => {
         let camera, scene, renderer;

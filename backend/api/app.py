@@ -7,17 +7,26 @@ from api.utils import generate_sitemap, APIException
 from api.models import db, Usuario, Sorteo, Evento, Entrevista
 from dotenv import load_dotenv
 from datetime import datetime
-import os
-import requests
 from api.admin import setup_admin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager, create_access_token
+import os
+import requests
+import cloudinary
+import cloudinary.api
+import cloudinary.uploader
+import json
 
 # Cargar el archivo .env
 load_dotenv()
 
 # Acceder a la variable de entorno 'GOOGLE_API_KEY'
 googleapykey=os.getenv('GOOGLE_API_KEY')
+
+# Configurar Cloudinary
+cloudinary.config(
+    cloudinary_url=os.getenv('CLOUDINARY_URL')
+)
 
 app = Flask(__name__)
 
@@ -159,32 +168,6 @@ def crear_token():
 
 
 # #Verificar si la contraseña actual es la correcta
-# @app.route('/verificarpwactual', methods=['POST'])
-# def verificarpwactual():
-#     # Extraemos los datos enviados por el front
-#     email = request.json.get("email", None)
-#     password = request.json.get("password", None)
-    
-
-#     usuarios = Usuario.query.filter_by(usEmail = email).first()
-#     print ('usuario: ', usuarios)
-
-#     if usuarios is None:
-#         return jsonify({'Error': "No se ha encontrado el correo o contraseña"}), 404
-    
-#     if not check_password_hash(usuarios.usPassword, password):
-#         return jsonify ({'Error': 'Contraseña incorrecta'}), 404
-#     else:
-#         return jsonify({'isValid': True}), 200
-    # # Verificar la contraseña ingresada usando check_password_hash
-    # isValid = check_password_hash(usuarios.usPassword, password)
-    # print("¿Es válida?", isValid)
-
-    # if isValid:
-    #     return jsonify({'isValid': True}), 200
-    # else:
-    #     return jsonify({'isValid': False}), 200
-
 @app.route('/verificarpwactual', methods=['POST'])
 def verificarpwactual():
     email = request.json.get("email")
@@ -394,6 +377,244 @@ def eliminarevento(evId):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+
+
+
+## -------------------------------------- >> ADMIN : GESTION USUARIOS << ----------------------------------- ##
+
+# Editar rol desde perfil de administrador
+@app.route('/admin/editar/<int:usId>', methods = ['PUT'])
+def admin_editar_rol_(usId):
+    usuario = Usuario.query.get(usId)
+
+    if usuario is None:
+        return jsonify({"Error": "No existe el usuario"}), 400
+    
+    data = request.json 
+
+    try:
+        if 'rol' in data: 
+            usuario.usRol = data['rol']
+        
+        db.session.commit()
+
+        return jsonify({"id": usuario.id, "rol":usuario.usRol}), 200
+
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": str(error)}), 500
+    
+
+#Eliminar un usuario desde perfil de administrador
+@app.route('/admin/eliminarusuario/<int:usId>', methods = ['DELETE'])
+def admin_eliminar_usuario_(usId):
+    usuario = Usuario.query.get(usId)
+
+    if usuario is None:
+        return jsonify({"Error": "No existe el usuario"}), 400
+
+    try: 
+        db.session.delete(usuario)
+        db.session.commit()
+        return jsonify({"Mensaje": "Usuario borrado correctamente"}), 200
+
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": str(error)}), 500
+    
+
+
+## -------------------------------------- >> ADMIN : GESTION DE GALERIAS << ----------------------------------- ##
+
+#Crear nueva carpeta de imágenes desde perfil de administrador
+@app.route('/admin/crearcarpeta', methods=['POST'])
+def crearCarpeta():
+    nombre_carpeta = request.form.get('folder')
+
+    if nombre_carpeta:
+        upload =  cloudinary.api.create_folder(nombre_carpeta) 
+        return jsonify(upload)
+
+    return jsonify({"error": "error al crear carpeta"}), 400
+
+
+#Recuperar las carpetas desde cloudinary y mostrarlas en elfront
+@app.route('/admin/mostrarcarpetas', methods=['GET'])
+def mostrarCarpetas():
+    try:
+        recursos = cloudinary.api.subfolders('')
+        print("Recursos obtenidos desde cloudinary:", recursos)
+        return jsonify(recursos['folders'])
+    except Exception as e:
+        print("Error al obtener carpetas:", str(e))
+        return jsonify({"error": str(e)}), 500
+    
+
+#Subir foto para importar a cloudinary
+@app.route('/admin/subirfoto', methods=['POST'])
+def subirfoto():
+    archivos_imagen = request.files.getlist('files')
+    nombre_carpeta = request.form.get('folder')
+
+    if archivos_imagen and nombre_carpeta:
+        urls = []
+        for archivo in archivos_imagen:
+            upload = cloudinary.uploader.upload(archivo, folder=nombre_carpeta)
+            urls.append(upload['secure_url'])
+
+        return jsonify({"urls": urls})
+    
+    return jsonify({"error": "no se han subido correctamente los archivos"}), 400
+
+
+## -------------------------------------- >> ADMIN : GESTION ENTREVISTAS<< ----------------------------------- ##
+
+# Función para agregar una ENTREVISTA desde el perfil de administrador
+@app.route('/admin/crearentrevista', methods = ['POST'])
+def crearentrevista():
+    data = request.json
+
+    fecha_str = data['fecha']
+    try:
+        fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+    except ValueError:
+        return jsonify({"mensaje": "formato no valido"}), 400
+    
+    nuevaEntrevista = Entrevista(
+        entFecha = fecha,
+        entTitular = data['titular'],
+        entSubtitulo = data['subtitulo'],
+        entCuerpoEntrevista = data['cuerpo'],
+        entImagen = data['imagen'],
+    )
+
+    db.session.add(nuevaEntrevista)
+    db.session.commit()
+
+    return jsonify ({
+        "mensaje": "Entrevista creada correctamente",
+        **nuevaEntrevista.serialize()
+    }), 201
+
+
+#Función para editar una entrevista
+@app.route('/admin/editarentrevista/<int:entrevista_id>', methods = ['PUT'])
+def editarentrevista (entrevista_id):
+    entrevista = Entrevista.query.get(entrevista_id)
+    if entrevista is None:
+        return jsonify({"error": "la entrevista no se encuentra"}), 404
+    
+    data = request.json
+    print ("Entrevista", data)
+
+    fecha_str = data['fecha']
+    try:
+        fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+    except ValueError:
+        return jsonify ({"mensaje": "formato no valido"}), 400
+    
+    if not data:
+        return jsonify({"error": "no se han recibido los datos de la entrevista"}), 400
+    
+    try:
+        if 'fecha' in data:
+            entrevista.entFecha = fecha
+        if 'titular' in data:
+            entrevista.entTitular = data['titular']
+        if 'subtitulo' in data:
+            entrevista.entSubtitulo = data['subtitulo']
+        if 'cuerpo' in data:
+            entrevista.entCuerpoEntrevista = data['cuerpo']
+        if 'imagen' in data:
+            #Almacena la lista de imagenes en un string de formato Json.
+            entrevista.entImagen = json.dumps(data['imagen']) if isinstance(data['imagen'], list) else data['imagen']
+
+        db.session.commit()
+        return jsonify({"mensaje": "entrevista actualizada"}), 200
+    
+    except Exception as error:
+        db.session.rollback()
+        return jsonify ({"Error": str(error)}), 500
+    
+
+#Función para obtener todas las entrevistas guardadas
+@app.route ('/admin/obtenerentrevistas', methods = ['GET'])
+def obtenerentrevistas():
+    entrevistas = Entrevista.query.all()
+    return jsonify([entrevista.serialize() for entrevista in entrevistas])
+
+
+#Función para obtener una entrevista por su ID
+@app.route('/admin/obtenerentrevista/<int:id>', methods=['GET'])
+def obtenerEntrevistaPorId(entId):
+    entrevista = Entrevista.query.get(entId)
+    if entrevista is None:
+        return jsonify({"Error": "entrevista no encontrada"}), 404
+    
+    return jsonify(entrevista.serialize())
+
+
+#Función para borrar la foto de una entrevista
+@app.route('/admin/elimfotoentrev/<string:id>', methods = ['DELETE'])
+def elimfotoentrev(id):
+    if id is None:
+        return jsonify ({"Error": "no se encuentra la foto"})
+    
+    try:
+        borrado = cloudinary.uploader.destroy(id)
+
+        if borrado.get('result') == 'ok':
+            return jsonify ({"Mensaje": "la foto se ha borrado correctamente"})
+        else:
+            return jsonify({"Error": "la foto no se ha podido borrar"})
+        
+    except Exception as error:
+        return jsonify({"error": str(error)})
+    
+
+# Función para subir fotos a las entrevistas
+@app.route('/admin/subirfoto_entrevista', methods=['POST'])
+def subirfoto_entrevista():
+    fotos = request.files.getlist('files')
+    if fotos:
+        urls = []
+        for foto in fotos:
+            upload = cloudinary.uploader.upload(foto)
+            urls.append(upload['secure_url'])
+        
+        return jsonify({"urls": urls})
+    
+    return jsonify({"error": "no se han subido las fotos a la entrevista"})
+
+
+
+
+
+
+
+
+## -------------------------------------- >> VISOR DE FOTOS POR CARPETA<< ----------------------------------- ##
+
+#Mostrar el contenido de las carpetas de cloudinary
+@app.route ('/admin/mostrarImagenesCarpetas/<string:nombreCarpeta>', methods=['GET'])
+def mostrarImagenesCarpeta(nombreCarpeta):
+    try:
+        recursos = cloudinary.api.resources(
+            type="upload",
+            prefix=nombreCarpeta + '/',
+            max_results=100
+        )
+        archivos = recursos.get('resources', [])
+        return archivos
+    except cloudinary.exceptions.Error as e:
+        print (f"Error al obtener el contenido de la carpeta: {e}")
+        return None
+
+
+
+
+
+
 
 
 

@@ -3,11 +3,11 @@ from enum import Enum
 
 db = SQLAlchemy()
 
-# Definimos un Enum para los roles de usuario
+
 class RolUsuarioEnum(Enum):
     usuario = "usuario"
     admin = "admin"
-    moderador = "moderador"  # Si deseas agregar más roles en el futuro
+    moderador = "moderador" 
 
 class Usuario(db.Model):
     __tablename__ = 'usuarios'

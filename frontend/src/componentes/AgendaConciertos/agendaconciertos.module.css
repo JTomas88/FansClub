@@ -26,7 +26,7 @@
     border-collapse: collapse;
     width: 100%;
     box-shadow: 15px -15px 20px rgba(235, 199, 199, 0.5);
-    font-size: 16px;
+    font-size: 14px;
   }
 
 th, td {
@@ -36,3 +36,28 @@ th, td {
     background-color: transparent !important;
   }
   
+
+  /* Responsive */
+  @media (max-width: 768px){
+    .tit_agenda{
+        font-size: 50px;
+    }
+    th, td{
+        padding: 8px;
+        font-size: 12px;
+
+    }
+
+
+    th:nth-child(3), td:nth-child(3), 
+    th:nth-child(4), td:nth-child(4), 
+    th:nth-child(7), td:nth-child(7)  
+    {
+        display: none;
+    }
+
+    .tit_agenda {
+        font-size: 40px; 
+    }
+}
+

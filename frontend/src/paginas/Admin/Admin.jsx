@@ -16,11 +16,11 @@ export const Admin = () => {
                     <button type="button" class="btn btn-light">Agenda (Gira y conciertos)</button>
                 </Link>
 
-                <Link className="d-flex justify-content-center align-items-center" to="/admin/fotografias">
+                <Link className="d-flex justify-content-center align-items-center" to="/admin/gestiongalerias">
                     <button type="button" class="btn btn-light">Fotografías</button>
                 </Link>
 
-                <Link className="d-flex justify-content-center align-items-center" to="/admin/insertarentrevista">
+                <Link className="d-flex justify-content-center align-items-center" to="/admin/gestionentrevistas">
                     <button type="button" class="btn btn-light">Entrevistas</button>
                 </Link>
 

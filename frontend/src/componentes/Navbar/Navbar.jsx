@@ -41,7 +41,7 @@ export const Navbar = () => {
                             <ul className="dropdown-menu">
 
                                 <li>
-                                    <Link to="/multimediafotos" className="dropdown-item" style={{ fontSize: "18px" }}>Fotos</Link>
+                                    <Link to="/galeriasfotos" className="dropdown-item" style={{ fontSize: "18px" }}>Fotos</Link>
                                 </li>
 
 

@@ -22,10 +22,13 @@ const getState = ({ getStore, getActions, setStore }) => {
                 rol: null
             },
 
-
             usuarios: [],
 
             eventos: [],
+
+            entrevistas: [],
+
+            carpetasFotos: [],
 
         },
 
@@ -451,6 +454,288 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.error('Error en la solicitud de eliminación del evento', error)
                 }
             },
+
+
+            // -------------------------------------- >> ADMIN : GESTION USUARIOS<< ----------------------------------- //
+
+            //Editar rol desde perfil de administrador
+            admin_editar_rol: async (id, rol) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/editar/${id}`, {
+                        method: 'PUT',
+                        body: JSON.stringify({ rol }),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status: ${respuesta.status}`)
+                    }
+                    const data = await respuesta.json();
+                    console.log("Respuesta servidor:", data)
+
+                    //Se actualizan los datos del store. 
+                    setStore({
+                        ...store,
+                        usuarios: store.usuarios.map(usuario => usuario.usId === id ? { ...usuario, usRol: data.rol } : usuario)
+                    });
+
+                } catch (error) {
+                    console.error('No ha sido posible actualizar:', error)
+                }
+            },
+
+
+            //Eliminar un usuario desde perfil de administrador
+            admin_eliminar_usuario_: async (usuarioId) => {
+                const store = getStore();
+
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/eliminarusuario/${usuarioId}`, {
+                        method: 'DELETE',
+                    });
+                    if (respuesta.ok) {
+                        console.log('Usuario eliminado con éxito');
+                        const usuariosactuales = store.usuarios.filter(usuario => usuario.id !== usuarioId);
+                        setStore({
+                            ...store,
+                            usuarios: usuariosactuales
+                        })
+                    } else {
+                        console.error('Error al eliminar al usuario')
+                    }
+                } catch (error) {
+                    console.error('Error en la solicitud de eliminación:', error)
+                }
+            },
+
+
+            // -------------------------------------- >> ADMIN : GESTION GALERIAS<< ----------------------------------- //
+
+            //Crear nueva carpeta de imágenes desde perfil de administrador
+            admin_crearCarpeta: async (formData) => {
+                const store = getStore()
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/crearcarpeta`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status ${respuesta.status}`);
+                    }
+                    const carpetaCreada = await respuesta.json();
+                    setStore({
+                        ...store,
+                        carpetasFotos: [...store.carpetasFotos, carpetaCreada]
+                    })
+                    return carpetaCreada
+                } catch (error) {
+                    console.error("Network error:", error);
+                    return null;
+                }
+            },
+
+
+            //Recuperar las carpetas desde cloudinary y mostrarlas en elfront
+            admin_mostrarCarpetas: async () => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/mostrarcarpetas`, {
+                        method: 'GET'
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status ${respuesta.status}`);
+                    }
+                    const carpetas = await respuesta.json()
+                    setStore({
+                        ...store,
+                        carpetasFotos: carpetas
+                    });
+
+                } catch (error) {
+                    console.error("Error al listar carpetas:", error)
+                }
+            },
+
+
+            //subir foto desde perfil de administrador
+            admin_subirfoto: async (formData) => {
+                const store = getStore()
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/subirfoto`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status ${respuesta.status}`);
+                    }
+                    return await respuesta.json()
+                } catch (error) {
+                    console.error("Network error:", error);
+                    return null;
+                }
+            },
+
+
+            // -------------------------------------- >> ADMIN : GESTION ENTREVISTAS<< ----------------------------------- //
+
+            // Función para agregar una ENTREVISTA desde el perfil de administrador
+            admin_crearentrevista: async (fechaEntrevista, titularEntrevista, subtituloEntrevista, cuerpoEntrevista, fotoEntrevista) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/crearentrevista`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            fecha: fechaEntrevista,
+                            titular: titularEntrevista,
+                            subtitulo: subtituloEntrevista,
+                            cuerpo: cuerpoEntrevista,
+                            imagen: fotoEntrevista
+                        }),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    if (!respuesta.ok) {
+                        const error = await respuesta.json()
+                        console.error("Error:", error)
+                        return error;
+                    }
+
+                    const data = await respuesta.json()
+
+                    if (data) {
+                        setStore({
+                            ...store,
+                            entrevistas: data
+                        });
+                        console.log("Success:", data);
+                    } else {
+                        console.error("Datos no recibidos:", data)
+                    }
+                } catch (error) {
+                    console.error("Error:", error)
+                }
+            },
+
+            //Función para editar una entrevista
+            editarEntrevista: async (id, fecha, titular, subtitulo, cuerpo, imagen) => {
+                const store = getStore()
+                try {
+                    const entrevistaCompleta = { fecha, titular, subtitulo, cuerpo, imagen }
+                    const respuesta = await fetch(`${store.backendUrl}/admin/editarentrevista/${id}`, {
+                        method: 'PUT',
+                        body: JSON.stringify(entrevistaCompleta),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status: ${respuesta.status}`)
+                    }
+                    const data = await respuesta.json();
+                    setStore({
+                        entrevistas: store.entrevistas.map((entrev) => (entrev.id === id ? entrevistaCompleta : entrev))
+                    });
+                    console.log('Entrevista actualizada', data)
+                } catch (error) {
+                    console.error('Error durante la edición de la entreivsta', error)
+                }
+            },
+
+            //Para obtener todas las entrevistas
+            obtenerEntrevistas: async () => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/obtenerentrevistas`, {
+                        method: 'GET'
+                    });
+                    const data = await respuesta.json()
+                    setStore({
+                        ...store,
+                        entrevistas: data
+                    });
+                } catch (error) {
+                    console.log(error)
+                }
+            },
+
+            // #Función para borrar la foto de una entrevista
+            elimfotoentrev: async (id) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/elimfotoentrev/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    const data = await respuesta.json()
+                    console.log(data)
+
+                    if (data.ok) {
+                        console.log('Foto eliminada correctamente')
+                    } else {
+                        console.log('Error', data.error)
+                    }
+                } catch (error) {
+                    console.error('Error al eliminar la foto', error)
+                }
+            },
+
+            // Subir foto al crear una entrevista nueva
+            admin_subirfoto_entrevista: async (formData) => {
+                const store = getStore()
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/subirfoto_entrevista`, {
+                        method: ['POST'],
+                        body: formData
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status ${respuesta.status}`);
+                    }
+                    return await respuesta.json()
+                } catch (error) {
+                    console.error("Network error:", error);
+                    return null;
+                }
+            },
+
+
+
+
+
+
+
+
+
+
+            // -------------------------------------- >> VISOR DE FOTOS POR CARPETA<< ----------------------------------- //
+
+
+            //Mostrar el contenido de las carpetas de cloudinary
+            mostrarImagenesCarpeta: async (nombreCarpeta) => {
+                const store = getStore()
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/mostrarImagenesCarpetas/${nombreCarpeta}`, {
+                        method: 'GET'
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status ${respuesta.status}`);
+                    }
+                    return await respuesta.json()
+
+                } catch (error) {
+                    console.error("Network error:", error);
+                    return null;
+                }
+            },
+
+
+
 
 
 
