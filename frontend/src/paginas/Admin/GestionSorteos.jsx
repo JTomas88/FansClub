@@ -2,61 +2,28 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import { LuPencil } from "react-icons/lu";
 import { MdOutlineDelete } from "react-icons/md";
-import styles from "./gestionentrevistas.module.css"
+import styles from "./gestionsorteos.module.css"
 
-export const GestionEntrevistas = () => {
+
+
+export const GestionSorteos = () => {
     const { store, actions } = useContext(Context);
-    const [fecha, setFecha] = useState('');
-    const [titular, setTitular] = useState('')
-    const [subtitulo, setSubtitulo] = useState('')
-    const [cuerpo, setCuerpo] = useState('')
-    const [imagen, setImagen] = useState([])
-    const [entrevistaSeleccionada, setEntrevistaSeleccionada] = useState('');
-    const [error, setError] = useState('')
+    const [nombreSorteo, setNombreSorteo] = useState('')
+    const [descripcion, setDescripcion] = useState('')
+    const [fechaInicio, setFechaInicio] = useState('')
+    const [fechaFin, setFechaFin] = useState('')
+    const [imagen, setImagen] = useState('')
+    const [resultado, setResultado] = useState('')
     const [imagenesSeleccionadas, setImagenesSeleccionadas] = useState(null)
-    const [entrevistaAEliminar, setEntrevistaAEliminar] = useState('');
     const [miniaturas, setMiniaturas] = useState([]);
-
-    const handleFotoChange = (evento) => {
-        setImagen(Array.from(evento.target.files));;
-    }
-
+    const [sorteoSeleccionado, setSorteoSeleccionado] = useState('');
+    const [error, setError] = useState('')
 
     //Para obtener todas las entrevistas
     useEffect(() => {
-        actions.obtenerEntrevistas();
+        actions.obtenerSorteos();
     }, [])
 
-
-    //Para resetear el formulario
-    const reseteoFormulario = () => {
-        setFecha('');
-        setTitular('');
-        setSubtitulo('');
-        setCuerpo('');
-        setImagen("")
-        setMiniaturas([])
-    }
-
-
-    //Función para añadir una entrevista nueva
-    const anadir_entrevista = async (evento, fecha, titular, subtitulo, cuerpo, imagen) => {
-        evento.preventDefault()
-        try {
-            const imagenesConcat = imagen.length > 0 ? imagen.join(",") : "";
-            await actions.admin_crearentrevista(fecha, titular, subtitulo, cuerpo, imagenesConcat)
-            await actions.obtenerEntrevistas();
-            const modalElement = document.querySelector('[data-bs-dismiss="modal"]');
-            if (modalElement) {
-                modalElement.click();
-            }
-            reseteoFormulario()
-
-        } catch (error) {
-            console.error("Error durante la llamada al servicio:", error);
-            setError("Error al guardar los datos de la entrevista")
-        }
-    };
 
     // Función para manejar la selección de archivos
     const manejarArchivos = async (e) => {
@@ -73,8 +40,6 @@ export const GestionEntrevistas = () => {
 
     };
 
-
-
     //Función para SUBIR FOTOS al input de imágenes en la entrevista
     const subirFoto_entrevista = async (archivos) => {
         const formData = new FormData();
@@ -83,49 +48,6 @@ export const GestionEntrevistas = () => {
         });
         const respuesta = await actions.admin_subirfoto_entrevista(formData)
         setImagen(prev => [...prev, ...respuesta.urls])
-    }
-
-    //Función para editar la entrevista
-    const editar_entrevista = async (evento) => {
-        evento.preventDefault()
-
-        if (!entrevistaSeleccionada || !entrevistaSeleccionada.entId) {
-            console.error("No hay entrevista seleccionada para editar");
-            setError("No se pudo identificar la entrevista a editar.");
-            return;
-        }
-
-        const fechaFormateada = new Date(fecha).toISOString().split('T')[0]
-
-        try {
-            const imagenesConcat = imagen.length > 0 ? imagen.join(",") : "";
-            await actions.editarEntrevista(
-                entrevistaSeleccionada.entId,
-                fechaFormateada,
-                titular,
-                subtitulo,
-                cuerpo,
-                imagenesConcat
-            );
-            await actions.obtenerEntrevistas();
-            reseteoFormulario()
-            setEntrevistaSeleccionada('')
-
-        } catch (error) {
-            console.error("Error al editar la entrevista", error)
-            setError("Error al actualizar la entrevista")
-        }
-    }
-
-    //Función para eliminar una entrevista por su id
-    const eliminar_entrevista = async (idEntrevista) => {
-
-        try {
-            const resultado = await actions.eliminarEntrevista(idEntrevista)
-            console.log("Entrevista eliminada con éxito", resultado)
-        } catch (error) {
-            console.error("Error durante la eliminación de la entrevista:", error)
-        }
     }
 
     const eliminarImagen = async (index) => {
@@ -137,15 +59,9 @@ export const GestionEntrevistas = () => {
             const nuevasImagenes = imagen.filter(img => img !== imagenAEliminar);
             setImagen(nuevasImagenes)
 
-            if (entrevistaSeleccionada && entrevistaSeleccionada.id) {
+            if (sorteoSeleccionado && sorteoSeleccionado.id) {
                 const imagenesConcat = nuevasImagenes.join(",")
-                await actions.editarEntrevista(
-                    entrevistaSeleccionada.id,
-                    fecha,
-                    titular,
-                    subtitulo,
-                    cuerpo,
-                    imagenesConcat
+                await actions.editar_sorteo(
                 );
             }
             console.log("imagen eliminada con éxito")
@@ -155,27 +71,70 @@ export const GestionEntrevistas = () => {
 
     };
 
+    //Función para añadir un sorteo nuevo
+    const anadir_sorteo = async (evento, nombre, descripcion, fechaInicio, fechaFin, imagen) => {
+        evento.preventDefault()
+        try {
+            const imagenesConcat = imagen.length > 0 ? imagen.join(",") : "";
+            await actions.crear_sorteo(nombre, descripcion, fechaInicio, fechaFin, imagenesConcat)
+            await actions.obtenerSorteos();
+            const modalElement = document.querySelector('[data-bs-dismiss="modal"]');
+            if (modalElement) {
+                modalElement.click();
+            }
+            reseteoFormulario()
 
-    const abrirModalEditar = (entrevista) => {
-        if (!entrevista) return;
-
-        setEntrevistaSeleccionada(entrevista);
-
-        // Formatear la fecha
-        const fechaObj = new Date(entrevista.entFecha);
-        const fechaFormateada = fechaObj.toISOString().split('T')[0];
-
-        setFecha(fechaFormateada);
-        setTitular(entrevista.entTitular);
-        setSubtitulo(entrevista.entSubtitulo);
-        setCuerpo(entrevista.entCuerpoEntrevista);
-
-        const imagenesArray = entrevista.entImagen ? entrevista.entImagen.split(",") : [];
-        setMiniaturas(imagenesArray);
-        setImagen(imagenesArray);
+        } catch (error) {
+            console.error("Error durante la llamada al servicio:", error);
+            setError("Error al guardar los datos de la entrevista")
+        }
     };
 
-    const formatearFecha = (fecha) => {
+    //Función para editar el sorteo
+    const editar_sorteo = async (evento) => {
+        evento.preventDefault()
+
+        if (!sorteoSeleccionado || !sorteoSeleccionado.sorId) {
+            console.error("No hay sorteo seleccionada para editar");
+            setError("No se pudo identificar el sorteo a editar.");
+            return;
+        }
+
+        const fechaFormateadaInicio = new Date(fechaInicio).toISOString().split('T')[0]
+        const fechaFormateadaFin = new Date(fechaFin).toISOString().split('T')[0]
+
+
+        try {
+            const imagenesConcat = imagen.length > 0 ? imagen.join(",") : "";
+            await actions.editar_sorteo(
+                sorteoSeleccionado.sorId,
+                nombreSorteo,
+                descripcion,
+                fechaFormateadaInicio,
+                fechaFormateadaFin,
+                imagenesConcat
+            );
+            await actions.obtenerSorteos();
+            reseteoFormulario()
+            setSorteoSeleccionado('')
+
+        } catch (error) {
+            console.error("Error al editar el sorteo", error)
+            setError("Error al actualizar el sorteo")
+        }
+    }
+
+    //Para resetear el formulario
+    const reseteoFormulario = () => {
+        setNombreSorteo('');
+        setDescripcion('');
+        setFechaInicio('');
+        setFechaFin('');
+        setImagen("")
+        setMiniaturas([])
+    }
+
+    const formatearFechaInicio = (fecha) => {
         const fechaObj = new Date(fecha);
         const day = String(fechaObj.getDate()).padStart(2, '0')
         const month = String(fechaObj.getMonth() + 1).padStart(2, '0');
@@ -183,60 +142,76 @@ export const GestionEntrevistas = () => {
         return `${day}/${month}/${year}`;
     }
 
-    //Limpia el estado del modal cuando se cierra, para los valores no interfieran en la siguiente edición. 
-    useEffect(() => {
-        const modal = document.getElementById('editarEntrevista');
-        if (modal) {
-            modal.addEventListener('hidden.bs.modal', () => {
-                setEntrevistaSeleccionada('');
-                reseteoFormulario();
-            });
-        }
-        return () => {
-            if (modal) {
-                modal.removeEventListener('hidden.bs.modal', () => {
-                    setEntrevistaSeleccionada('');
-                    reseteoFormulario();
-                });
-            }
-        };
-    }, []);
+    const formatearFechaFin = (fecha) => {
+        const fechaObj = new Date(fecha);
+        const day = String(fechaObj.getDate()).padStart(2, '0')
+        const month = String(fechaObj.getMonth() + 1).padStart(2, '0');
+        const year = fechaObj.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
+
+    const abrirModalEditar = (sorteo) => {
+        if (!sorteo) return;
+
+        setSorteoSeleccionado(sorteo);
+
+        // Formatear la fecha
+        const fechaInicio = new Date(sorteo.sorFechaInicio);
+        const fechaFormateadaInicio = fechaInicio.toISOString().split('T')[0];
+
+        const fechaFin = new Date(sorteo.sorFechaFin);
+        const fechaFormateadaFin = fechaFin.toISOString().split('T')[0];
+
+        setFechaInicio(fechaFormateadaInicio);
+        setFechaFin(fechaFormateadaFin)
+        setNombreSorteo(sorteo.sorNombre);
+        setDescripcion(sorteo.sorDescripcion);
+
+        const imagenesArray = sorteo.sorImagen ? sorteo.sorImagen.split(",") : [];
+        setMiniaturas(imagenesArray);
+        setImagen(imagenesArray);
+    };
+
 
 
 
     return (
-        <div className={styles.cuerpo_gestionentrevistas}>
+        <div className={styles.cuerpo_gestionSorteos}>
             {/* Sección para crear entrevistas */}
-            <h2 className="text-center">Gestión de Entrevistas</h2>
+            <h2 className="text-center">Gestión de Sorteos</h2>
             <button className="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Crear nueva entrevista
+                Crear nuevo SORTEO
             </button>
             <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-xl modal-dialog-scrollable">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" style={{ color: "black" }} id="exampleModalLabel">Entrevista</h1>
+                            <h1 className="modal-title fs-5" style={{ color: "black" }} id="exampleModalLabel">Sorteo</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         {/* Modal */}
                         <div className="modal-body">
-                            <form onSubmit={(evento) => anadir_entrevista(evento, fecha, titular, subtitulo, cuerpo, imagen)} style={{ color: "black" }}>
+                            <form onSubmit={(evento) => anadir_sorteo(evento, nombreSorteo, descripcion, fechaInicio, fechaFin, imagen)}>
+
                                 <div className="mb-3" style={{ color: "black" }}>
-                                    <label htmlFor="fecha" className="form-label" >Fecha</label>
-                                    <input type="date" className="form-control" id="fecha" aria-describedby="fecha" value={fecha} onChange={(e) => setFecha(e.target.value)} />
+                                    <label htmlFor="nombresorteo" className="form-label" >Nombre Sorteo</label>
+                                    <input type="text" className="form-control" id="nombresorteo" aria-describedby="nombresorteo" value={nombreSorteo} onChange={(e) => setNombreSorteo(e.target.value)} />
+                                </div>
+
+                                <div className="mb-3">
+                                    <label htmlFor="descripcion" className="form-label">Descripcion</label>
+                                    <textarea type="text" className="form-control" id="descripcion" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
+                                </div>
+
+                                <div className="mb-3">
+                                    <label htmlFor="fechainicio" className="form-label">Fecha Inicio</label>
+                                    <input type="date" className="form-control" id="fechainicio" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="titular" className="form-label">Titular</label>
-                                    <input type="text" className="form-control" id="titular" value={titular} onChange={(e) => setTitular(e.target.value)} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="subtitulo" className="form-label">Subtitular</label>
-                                    <input type="text" className="form-control" id="subtitulo" value={subtitulo} onChange={(e) => setSubtitulo(e.target.value)} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="cuerpo" className="form-label">Entrevista</label>
-                                    <textarea type="text" className="form-control" id="cuerpo" value={cuerpo} onChange={(e) => setCuerpo(e.target.value)} rows={10} style={{ width: '100%' }} />
+                                    <label htmlFor="fechafin" className="form-label">Fecha Fin</label>
+                                    <input type="date" className="form-control" id="fechafin" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="fotos" className="form-label">Fotos</label>
@@ -271,48 +246,50 @@ export const GestionEntrevistas = () => {
             </div>
 
             {/* Sección para mostrar entrevistas realizadas */}
-            <h2>Entrevistas realizadas</h2>
+            <h2>Sorteos realizados</h2>
+
             <div className="container d-flex m-3">
-                {(Array.isArray(store.entrevistas) ? store.entrevistas : []).map((entrevista, index) => (
+                {(Array.isArray(store.sorteos) ? store.sorteos : []).map((sorteo, index) => (
                     <div className="card" key={index} style={{ width: "18rem", backgroundColor: "PowderBlue" }}>
                         <div className="card-body">
-                            <h3 className="card-title">{entrevista.entTitular}</h3>
-                            <h5 className="card-text mb-2">{entrevista.entSubtitulo}</h5>
-                            <h6 className="card-text mb-2">{formatearFecha(entrevista.entFecha)}</h6>
+                            <h3 className="card-title">{sorteo.sorNombre}</h3>
+                            <h5 className="card-text mb-2">{sorteo.sorDescripcion}</h5>
+                            <h6 className="card-text mb-2">{formatearFechaInicio(sorteo.sorFechaInicio)}</h6>
+                            <h6 className="card-text mb-2">{formatearFechaFin(sorteo.sorFechaFin)}</h6>
 
-                            {/* Boton para editar */}
+                            {/* Abierto modal para editar el sorteo */}
                             <div >
-                                <button className="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#editarEntrevista" onClick={() => abrirModalEditar(entrevista)}>
+                                <button className="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#editarEntrevista" onClick={() => abrirModalEditar(sorteo)}>
                                     <LuPencil />
                                 </button>
                                 <div className="modal fade" id="editarEntrevista" tabIndex="-1" aria-labelledby="editarEntrevistaLabel" aria-hidden="true">
                                     <div className="modal-dialog">
                                         <div className="modal-content">
                                             <div className="modal-header">
-                                                <h1 className="modal-title fs-5" id="editarEntrevistaLabel">{titular}</h1>
+                                                <h1 className="modal-title fs-5" id="editarEntrevistaLabel">{nombreSorteo}</h1>
                                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div className="modal-body">
 
                                                 <form >
                                                     <div className="mb-3" style={{ color: "black" }}>
-                                                        <label htmlFor="fecha" className="form-label" >Fecha</label>
-                                                        <input type="date" className="form-control" id="fecha" aria-describedby="fecha" value={fecha} onChange={(e) => setFecha(e.target.value)} />
+                                                        <label htmlFor="nombreSorteo" className="form-label" >Nombre sorteo</label>
+                                                        <input type="text" className="form-control" id="fecnombreSorteoha" aria-describedby="nombreSorteo" value={nombreSorteo} onChange={(e) => setNombreSorteo(e.target.value)} />
                                                     </div>
                                                     <div className="mb-3">
-                                                        <label htmlFor="titular" className="form-label">Titular</label>
-                                                        <input type="text" className="form-control" id="titular" value={titular} onChange={(e) => setTitular(e.target.value)} />
+                                                        <label htmlFor="descripcion" className="form-label">Descripcion</label>
+                                                        <input type="text" className="form-control" id="descripcion" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
                                                     </div>
                                                     <div className="mb-3">
-                                                        <label htmlFor="subtitulo" className="form-label">Subtitular</label>
-                                                        <input type="text" className="form-control" id="subtitulo" value={subtitulo} onChange={(e) => setSubtitulo(e.target.value)} />
+                                                        <label htmlFor="fechainicio" className="form-label">Fecha Inicio</label>
+                                                        <input type="date" className="form-control" id="fechainicio" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
                                                     </div>
                                                     <div className="mb-3">
-                                                        <label htmlFor="cuerpo" className="form-label">Entrevista</label>
-                                                        <textarea type="text" className="form-control" id="cuerpo" value={cuerpo} onChange={(e) => setCuerpo(e.target.value)} />
+                                                        <label htmlFor="fechafin" className="form-label">Fecha Fin</label>
+                                                        <input type="date" className="form-control" id="fechafin" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
                                                     </div>
                                                     <div className="mb-3">
-                                                        <label htmlFor="fotos" className="form-label">Fotos</label>
+                                                        <label htmlFor="fotos" className="form-label">Imagenes sorteo</label>
                                                         <input className="form-control" type="file" id="fotos" multiple onChange={manejarArchivos} />
                                                     </div>
                                                     <div className="mb-3 d-flex flex-wrap">
@@ -335,7 +312,7 @@ export const GestionEntrevistas = () => {
                                                         ))}
                                                     </div>
                                                     <div className="modal-footer">
-                                                        <button type="button" className="btn btn-primary" onClick={(evento) => editar_entrevista(evento, fecha, titular, subtitulo, cuerpo, imagen)} data-bs-dismiss="modal" >Guardar datos</button>
+                                                        <button type="button" className="btn btn-primary" onClick={(evento) => editar_sorteo(evento, nombreSorteo, descripcion, fechaInicio, fechaFin, imagen)} data-bs-dismiss="modal" >Guardar datos</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -344,8 +321,8 @@ export const GestionEntrevistas = () => {
                                 </div>
                             </div>
 
-                            <div>
-                                {/* //Botón eliminar y modal para confirmar eliminación */}
+                            {/* <div>
+
                                 <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleliminarentrevista">
                                     <MdOutlineDelete />
                                 </button>
@@ -366,7 +343,7 @@ export const GestionEntrevistas = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 ))}

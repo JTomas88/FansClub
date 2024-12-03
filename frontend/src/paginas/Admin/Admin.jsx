@@ -24,6 +24,10 @@ export const Admin = () => {
                     <button type="button" class="btn btn-light">Entrevistas</button>
                 </Link>
 
+                <Link className="d-flex justify-content-center align-items-center" to="/admin/gestionsorteos">
+                    <button type="button" class="btn btn-light">Sorteos</button>
+                </Link>
+
 
 
             </div>

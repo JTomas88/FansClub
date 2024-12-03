@@ -587,6 +587,106 @@ def subirfoto_entrevista():
     return jsonify({"error": "no se han subido las fotos a la entrevista"})
 
 
+# FUnción para borrar una entrevista por id
+@app.route('/admin/eliminarentrevista/<int:entId>', methods = ['DELETE'])
+def eliminarEntrevista(entId):
+    entrevista = Entrevista.query.get(entId)
+
+    if entrevista is None:
+        return jsonify({"error": "no se encuentra la entrevista"}), 400
+    
+    try:
+        db.session.delete(entrevista)
+        db.session.commit()
+        return jsonify ({"Mensaje": "entrevista borrada correctamente"}), 200
+    except Exception as Error:
+        db.session.rollback()
+        return jsonify({"Error": str(Error)}), 500
+    
+
+    ## -------------------------------------- >> ADMIN : GESTION SORTEOS<< ----------------------------------- //
+
+#Función para creae un sorteo nuevo
+@app.route('/admin/crearsorteo', methods = ['POST'])
+def crearSorteo():
+    data = request.json
+
+    try:
+        fechaInicio = datetime.strptime(data['inicioSorteo'], '%d/%m/%Y').date()
+        fechaFin = datetime.strptime(data['finSorteo'], '%d/%m/%Y').date()
+    except (KeyError, ValueError):
+        return jsonify({"mensaje": "Formato de fecha no válido"}), 400
+    
+    nuevoSorteo = Sorteo(
+        sorNombre = data['nombreSorteo'],
+        sorDescripcion = data['descripcionSorteo'],
+        sorFechaInicio = fechaInicio,
+        sorFechaFin = fechaFin,
+        sorImagen = data['imagenSorteo'],
+    )
+
+    db.session.add(nuevoSorteo)
+    db.session.commit()
+
+    return jsonify({
+        "mensaje": "Sorteo creado correctamente",
+        **nuevoSorteo.serialize()
+    }), 201
+
+
+#Función para editar un sorteo
+@app.route('/admin/editarsorteo/<int:sorId>', methods = ['PUT'])
+def editarSorteo(sorId):
+    sorteo = Sorteo.query.get(sorId)
+    if sorteo is None:
+        return jsonify({"mensaje": "el sorteo no se encuentra"}), 404
+    
+    data = request.json
+    print('Sorteo: ', data)
+
+    if not data:
+        return jsonify({"mensaje": "no se han recibido los datos"}), 400
+    
+    fecha_inicio = data['fechaInicio']
+    fecha_fin = data['fechaFin']
+    try:       
+        fechaInicio = datetime.strptime(fecha_inicio,  '%Y-%m-%d').date()
+        fechaFin = datetime.strptime(fecha_fin,  '%Y-%m-%d').date()
+    except ValueError:
+        return jsonify({"mensaje": "Formato de fecha no válido"}), 400
+
+    try:
+        if 'nombre' in data:
+            sorteo.sorNombre = data['nombre']
+        if 'descripcion' in data:
+            sorteo.sorDescripcion = data['descripcion']
+        if 'fechaInicio' in data:
+            sorteo.sorFechaInicio = fechaInicio
+        if 'fechaFin' in data:
+            sorteo.sorFechaFin = fechaFin    
+        if 'imagen' in data:
+            sorteo.sorImagen = data['imagen']
+    
+        db.session.commit()
+        return jsonify({"mensaje": "Sorteo editado correctamente"}), 200
+    
+    except Exception as error:
+        db.session.rollback()
+        return jsonify ({"Error": str(error)}), 500
+
+#Función para obtener todos los sorteos
+@app.route ('/admin/obtenersorteos', methods = ['GET'])
+def obtenersorteos():
+    sorteos = Sorteo.query.all()
+    return jsonify([sorteo.serialize() for sorteo in sorteos])
+
+    
+
+
+    
+
+
+
 
 
 

@@ -62,7 +62,7 @@ export const Navbar = () => {
 
 
 
-                        {store.userData.role === 'admin' ? (
+                        {store.userData.rol === 'admin' ? (
                             <li className="nav-item">
                                 <Link className="nav-link" to="/admin">ADMINISTRADOR</Link>
                             </li>

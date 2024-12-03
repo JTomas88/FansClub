@@ -30,6 +30,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             carpetasFotos: [],
 
+            sorteos: [],
+
         },
 
         actions: {
@@ -704,6 +706,116 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
+            // Función para borrar una entrevista por id
+            eliminarEntrevista: async (id) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/eliminarentrevista/${id}`, {
+                        method: 'DELETE',
+                    });
+                    if (respuesta.ok) {
+                        console.log("Entrevista eliminada con éxito");
+                        const entrevistasActivas = store.entrevistas.filter(entrevista => entrevista.id !== id);
+                        setStore({
+                            ...store,
+                            entrevistas: entrevistasActivas
+                        })
+                    } else {
+                        console.error('Error al eliminar la entrevista')
+                    }
+                } catch (error) {
+                    console.error('Error en la solicitud de eliminación::', error)
+                }
+            },
+
+
+            // -------------------------------------- >> ADMIN : GESTION SORTEOS<< ----------------------------------- //
+
+            //Función para crear un sorteo nuevo
+            crear_sorteo: async (nombre, descripcion, inicio, fin, imagen) => {
+                const store = getStore()
+                try {
+                    const fechaInicio = format(new Date(inicio), 'dd/MM/yyyy')
+                    const fechaFin = format(new Date(fin), 'dd/MM/yyyy')
+                    const respuesta = await fetch(`${store.backendUrl}/admin/crearsorteo`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            nombreSorteo: nombre,
+                            descripcionSorteo: descripcion,
+                            inicioSorteo: fechaInicio,
+                            finSorteo: fechaFin,
+                            imagenSorteo: imagen,
+                        }),
+                        headers: { "Content-Type": "application/json" }
+                    });
+                    if (!respuesta.ok) {
+                        const error = await respuesta.json()
+                        console.error("Error: ", error)
+                        return error
+                    }
+
+                    const data = await respuesta.json()
+
+                    if (data) {
+                        setStore({
+                            ...store,
+                            sorteos: data
+                        });
+                        console.log("success: ", data)
+                    } else {
+                        console.error("Datos no recibidos: ", data)
+                    }
+
+                } catch (error) {
+                    console.error("Error: ", error)
+                }
+            },
+
+            //Función para editar un sorteo
+            editar_sorteo: async (id, nombre, descripcion, fechaInicio, fechaFin, imagen) => {
+                const store = getStore();
+                try {
+                    const sorteoCompleto = { nombre, descripcion, fechaInicio, fechaFin, imagen }
+                    const respuesta = await fetch(`${store.backendUrl}/admin/editarsorteo/${id}`, {
+                        method: 'PUT',
+                        body: JSON.stringify(sorteoCompleto),
+                        headers: { "Content-Type": "application/json" }
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status: ${respuesta.status}`)
+                    }
+
+                    const data = await respuesta.json()
+                    setStore({
+                        sorteos: store.sorteos.map((sorteoExistente) =>
+                            (sorteoExistente.id === id ? sorteoCompleto : sorteoExistente)
+                        )
+
+                    })
+                    console.log('Sorteo actualizado: ', data)
+                } catch (error) {
+                    console.error('Error durante la edición del evento:', error)
+                }
+
+            },
+
+
+            //Para obtener todos los sorteos
+            obtenerSorteos: async () => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/obtenersorteos`, {
+                        method: 'GET'
+                    });
+                    const data = await respuesta.json()
+                    setStore({
+                        ...store,
+                        sorteos: data
+                    });
+                } catch (error) {
+                    console.log(error)
+                }
+            },
 
 
 
@@ -714,7 +826,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
             // -------------------------------------- >> VISOR DE FOTOS POR CARPETA<< ----------------------------------- //
-
 
             //Mostrar el contenido de las carpetas de cloudinary
             mostrarImagenesCarpeta: async (nombreCarpeta) => {
@@ -733,6 +844,9 @@ const getState = ({ getStore, getActions, setStore }) => {
                     return null;
                 }
             },
+
+
+
 
 
 

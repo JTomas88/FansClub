@@ -14,6 +14,8 @@ import { GestionUsuarios } from "./paginas/Admin/GestionUsuarios.jsx";
 import { GestionGalerias } from "./paginas/Admin/GestionGalerias.jsx";
 import { Fotos } from "./paginas/Multimedia/Fotos.jsx";
 import { GestionEntrevistas } from "./paginas/Admin/GestionEntrevistas.jsx";
+import { Entrevistas } from "./paginas/Multimedia/Entrevistas.jsx";
+import { GestionSorteos } from "./paginas/Admin/GestionSorteos.jsx";
 
 function App() {
   return (
@@ -33,8 +35,12 @@ function App() {
             <Route path="/admin/gestionusuarios" element={<GestionUsuarios />} />
             <Route path="/admin/gestiongalerias" element={<GestionGalerias />} />
             <Route path="/admin/gestionentrevistas" element={<GestionEntrevistas />} />
+            <Route path="/admin/gestionsorteos" element={<GestionSorteos />} />
+
 
             <Route path="/galeriasfotos" element={<Fotos />} />
+            <Route path="/entrevistas" element={<Entrevistas />} />
+
 
 
 
