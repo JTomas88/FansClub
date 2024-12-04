@@ -817,6 +817,28 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
+            //Función para eliminar un sorteo
+            eliminarSorteo: async (id) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/eliminarsorteo/${id}`, {
+                        method: 'DELETE',
+                    });
+                    if (respuesta.ok) {
+                        console.log("Sorteo eliminado con éxito");
+                        const sorteosActivos = store.sorteos.filter(sorteo => sorteo.id !== id);
+                        setStore({
+                            ...store,
+                            sorteos: sorteosActivos
+                        })
+                    } else {
+                        console.error('Error al eliminar el sorteo')
+                    }
+                } catch (error) {
+                    console.error('Error en la solicitud de eliminación::', error)
+                }
+            },
+
 
 
 

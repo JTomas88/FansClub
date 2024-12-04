@@ -173,6 +173,17 @@ export const GestionSorteos = () => {
         setImagen(imagenesArray);
     };
 
+    //Función para eliminar una entrevista por su id
+    const eliminar_sorteo = async (idSorteo) => {
+
+        try {
+            const resultado = await actions.eliminarSorteo(idSorteo)
+            console.log("Entrevista eliminada con éxito", resultado)
+        } catch (error) {
+            console.error("Error durante la eliminación de la entrevista:", error)
+        }
+    }
+
 
 
 
@@ -321,7 +332,7 @@ export const GestionSorteos = () => {
                                 </div>
                             </div>
 
-                            {/* <div>
+                            <div>
 
                                 <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleliminarentrevista">
                                     <MdOutlineDelete />
@@ -338,12 +349,12 @@ export const GestionSorteos = () => {
                                             </div>
                                             <div className="modal-footer">
 
-                                                <button type="button" data-bs-dismiss="modal" className="btn btn-primary" onClick={() => eliminar_entrevista(entrevista.entId)}>Save changes</button>
+                                                <button type="button" data-bs-dismiss="modal" className="btn btn-primary" onClick={() => eliminar_sorteo(sorteo.sorId)}>Eliminar sorteo</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                     </div>
                 ))}

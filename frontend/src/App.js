@@ -16,6 +16,7 @@ import { Fotos } from "./paginas/Multimedia/Fotos.jsx";
 import { GestionEntrevistas } from "./paginas/Admin/GestionEntrevistas.jsx";
 import { Entrevistas } from "./paginas/Multimedia/Entrevistas.jsx";
 import { GestionSorteos } from "./paginas/Admin/GestionSorteos.jsx";
+import { Sorteos } from "./paginas/Sorteos/Sorteos.jsx";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
 
             <Route path="/galeriasfotos" element={<Fotos />} />
             <Route path="/entrevistas" element={<Entrevistas />} />
+            <Route path="/sorteos" element={<Sorteos />} />
 
 
 

@@ -680,6 +680,25 @@ def obtenersorteos():
     sorteos = Sorteo.query.all()
     return jsonify([sorteo.serialize() for sorteo in sorteos])
 
+
+
+# FUnción para borrar un sorteo por id
+@app.route('/admin/eliminarsorteo/<int:sorId>', methods = ['DELETE'])
+def eliminarSorteo(sorId):
+    sorteo = Sorteo.query.get(sorId)
+
+    if sorteo is None:
+        return jsonify({"error": "no se encuentra el sorteo"}), 400
+    
+    try:
+        db.session.delete(sorteo)
+        db.session.commit()
+        return jsonify ({"Mensaje": "sorteo borrado correctamente"}), 200
+    except Exception as Error:
+        db.session.rollback()
+        return jsonify({"Error": str(Error)}), 500
+
+
     
 
 
