@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Context } from "../../store/appContext";
+import { Context } from "../../store/AppContext";
 import { LuPencil } from "react-icons/lu";
 import { MdOutlineDelete } from "react-icons/md";
 import styles from "./gestionsorteos.module.css"

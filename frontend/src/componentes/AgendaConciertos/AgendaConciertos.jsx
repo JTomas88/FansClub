@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from "react";
-import { Context } from "../../store/appContext";
+import { Context } from "../../store/AppContext";
 import * as THREE from 'three';
 import styles from "./agendaconciertos.module.css";
 
@@ -76,9 +76,9 @@ export const AgendaConciertos = () => {
 
         init();
 
-        return () => {
-            mountRef.current.removeChild(renderer.domElement);
-        };
+        // return () => {
+        //     mountRef.current.removeChild(renderer.domElement);
+        // };
     }, []);
 
     const formateoFecha = (fechaString) => {

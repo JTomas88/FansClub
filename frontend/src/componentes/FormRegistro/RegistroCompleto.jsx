@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Context } from "../../store/appContext";
-import styles from "../FormRegistro/registrocompleto.module.css";
-import { IoMdConstruct } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../../store/AppContext";
 
 export const RegistroCompleto = () => {
     const { store, actions } = useContext(Context);

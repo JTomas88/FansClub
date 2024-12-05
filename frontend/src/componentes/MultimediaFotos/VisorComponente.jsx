@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Context } from "../../store/appContext";
+import { Context } from "../../store/AppContext";
 
 export const VisorComponente = ({ carpetaSeleccionada }) => {
     const { store, actions } = useContext(Context);

@@ -835,12 +835,32 @@ const getState = ({ getStore, getActions, setStore }) => {
                         console.error('Error al eliminar el sorteo')
                     }
                 } catch (error) {
-                    console.error('Error en la solicitud de eliminación::', error)
+                    console.error('Error en la solicitud de eliminación: ', error)
                 }
             },
 
 
+            participarEnSorteo: async (sorteoID, userID) => {
+                const store = getStore();
+                try{
+                    const respuesta = await fetch(
+                      `${store.backendUrl}/participar/${sorteoID}`,
+                      {
+                        method: "PUT",
+                        body: JSON.stringify(userID),
+                        headers: { "Content-Type": "application/json" },
+                      }
+                    );
+                    if(respuesta.ok){
+                        console.log("Participación creada con éxito.");
 
+                    } else {
+                        console.log('Problema al crear la participación al sorteo.');
+                    }
+                } catch (error) {
+                    console.error('Error al crear la participación en el sorteo: ',error)
+                }
+            },
 
 
 

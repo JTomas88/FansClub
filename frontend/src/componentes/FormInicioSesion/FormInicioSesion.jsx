@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "../FormRegistro/formregistroinicial.module.css";
-import { Context } from "../../store/appContext";
+import { Context } from "../../store/AppContext";
 
 export const FormInicioSesion = () => {
     const { store, actions } = useContext(Context);

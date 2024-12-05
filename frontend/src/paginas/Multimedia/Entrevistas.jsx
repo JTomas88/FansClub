@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Context } from "../../store/appContext";
+import { Context } from "../../store/AppContext";
 import styles from "./entrevistas.module.css";
 import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
 import Jumbo_entrevistas from "../../assets/imagenes_jumbotron/Jumbo_entrevistas.png"

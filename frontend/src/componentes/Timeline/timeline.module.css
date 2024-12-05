@@ -1,5 +1,5 @@
 .blurBackground {
-    background: rgba(248, 72, 72, 0.8);
+    /* background: rgba(248, 72, 72, 0.8); */
     filter: blur(10px);
     z-index: -1;
     border-radius: 8px;

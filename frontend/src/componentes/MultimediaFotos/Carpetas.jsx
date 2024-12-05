@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { Context } from "../../store/appContext";
+import { Context } from "../../store/AppContext";
 import { GiMicrophone } from "react-icons/gi";
 
 

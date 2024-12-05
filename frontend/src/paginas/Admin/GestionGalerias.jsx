@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Context } from "../../store/appContext";
+import { Context } from "../../store/AppContext";
 import styles from "../Admin/gestiongalerias.module.css"
 import { FaFolder, FaPlus, FaImage } from "react-icons/fa";
 

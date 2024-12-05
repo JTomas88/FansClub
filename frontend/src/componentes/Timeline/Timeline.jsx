@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import styles from "../Timeline/timeline.module.css";
-import { Context } from "../../store/appContext";
 import { Chrono } from "react-chrono";
 import portadatragicoyfugaz from "../../assets/portadas_discos/portadatragicoyfugaz.jpg";
 import portadatiemposdeimpacto from "../../assets/portadas_discos/portadatiemposdeimpacto.jpg";

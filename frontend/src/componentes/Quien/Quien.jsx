@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import styles from "../Quien/quien.module.css";
-import { Context } from "../../store/appContext";
+import { Context } from "../../store/AppContext";
 import tragico from "../../assets/criticas_discos/1TragicoYfugaz.png";
 import tiempos1 from "../../assets/criticas_discos/2tiemposdeimpacto.png";
 import tiempos2 from "../../assets/criticas_discos/2tiemposdeimpacto2.png";

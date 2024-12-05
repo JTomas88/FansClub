@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "../Admin/agenda.module.css";
-import { Context } from "../../store/appContext";
+import { Context } from "../../store/AppContext";
 import { LuPencil } from "react-icons/lu";
 import { MdOutlineDelete } from "react-icons/md";
 import { IoIosSave } from "react-icons/io";

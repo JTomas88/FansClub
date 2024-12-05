@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import injectContext from './store/appContext'; // Importa el contexto
+import injectContext from './store/AppContext'; // Importa el contexto
 
 // Envuelve el componente App con el contexto
 const AppWithContext = injectContext(App);

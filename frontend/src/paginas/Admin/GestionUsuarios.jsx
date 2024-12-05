@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../Admin/gestionusuarios.module.css";
-import { Context } from "../../store/appContext";
+import { Context } from "../../store/AppContext";
 import { MdDelete } from "react-icons/md";
 
 
