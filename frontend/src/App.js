@@ -17,6 +17,8 @@ import { GestionEntrevistas } from "./paginas/Admin/GestionEntrevistas.jsx";
 import { Entrevistas } from "./paginas/Multimedia/Entrevistas.jsx";
 import { GestionSorteos } from "./paginas/Admin/GestionSorteos.jsx";
 import { Sorteos } from "./paginas/Sorteos/Sorteos.jsx";
+import { Entrada } from "./paginas/Entrada/Entrada.jsx";
+import { Links } from "./paginas/Links/Links.jsx";
 
 function App() {
   return (
@@ -25,23 +27,27 @@ function App() {
       <div className="App-content">
         <div className="page-content">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Entrada />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/registro" element={<Registro />} />
             <Route path="/completar-registro" element={<RegistroCompleto />} />
             <Route path="/inicioSesion" element={<InicioSesion />} />
             <Route path="/quienessienna" element={<QuienEsSienna />} />
             <Route path="/objetivoscf" element={<ObjetivosCF />} />
+
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/agenda" element={<Agenda />} />
             <Route path="/admin/gestionusuarios" element={<GestionUsuarios />} />
             <Route path="/admin/gestiongalerias" element={<GestionGalerias />} />
             <Route path="/admin/gestionentrevistas" element={<GestionEntrevistas />} />
             <Route path="/admin/gestionsorteos" element={<GestionSorteos />} />
+            <Route path="/links" element={<Links />} />
 
 
             <Route path="/galeriasfotos" element={<Fotos />} />
             <Route path="/entrevistas" element={<Entrevistas />} />
             <Route path="/sorteos" element={<Sorteos />} />
+
 
 
 

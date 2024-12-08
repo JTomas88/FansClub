@@ -20,7 +20,7 @@ export const Navbar = () => {
         <nav className={`navbar navbar-expand-lg bg-body-tertiary ${styles.enlaces}`} style={{ fontSize: "26px" }}>
             <div className="container-fluid">
 
-                <a className="navbar-brand" style={{ marginLeft: "3%", fontSize: "25px", fontWeight: "bold" }} href="/">Club Fans Oficial Sienna</a>
+                <a className="navbar-brand" style={{ marginLeft: "3%", fontSize: "25px", fontWeight: "bold" }} href="/">Club Fans Sienna</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -57,7 +57,7 @@ export const Navbar = () => {
 
 
                         <li className="nav-item" style={{ fontSize: "18px" }}>
-                            <Link className="nav-link" to="/objetivoscf">Links de interés</Link>
+                            <Link className="nav-link" to="/links">Links de interés</Link>
                         </li>
 
 

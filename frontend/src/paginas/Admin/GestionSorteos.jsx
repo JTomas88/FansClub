@@ -179,6 +179,7 @@ export const GestionSorteos = () => {
         try {
             const resultado = await actions.eliminarSorteo(idSorteo)
             console.log("Entrevista eliminada con éxito", resultado)
+            actions.obtenerSorteos()
         } catch (error) {
             console.error("Error durante la eliminación de la entrevista:", error)
         }
@@ -256,7 +257,7 @@ export const GestionSorteos = () => {
                 </div>
             </div>
 
-            {/* Sección para mostrar entrevistas realizadas */}
+            {/* Sección para mostrar sorteos realizados*/}
             <h2>Sorteos realizados</h2>
 
             <div className="container d-flex m-3">
@@ -289,7 +290,7 @@ export const GestionSorteos = () => {
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="descripcion" className="form-label">Descripcion</label>
-                                                        <input type="text" className="form-control" id="descripcion" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
+                                                        <textarea type="text" className="form-control" id="descripcion" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} rows={8} />
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="fechainicio" className="form-label">Fecha Inicio</label>
@@ -333,7 +334,7 @@ export const GestionSorteos = () => {
                             </div>
 
                             <div>
-
+                                {/* Para eliminar un sorteo */}
                                 <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleliminarentrevista">
                                     <MdOutlineDelete />
                                 </button>
@@ -345,7 +346,7 @@ export const GestionSorteos = () => {
                                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div className="modal-body">
-                                                ¿Seguro que deseas eliminar esta entrevista?
+                                                ¿Seguro que deseas eliminar este sorteo?
                                             </div>
                                             <div className="modal-footer">
 

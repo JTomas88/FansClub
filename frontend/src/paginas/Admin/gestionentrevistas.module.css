@@ -1,27 +1,27 @@
 .div_boton_flotante {
-    position: absolute; /* Cambié a 'absolute' para que se posicione respecto a la miniatura */
-    bottom: 5px; /* Alineación desde el borde inferior */
-    right: 5px; /* Alineación desde el borde derecho */
+    position: absolute;
+    bottom: 5px; 
+    right: 5px; 
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10; /* Asegura que el botón esté sobre la miniatura */
-    font-size: smaller; /* Puedes ajustar este valor si deseas que el texto sea más pequeño */
+    z-index: 10; 
+    font-size: smaller; 
 }
 
 .boton_flotante {
     background-color: #fbfbfb;
     color: #000;
-    border-radius: 50%; /* Redondear el botón */
-    width: 20px; /* Reducir el tamaño del botón */
-    height: 20px; /* Reducir el tamaño del botón */
+    border-radius: 50%; 
+    width: 20px; 
+    height: 20px; 
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera para que se destaque */
-    z-index: 1000; /* Asegura que el botón esté por encima de otras capas */
-    font-size: 12px; /* Ajusta el tamaño del texto dentro del botón */
-    cursor: pointer; /* Cambia el cursor a una mano al pasar por encima */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    z-index: 1000; 
+    font-size: 12px; 
+    cursor: pointer; 
 }
 
 .cuerpo_gestionentrevistas{

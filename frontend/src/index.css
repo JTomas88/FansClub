@@ -7,9 +7,30 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: black;
   overflow-x: hidden;
+  flex-direction: column;
+
+  height: 100%;
+  display: flex;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+App-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Asegura que el contenedor ocupe al menos el 100% de la ventana */
+}
+
+.page-content {
+  flex: 1; /* Esto hace que el contenido principal ocupe todo el espacio disponible */
+}
+
+footer {
+  /* Estilos para el footer */
+  background-color: #f1f1f1; /* Ejemplo de color */
+  padding: 20px;
+  text-align: center;
 }

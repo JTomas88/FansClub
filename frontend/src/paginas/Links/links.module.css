@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Trance';
+    src: url("../../assets//whoaskssatan.ttf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.titulocol {
+    font-family: 'Trance';
+    font-size: 40px;
+    color: white
+}

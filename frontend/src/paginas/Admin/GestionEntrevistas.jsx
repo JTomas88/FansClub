@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../../store/AppContext";
 import { LuPencil } from "react-icons/lu";
 import { MdOutlineDelete } from "react-icons/md";
@@ -16,6 +16,7 @@ export const GestionEntrevistas = () => {
     const [imagenesSeleccionadas, setImagenesSeleccionadas] = useState(null)
     const [entrevistaAEliminar, setEntrevistaAEliminar] = useState('');
     const [miniaturas, setMiniaturas] = useState([]);
+    const fileInputRef = useRef(null)
 
     const handleFotoChange = (evento) => {
         setImagen(Array.from(evento.target.files));;
@@ -34,14 +35,19 @@ export const GestionEntrevistas = () => {
         setTitular('');
         setSubtitulo('');
         setCuerpo('');
-        setImagen("")
+        setImagen([])
         setMiniaturas([])
+
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
     }
 
 
     //Función para añadir una entrevista nueva
     const anadir_entrevista = async (evento, fecha, titular, subtitulo, cuerpo, imagen) => {
         evento.preventDefault()
+        reseteoFormulario()
         try {
             const imagenesConcat = imagen.length > 0 ? imagen.join(",") : "";
             await actions.admin_crearentrevista(fecha, titular, subtitulo, cuerpo, imagenesConcat)
@@ -123,6 +129,7 @@ export const GestionEntrevistas = () => {
         try {
             const resultado = await actions.eliminarEntrevista(idEntrevista)
             console.log("Entrevista eliminada con éxito", resultado)
+            actions.obtenerEntrevistas()
         } catch (error) {
             console.error("Error durante la eliminación de la entrevista:", error)
         }
@@ -185,7 +192,7 @@ export const GestionEntrevistas = () => {
 
     //Limpia el estado del modal cuando se cierra, para los valores no interfieran en la siguiente edición. 
     useEffect(() => {
-        const modal = document.getElementById('editarEntrevista');
+        const modal = document.getElementById('exampleModal');
         if (modal) {
             modal.addEventListener('hidden.bs.modal', () => {
                 setEntrevistaSeleccionada('');
@@ -208,7 +215,7 @@ export const GestionEntrevistas = () => {
         <div className={styles.cuerpo_gestionentrevistas}>
             {/* Sección para crear entrevistas */}
             <h2 className="text-center">Gestión de Entrevistas</h2>
-            <button className="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button className="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={reseteoFormulario}>
                 Crear nueva entrevista
             </button>
             <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -240,7 +247,7 @@ export const GestionEntrevistas = () => {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="fotos" className="form-label">Fotos</label>
-                                    <input className="form-control" type="file" id="fotos" multiple onChange={manejarArchivos} />
+                                    <input className="form-control" type="file" id="fotos" multiple onChange={manejarArchivos} ref={fileInputRef} />
                                 </div>
                                 <div className="mb-3 d-flex flex-wrap">
                                     {miniaturas.map((url, index) => (
@@ -286,7 +293,7 @@ export const GestionEntrevistas = () => {
                                     <LuPencil />
                                 </button>
                                 <div className="modal fade" id="editarEntrevista" tabIndex="-1" aria-labelledby="editarEntrevistaLabel" aria-hidden="true">
-                                    <div className="modal-dialog">
+                                    <div className="modal-dialog modal-xl modal-dialog-scrollable">
                                         <div className="modal-content">
                                             <div className="modal-header">
                                                 <h1 className="modal-title fs-5" id="editarEntrevistaLabel">{titular}</h1>
@@ -309,7 +316,7 @@ export const GestionEntrevistas = () => {
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="cuerpo" className="form-label">Entrevista</label>
-                                                        <textarea type="text" className="form-control" id="cuerpo" value={cuerpo} onChange={(e) => setCuerpo(e.target.value)} />
+                                                        <textarea type="text" className="form-control" id="cuerpo" value={cuerpo} onChange={(e) => setCuerpo(e.target.value)} rows={10} style={{ width: '100%' }} />
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="fotos" className="form-label">Fotos</label>
@@ -346,7 +353,7 @@ export const GestionEntrevistas = () => {
 
                             <div>
                                 {/* //Botón eliminar y modal para confirmar eliminación */}
-                                <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleliminarentrevista">
+                                <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleliminarentrevista" onClick={() => setEntrevistaAEliminar(entrevista.entId)}>
                                     <MdOutlineDelete />
                                 </button>
                                 <div className="modal fade" id="modaleliminarentrevista" tabIndex="-1" aria-labelledby="modaleliminarEntrevistaLabel" aria-hidden="true">
@@ -361,7 +368,7 @@ export const GestionEntrevistas = () => {
                                             </div>
                                             <div className="modal-footer">
 
-                                                <button type="button" data-bs-dismiss="modal" className="btn btn-primary" onClick={() => eliminar_entrevista(entrevista.entId)}>Save changes</button>
+                                                <button type="button" data-bs-dismiss="modal" className="btn btn-primary" onClick={() => eliminar_entrevista(entrevistaAEliminar)}>Eliminar</button>
                                             </div>
                                         </div>
                                     </div>

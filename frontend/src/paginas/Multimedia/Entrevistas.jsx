@@ -84,160 +84,57 @@ export const Entrevistas = () => {
                                                 </>
 
                                             );
-                                        } else if (recuentoImagenes === 2) {
+                                        } else {
                                             const cuerpo = entrevista.entCuerpoEntrevista;
-                                            const splitIndex1 = Math.floor(cuerpo.length / 3); // Primer punto de corte
-                                            const splitIndex2 = Math.floor((cuerpo.length * 2) / 3); // Segundo punto de corte
-
-                                            // Divide el texto en tres partes
-                                            const cuerpoParte1 = cuerpo.slice(0, splitIndex1);
-                                            const cuerpoParte2 = cuerpo.slice(splitIndex1, splitIndex2);
-                                            const cuerpoParte3 = cuerpo.slice(splitIndex2);
+                                            const parrafos = cuerpo.split(/\r?\n/)
+                                            const totalImagenes = imagenesSeparadas.length;
+                                            const totalParrafos = parrafos.length;
+                                            const imagenesPorParrafo = Math.ceil(totalParrafos / totalImagenes);
+                                            let imagenIndex = 0; // Para recorrer las imágenes
                                             return (
                                                 <>
                                                     <div className="row">
-                                                        <div className="col-md-6">
-                                                            <p style={{ textAlign: 'justify' }}>{cuerpoParte1}</p>
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <img
-                                                                alt="imagen promocional"
-                                                                src={imagenesSeparadas[1]}
-                                                                className="img-fluid mb-3"
-                                                                style={{
-                                                                    maxHeight: "500px",
-                                                                    objectFit: "cover",
-                                                                    borderRadius: "10px",
-                                                                    boxShadow: "15px 15px 10px rgba(0, 0, 0, 0.5)"
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <div className="row">
-                                                        <p style={{ textAlign: 'justify' }}>{cuerpoParte2}</p>
-                                                        <img
-                                                            alt="imagen promocional"
-                                                            src={imagenesSeparadas[0]}
-                                                            className="img-fluid mb-3"
-                                                            style={{
-                                                                maxHeight: "300px",
-                                                                objectFit: "cover",
-                                                                borderRadius: "10px",
-                                                                boxShadow: "15px 15px 10px rgba(0, 0, 0, 0.5)"
-                                                            }}
-                                                        />
-                                                        <p style={{ textAlign: 'justify' }}>{cuerpoParte3}</p>
-                                                    </div>
+                                                        {parrafos.map((parrafo, index) => {
+                                                            // Verificamos si ya hemos asignado una imagen
+                                                            const mostrarImagen = (index % imagenesPorParrafo === 0) && imagenIndex < totalImagenes;
 
+                                                            return (
+                                                                <div key={index} className="col-md-12 mb-3" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                                                    {/* Párrafo con texto */}
+                                                                    <p style={{ textAlign: 'justify' }}>{parrafo}</p>
+
+                                                                    {/* Mostrar imagen solo si se debe mostrar */}
+                                                                    {mostrarImagen && imagenIndex < totalImagenes && (
+                                                                        <img
+                                                                            alt={`imagen-${imagenIndex}`}
+                                                                            src={imagenesSeparadas[imagenIndex]}
+                                                                            className="img-fluid"
+                                                                            style={{
+                                                                                width: "48%",
+                                                                                height: "auto",
+                                                                                objectFit: "cover",
+                                                                                borderRadius: "10px",
+                                                                                boxShadow: "15px 15px 10px rgba(0, 0, 0, 0.5)"
+                                                                            }}
+                                                                        />
+                                                                    )}
+
+                                                                    {/* Asegurarse de incrementar el índice de la imagen cuando se haya mostrado una */}
+                                                                    {mostrarImagen && imagenIndex++}
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
                                                 </>
                                             )
-
-
-
                                         }
+
                                     })()
                                 ) : (
                                     <></>
                                 )}
 
                             </div>
-
-
-
-
-                            {/* <div className="row">
-                                <div className="col-md-6 ">
-                                    <p className={styles.cuerpo_ent}>{entrevista.entCuerpoEntrevista}</p>
-                                </div>
-
-
-                                <div className="col-md-6 d-flex flex-column align-items-center justify-content-center">
-                                    {entrevista.entImagen && entrevista.entImagen.length > 0 ? (
-                                        (() => {
-                                            const imagenesSeparadas = entrevista.entImagen
-                                                .split(",")
-                                                .map((img) => img.trim());
-                                            const recuentoImagenes = imagenesSeparadas.length;
-
-                                            if (recuentoImagenes === 1) {
-                                                return (
-                                                    <div>
-                                                        <img
-                                                            alt="imagen promocional"
-                                                            src={imagenesSeparadas[0]}
-                                                            className="img-fluid mb-3"
-                                                            style={{
-                                                                maxHeight: "450px",
-                                                                objectFit: "cover",
-                                                                borderRadius: "10px",
-                                                                boxShadow: "15px 15px 10px rgba(0, 0, 0, 0.5)"
-                                                            }}
-                                                        />
-                                                    </div>
-                                                );
-                                            } else if (recuentoImagenes === 2) {
-                                                return (
-                                                    <div className="d-flex">
-                                                        {imagenesSeparadas.map((img, imgIndex) => (
-                                                            <img
-                                                                key={imgIndex}
-                                                                alt={`imagen promocional ${imgIndex + 1}`}
-                                                                src={img}
-                                                                className="img-fluid mb-3 me-2"
-                                                                style={{
-                                                                    width: "48%",
-                                                                    height: "auto",
-                                                                    objectFit: "cover",
-                                                                    borderRadius: "10px",
-                                                                }}
-                                                            />
-                                                        ))}
-                                                    </div>
-                                                );
-                                            } else if (recuentoImagenes === 3) {
-                                                return (
-                                                    <div className="d-flex flex-wrap">
-                                                        {imagenesSeparadas.map((img, imgIndex) => (
-                                                            <img
-                                                                key={imgIndex}
-                                                                alt={`imagen promocional ${imgIndex + 1}`}
-                                                                src={img}
-                                                                className="img-fluid mb-3 me-2"
-                                                                style={{
-                                                                    width: imgIndex === 0 ? "100%" : "48%",
-                                                                    height: "auto",
-                                                                    objectFit: "cover",
-                                                                    borderRadius: "10px",
-                                                                }}
-                                                            />
-                                                        ))}
-                                                    </div>
-                                                );
-                                            } else if (recuentoImagenes === 4) {
-                                                return (
-                                                    <div className="d-flex flex-wrap justify-content-between">
-                                                        {imagenesSeparadas.map((img, imgIndex) => (
-                                                            <img
-                                                                key={imgIndex}
-                                                                alt={`imagen promocional ${imgIndex + 1}`}
-                                                                src={img}
-                                                                className="img-fluid mb-3"
-                                                                style={{
-                                                                    width: "48%",
-                                                                    height: "auto",
-                                                                    objectFit: "cover",
-                                                                    borderRadius: "10px",
-                                                                }}
-                                                            />
-                                                        ))}
-                                                    </div>
-                                                );
-                                            }
-                                        })()
-                                    ) : (<></>)
-                                    }
-                                </div>
-                            </div> */}
                         </div>
                     ))
                 ) : (

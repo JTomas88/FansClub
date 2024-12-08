@@ -699,9 +699,9 @@ def eliminarSorteo(sorId):
         return jsonify({"Error": str(Error)}), 500
 
 
-    
+## -------------------------------------- >> SORTEOS - VISTA USUARIO-<< ----------------------------------- ##   
 
-@app.route('/participar/<int:sorteo_id>', methods=['PUT'])
+@app.route('/participar/<int:sorteo_id>', methods=['POST'])
 def participar_en_sorteo(sorteo_id):
     
     sorteo = Sorteo.query.get(sorteo_id)
@@ -712,12 +712,12 @@ def participar_en_sorteo(sorteo_id):
     if not sorteo:
         return jsonify({"message": "Sorteo no encontrado"}), 404
 
-    if id_participante in [user.id for user in sorteo.participantes]:
+    if id_participante in [user.id for user in sorteo.usuarios]:
         return jsonify({"message": "Ya estás participando en este sorteo"}), 400
 
     user = Usuario.query.get(id_participante)
     if user:
-        sorteo.participantes.append(user)
+        sorteo.usuarios.append(user)
         db.session.commit()
         return jsonify({"message": "Participación registrada con éxito"}), 200
     else:

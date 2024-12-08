@@ -840,25 +840,28 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
 
 
+            // -------------------------------------- >> SORTEOS - VISTA USUARIO -<< ----------------------------------- //
+
+
             participarEnSorteo: async (sorteoID, userID) => {
                 const store = getStore();
-                try{
+                try {
                     const respuesta = await fetch(
-                      `${store.backendUrl}/participar/${sorteoID}`,
-                      {
-                        method: "PUT",
-                        body: JSON.stringify(userID),
-                        headers: { "Content-Type": "application/json" },
-                      }
+                        `${store.backendUrl}/participar/${sorteoID}`,
+                        {
+                            method: "POST",
+                            body: JSON.stringify({ id: userID }),
+                            headers: { "Content-Type": "application/json" },
+                        }
                     );
-                    if(respuesta.ok){
+                    if (respuesta.ok) {
                         console.log("Participación creada con éxito.");
 
                     } else {
                         console.log('Problema al crear la participación al sorteo.');
                     }
                 } catch (error) {
-                    console.error('Error al crear la participación en el sorteo: ',error)
+                    console.error('Error al crear la participación en el sorteo: ', error)
                 }
             },
 

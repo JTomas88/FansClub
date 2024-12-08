@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import styles from "./registrocompleto.module.css"
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/AppContext";
 
@@ -36,7 +37,7 @@ export const RegistroCompleto = () => {
     const [claseAlerta, setClaseAlerta] = useState("")
 
 
-    //
+
     useEffect(() => {
         if (store.userData.id) {
             actions.obtenerUsuarioPorId()
@@ -106,7 +107,7 @@ export const RegistroCompleto = () => {
         direccion !== datosIniciales.direccion
     );
 
-    //
+
     const editarDatos = async (evento) => {
         evento.preventDefault();
 
@@ -197,7 +198,7 @@ export const RegistroCompleto = () => {
 
     return (
         <div>
-            <form onSubmit={editarDatos} className="mb-4" style={{ color: "white" }}>
+            <form onSubmit={editarDatos} className="mb-4">
                 {error && <div className="alert alert-danger" role="alert">{error}</div>}
 
                 <p>Aquí podrás completar tu perfil o editar los datos cuando lo necesites</p>
@@ -206,7 +207,7 @@ export const RegistroCompleto = () => {
 
                         <div className="mb-3">
                             <label htmlFor="nombre"
-                                className="form-label">Nombre</label>
+                                className="form-label text-white">Nombre</label>
                             <input type="text"
                                 className="form-control"
                                 placeholder="Escribe aquí tu nombre"
@@ -217,7 +218,7 @@ export const RegistroCompleto = () => {
 
                         <div className="mb-3">
                             <label htmlFor="apellidos"
-                                className="form-label">Apellidos</label>
+                                className="form-label text-white">Apellidos</label>
                             <input type="text"
                                 className="form-control"
                                 placeholder="Escribe aquí tus apellidos"
@@ -227,7 +228,7 @@ export const RegistroCompleto = () => {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="email"
-                                className="form-label fs-5">Email</label>
+                                className="form-label fs-5 text-white">Email</label>
                             <input type="email"
                                 className="form-control"
                                 value={email}
@@ -237,7 +238,7 @@ export const RegistroCompleto = () => {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="telefono"
-                                className="form-label">Teléfono</label>
+                                className="form-label text-white">Teléfono</label>
                             <input type="text"
                                 className="form-control"
                                 placeholder="Aquí va tu número, por si tenemos que contactarte!"
@@ -251,7 +252,7 @@ export const RegistroCompleto = () => {
                     <div className="col-md-6  d-flex flex-column">
                         <div className="mb-3">
                             <label htmlFor="pueblo"
-                                className="form-label">Localidad</label>
+                                className="form-label text-white">Localidad</label>
                             <input type="text"
                                 className="form-control"
                                 placeholder="¿Cuál es tu ciudad / pueblo?"
@@ -275,7 +276,7 @@ export const RegistroCompleto = () => {
                         </div>
 
                         <div className="mb-3">
-                            <label htmlFor="provincia" className="form-label fs-5">Provincia</label>
+                            <label htmlFor="provincia" className="form-label fs-5 text-white">Provincia</label>
                             <input className="form-control" disabled id="provincia" value={provincia}>
                             </input>
 
@@ -283,7 +284,7 @@ export const RegistroCompleto = () => {
 
                         <div className="mb-3">
                             <label htmlFor="direccion"
-                                className="form-label">Dirección</label>
+                                className="form-label text-white">Dirección</label>
                             <input type="text"
                                 className="form-control"
                                 placeholder="Aquí va tu dirección. Cuanto más completa, mejor!"
@@ -313,7 +314,7 @@ export const RegistroCompleto = () => {
                     <div className="col-6">
                         <div class="mb-3">
                             {/* Campo para introducir la contraseña actual */}
-                            <label htmlFor="actualpassword" class="form-label">Escribe aquí tu contraseña actual:</label>
+                            <label htmlFor="actualpassword" class="form-label text-white">Escribe aquí tu contraseña actual:</label>
                             <input type="password"
                                 class="form-control"
                                 id="actualpassword"
@@ -326,7 +327,7 @@ export const RegistroCompleto = () => {
 
                         {/* Campos para nueva contraseña y confirmación de nueva contraseña */}
                         <div class="mb-3">
-                            <label htmlFor="nuevapassword" class="form-label">Introduce tu nueva contraseña:</label>
+                            <label htmlFor="nuevapassword" class="form-label text-white">Introduce tu nueva contraseña:</label>
                             <input type="password"
                                 class="form-control"
                                 id="nuevapassword"
@@ -336,7 +337,7 @@ export const RegistroCompleto = () => {
                             />
                         </div>
                         <div class="mb-3">
-                            <label htmlFor="confnuevapassword" class="form-label">Confirma tu nueva contraseña:</label>
+                            <label htmlFor="confnuevapassword" class="form-label text-white">Confirma tu nueva contraseña:</label>
                             <input type="password"
                                 class="form-control"
                                 id="confnuevapassword"

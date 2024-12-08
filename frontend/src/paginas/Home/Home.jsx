@@ -22,7 +22,7 @@ export const Home = () => {
                 <div className="d-flex justify-content-center align-items-center text-center">
                     <iframe
                         style={{ borderRadius: "12px" }}
-                        src="https://open.spotify.com/embed/artist/4PSNWFX3rYscMdKRp59uYA?utm_source=generator&theme=0"
+                        src="https://open.spotify.com/embed/artist/4PSNWFX3rYscMdKRp59uYA?utm_source=generator&theme=0&autoplay=1"
                         width="50%"
                         height="100"
                         frameBorder="0"
@@ -36,7 +36,7 @@ export const Home = () => {
                 <div className="mt-3">
                     <SliderHome />
                 </div>
-                <div className="mt-3">
+                <div className="mt-5">
                     <AgendaConciertos />
                 </div>
 
