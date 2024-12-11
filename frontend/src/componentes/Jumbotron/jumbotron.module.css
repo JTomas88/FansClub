@@ -1,23 +1,52 @@
-.jumbotron_edit, .jumbotron_edit_home, .jumbotron_edit_foto {
-    position: relative;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    color: white;
-    height: 30vh; /* Ajusta la altura */
-  }
-  
+/* Estilos base */
+.jumbotron_edit,
+.jumbotron_edit_home,
+.jumbotron_edit_foto {
+  position: relative;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+.jumbotron_edit::before,
+.jumbotron_edit_home::before,
+.jumbotron_edit_foto::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.jumbotron_content_edit {
+  position: relative;
+  z-index: 2;
+  text-align: start;
+  padding: 1rem 2rem;
+}
+
+.jumbotron_content_edit h1 {
+  font-size: 2rem;
+}
+
+.jumbotron_content_edit p {
+  font-size: 1.25rem;
+}
+
+@media (max-width: 576px) {
   .jumbotron_content_edit {
-    position: relative;
-    z-index: 2;
-    text-align: start;
-    padding: 1rem 2rem; /* Reduce el padding */
+    padding-left: 1rem;
+    transform: translateX(-18%);
   }
-  
+
   .jumbotron_content_edit h1 {
-    font-size: 2rem; /* Ajusta el tamaño del título */
+    font-size: 1.5rem;
   }
-  
+
   .jumbotron_content_edit p {
-    font-size: 1.25rem; /* Ajusta el tamaño del subtítulo */
+    font-size: 0.9rem; /* Tamaño reducido para subtítulos */
   }
+}

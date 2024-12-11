@@ -21,13 +21,9 @@ const injectContext = (PassedComponent) => {
         );
 
         // Extraemos store y actions desde el contexto
-        // const { store, actions } = state;
+        const { store, actions } = state;
 
-        // useEffect(() => {
-        //   if (!store.message) {  // Solo ejecutamos si el mensaje aún no está cargado
-        //     actions.fetchMessage();
-        //   }
-        // }, [actions, store.message]); // Dependencia de `store.message`
+
 
         return (
             <Context.Provider value={state}>  {/* Proveemos el contexto a los componentes */}

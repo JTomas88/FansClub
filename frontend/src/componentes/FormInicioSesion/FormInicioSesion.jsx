@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../FormRegistro/formregistroinicial.module.css";
 import { Context } from "../../store/AppContext";
@@ -10,6 +10,9 @@ export const FormInicioSesion = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    useEffect(() => {
+        actions.obtenerTodosLosUsuarios();
+    }, [])
 
 
     const login = async (event, email, password) => {
@@ -18,21 +21,24 @@ export const FormInicioSesion = () => {
             setError("Por favor, complete todos los datos requeridos");
             return;
         }
+        console.log('lista usuarios: ', store.usuarios);
+
 
         try {
-            await actions.login(email, password);
-            setTimeout(() => {
-                if (store.userData.rol && store.userData.email === email) {
-                    if (store.userData.token && store.userData.rol === "usuario") {
-                        navigate('/')
-                    } else if (store.userData.token && store.userData.rol === "admin") {
-                        navigate('/')
-                    }
-                } else {
-                    setError("Los datos ingresados no coinciden con los de un usuario registrado")
+            const datoUsuario = await actions.login(email, password);
+            console.log('datoUsuario: ', datoUsuario)
+            setError('')
+
+            if (datoUsuario.rol && datoUsuario.email === email) {
+                if (datoUsuario.token && datoUsuario.rol === "usuario") {
+                    navigate('/home')
+                } else if (datoUsuario.token && datoUsuario.rol === "admin") {
+                    navigate('/admin')
                 }
-            }, 600
-            )
+            } else {
+                setError("Los datos ingresados no coinciden con los de un usuario registrado")
+            }
+
 
 
         } catch (error) {
@@ -52,7 +58,7 @@ export const FormInicioSesion = () => {
                 <form onSubmit={(event) => login(event, email, password)} >
                     {error && <div className="alert alert-danger" role="alert">{error}</div>}
                     <div className="mb-3">
-                        <label htmlFor="inputEmail" className="form-label">Correo Electronico</label>
+                        <label htmlFor="inputEmail" className="form-label text-white">Correo Electronico</label>
                         <input type="email"
                             className="form-control"
                             placeholder="Introduce tu correo electrónico"
@@ -61,7 +67,7 @@ export const FormInicioSesion = () => {
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="inputPassword" className="form-label">Contraseña</label>
+                        <label htmlFor="inputPassword" className="form-label text-white">Contraseña</label>
                         <input type="password"
                             className="form-control"
                             placeholder="Introduce tu contraseña"
@@ -69,9 +75,9 @@ export const FormInicioSesion = () => {
                             id="inputPassword" />
                     </div>
 
-                    <div className="mb-3 form-check">
-                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                        <label className="form-check-label" htmlFor="exampleCheck1">Recordar mis datos</label>
+                    <div className="mb-3 form-check text-start">
+                        <input type="checkbox" className="form-check-input " id="exampleCheck1" />
+                        <label className="form-check-label text-white " htmlFor="exampleCheck1">Recordar mis datos</label>
                     </div>
                     <button type="submit" className="btn btn-primary">Enviar</button>
                 </form>

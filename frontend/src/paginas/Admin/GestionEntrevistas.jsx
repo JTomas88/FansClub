@@ -135,7 +135,10 @@ export const GestionEntrevistas = () => {
         }
     }
 
-    const eliminarImagen = async (index) => {
+    const eliminarImagen = async (evento, index) => {
+        evento.preventDefault()
+        console.log('evento: ', evento)
+        // evento.stopPropagation()
         try {
             const imagenAEliminar = miniaturas[index]
             const nuevasMiniaturas = miniaturas.filter((_, i) => i !== index);
@@ -144,9 +147,9 @@ export const GestionEntrevistas = () => {
             const nuevasImagenes = imagen.filter(img => img !== imagenAEliminar);
             setImagen(nuevasImagenes)
 
-            if (entrevistaSeleccionada && entrevistaSeleccionada.id) {
+            if (entrevistaSeleccionada && entrevistaSeleccionada.entId) {
                 const imagenesConcat = nuevasImagenes.join(",")
-                await actions.editarEntrevista(
+                actions.editarEntrevista(
                     entrevistaSeleccionada.id,
                     fecha,
                     titular,
@@ -260,7 +263,7 @@ export const GestionEntrevistas = () => {
                                             <div className={styles.div_boton_flotante}>
                                                 <button
                                                     className={styles.boton_flotante}
-                                                    onClick={() => eliminarImagen(index)}
+                                                    onClick={(evento) => eliminarImagen(evento, index)}
                                                 >
                                                     X
                                                 </button>
@@ -333,7 +336,7 @@ export const GestionEntrevistas = () => {
                                                                 <div className={styles.div_boton_flotante}>
                                                                     <button
                                                                         className={styles.boton_flotante}
-                                                                        onClick={() => eliminarImagen(index)}
+                                                                        onClick={(evento) => eliminarImagen(evento, index)}
                                                                     >
                                                                         X
                                                                     </button>

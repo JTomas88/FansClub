@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/AppContext";
+import { useNavigate } from "react-router-dom";
 import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
 import jumbo_sorteos from "../../assets/imagenes_jumbotron/Jumbo_sorteos.png"
 import styles from "./sorteos.module.css"
@@ -8,18 +9,30 @@ import styles from "./sorteos.module.css"
 
 export const Sorteos = () => {
   const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
+  const [datoUsuario, setDatoUsuario] = useState({})
+
 
   useEffect(() => {
     actions.obtenerSorteos();
   }, [])
 
-  const participarEnSorteo = async (sorteoID) => {
-    const userID = store.userData?.id;
-
-    if (!userID) {
-      alert('Debes iniciar sesión para participar en el sorteo.');
-      return
+  useEffect(() => {
+    try {
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      if (!userData || !userData.token || !userData.email) {
+        navigate('/home');
+      } else {
+        setDatoUsuario(userData);
+      }
+    } catch (error) {
+      console.error('Error al obtener datos de localStorage:', error);
+      navigate('/home');
     }
+  }, []);
+
+  const participarEnSorteo = async (sorteoID) => {
+    const userID = datoUsuario?.id;
 
     try {
       await actions.participarEnSorteo(sorteoID, userID);

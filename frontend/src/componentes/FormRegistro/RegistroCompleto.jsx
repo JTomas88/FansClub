@@ -27,6 +27,7 @@ export const RegistroCompleto = () => {
     const [direccion, setDireccion] = useState("")
     const [token, setToken] = useState("")
     const [sugerencias, setSugerencias] = useState([])
+    const [datoUsuario, setDatoUsuario] = useState('')
 
 
 
@@ -39,11 +40,16 @@ export const RegistroCompleto = () => {
 
 
     useEffect(() => {
-        if (store.userData.id) {
-            actions.obtenerUsuarioPorId()
-            setEmail(store.userData.email)
+        if (datoUsuario.id) {
+            actions.obtenerUsuarioPorId(datoUsuario.id)
+            setEmail(datoUsuario.email)
         }
-    }, [store.userData.id, store.userData.token]);
+    }, [datoUsuario?.id, datoUsuario?.token]);
+
+
+    useEffect(() => {
+        setDatoUsuario(JSON.parse(localStorage.getItem('userData')))
+    }, [store.userData])
 
 
     const insertarPoblacion = async (evento) => {
@@ -71,29 +77,29 @@ export const RegistroCompleto = () => {
 
     //Cargamos los datos del usuario si ya está registrado, si no se muestran los campos en blanco
     useEffect(() => {
-        if (store.userData.id) {
-            setToken(store.userData.token || "");
-            setNombre(store.userData.nombre || '');
-            setApellidos(store.userData.apellidos || '');
-            setTelefono(store.userData.telefono || '');
-            setEmail(store.userData.email || '');
-            setPueblo(store.userData.pueblo)
-            setProvincia(store.userData.provincia || '');
-            setDireccion(store.userData.direccion || '');
+        if (datoUsuario.id) {
+            setToken(datoUsuario.token || "");
+            setNombre(datoUsuario.nombre || '');
+            setApellidos(datoUsuario.apellidos || '');
+            setTelefono(datoUsuario.telefono || '');
+            setEmail(datoUsuario.email || '');
+            setPueblo(datoUsuario.pueblo)
+            setProvincia(datoUsuario.provincia || '');
+            setDireccion(datoUsuario.direccion || '');
 
             //seteamos los valores: si ya los tiene o si los tiene en blanco. 
             setDatosIniciales({
-                token: store.userData.token || '',
-                nombre: store.userData.nombre || '',
-                apellidos: store.userData.apellidos || '',
-                telefono: store.userData.telefono || '',
-                email: store.userData.email || '',
-                pueblo: store.userData.pueblo || '',
-                provincia: store.userData.provincia || '',
-                direccion: store.userData.direccion || ''
+                token: datoUsuario.token || '',
+                nombre: datoUsuario.nombre || '',
+                apellidos: datoUsuario.apellidos || '',
+                telefono: datoUsuario.telefono || '',
+                email: datoUsuario.email || '',
+                pueblo: datoUsuario.pueblo || '',
+                provincia: datoUsuario.provincia || '',
+                direccion: datoUsuario.direccion || ''
             });
         }
-    }, [store.userData]);
+    }, [datoUsuario]);
 
 
     //Para manejar el estado del botón
@@ -116,11 +122,11 @@ export const RegistroCompleto = () => {
             return
         }
 
-        if (store.userData.id && store.userData.token) {
-            await actions.editar_usuario(store.userData.id, token, email, nombre, apellidos, telefono, pueblo, provincia, direccion)
+        if (datoUsuario.id && datoUsuario.token) {
+            await actions.editar_usuario(datoUsuario.id, token, email, nombre, apellidos, telefono, pueblo, provincia, direccion)
             setMsjOK("Has actualizado tus datos!");
             setError(null)
-            navigate('/')
+            navigate('/home')
         } else {
             console.error('No se ha encontrado al usuario')
         }
@@ -145,7 +151,7 @@ export const RegistroCompleto = () => {
 
     //Verificar contraseña actual: envía la contraseña actual al backend para comprobarla
     const verifPassActual = async () => {
-        const isValid = await actions.verificarpwactual(store.userData.id, password, store.userData.email);
+        const isValid = await actions.verificarpwactual(datoUsuario.id, password, datoUsuario.email);
         setEsValida(isValid);
         if (!isValid) {
             setError('La contraseña actual no es correcta')
@@ -156,7 +162,7 @@ export const RegistroCompleto = () => {
 
     // Cambio de contraseña: para mostrar un botón u otro. 
     const validarPasswordNueva = (
-        password !== store.userData.password &&
+        password !== datoUsuario.password &&
         nuevaPassword !== "" &&
         confNuevaPassword !== "" &&
         nuevaPassword === confNuevaPassword
@@ -175,7 +181,7 @@ export const RegistroCompleto = () => {
     const handleClickCambioPw = async (evento) => {
         evento.preventDefault();
         try {
-            const respuesta = await actions.cambiopassword(store.userData.id, nuevaPassword)
+            const respuesta = await actions.cambiopassword(datoUsuario.id, nuevaPassword)
             console.log(respuesta);
 
             if (respuesta) {
@@ -312,11 +318,11 @@ export const RegistroCompleto = () => {
                 <p className="mb-1">Aquí podrás cambiar tu contraseña</p>
                 <div className="row">
                     <div className="col-6">
-                        <div class="mb-3">
+                        <div className="mb-3">
                             {/* Campo para introducir la contraseña actual */}
-                            <label htmlFor="actualpassword" class="form-label text-white">Escribe aquí tu contraseña actual:</label>
+                            <label htmlFor="actualpassword" className="form-label text-white">Escribe aquí tu contraseña actual:</label>
                             <input type="password"
-                                class="form-control"
+                                className="form-control"
                                 id="actualpassword"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -326,20 +332,20 @@ export const RegistroCompleto = () => {
                         </div>
 
                         {/* Campos para nueva contraseña y confirmación de nueva contraseña */}
-                        <div class="mb-3">
-                            <label htmlFor="nuevapassword" class="form-label text-white">Introduce tu nueva contraseña:</label>
+                        <div className="mb-3">
+                            <label htmlFor="nuevapassword" className="form-label text-white">Introduce tu nueva contraseña:</label>
                             <input type="password"
-                                class="form-control"
+                                className="form-control"
                                 id="nuevapassword"
                                 onChange={handleChangeNPassword}
                                 value={nuevaPassword}
                                 required disabled={!esValida}
                             />
                         </div>
-                        <div class="mb-3">
-                            <label htmlFor="confnuevapassword" class="form-label text-white">Confirma tu nueva contraseña:</label>
+                        <div className="mb-3">
+                            <label htmlFor="confnuevapassword" className="form-label text-white">Confirma tu nueva contraseña:</label>
                             <input type="password"
-                                class="form-control"
+                                className="form-control"
                                 id="confnuevapassword"
                                 onChange={handleChangeCNPassword}
                                 value={confNuevaPassword}

@@ -16,113 +16,109 @@ import { FaTelegram } from "react-icons/fa";
 
 export const Links = () => {
     return (
-        <div className="container-fluid">
-            <div>
-                <Jumbotron imagenFondo={{ backgroundImage: `url(${jumbo_links})`, backgroundPosition: 'center 68%' }} subtitulo={"Noto esa rabia que, joder, me va y me viene"} referencia={'home'} ></Jumbotron>
-            </div>
-            <div className="row">
-                <div className="col">
-                    <div className={`text-center ${styles.titulocol}`}>
-                        PERFILES OFICIALES DE SIENNA
-                    </div>
-                    <div className="row mt-3" >
-                        <div className="col d-flex flex-column align-items-center">
-                            <a href="https://www.siennaoficial.com" target="_blank">
-                                <TbTriangleInverted fontSize={"35"} />
-                            </a>
-                            <p>Web Oficial</p>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col d-flex flex-column align-items-center">
-                            <a href="https://www.https://www.instagram.com/siennamusica/" target="_blank">
-                                <FaInstagram fontSize={"30"} />
-                            </a>
-                            <p>Instagram</p>
-
-                        </div>
-                        <div className="col d-flex flex-column align-items-center">
-                            <a href="https://www.https://https://www.tiktok.com/@sienna.musica" target="_blank">
-                                <FaTiktok fontSize={"30"} />
-                            </a>
-                            <p>TikTok</p>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col d-flex flex-column align-items-center">
-                            <a href="https://twitter.com/siennamusica" target="_blank">
-                                <FaXTwitter fontSize={"30"} />
-                            </a>
-                            <p>Twitter / X</p>
-
-                        </div>
-                        <div className="col d-flex flex-column align-items-center">
-                            <a href="https://www.facebook.com/siennamusica" target="_blank">
-                                <FaFacebook fontSize={"30"} />
-                            </a>
-                            <p>Facebook</p>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col d-flex flex-column align-items-center">
-                            <a href="https://youtube.com/@siennamusica" target="_blank">
-                                <FaYoutube fontSize={"30"} />
-                            </a>
-                            <p>Youtube</p>
-
-                        </div>
-                        <div className="col d-flex flex-column align-items-center">
-                            <a href="https://open.spotify.com/intl-es/artist/4PSNWFX3rYscMdKRp59uYA?si=hZEyrlKYQcGZN6wTPZaoFg" target="_blank">
-                                <FaSpotify fontSize={"30"} />
-                            </a>
-                            <p>Spotify</p>
-                        </div>
-                    </div>
-
-                </div>
+        <>
+            <Jumbotron imagenFondo={{ backgroundImage: `url(${jumbo_links})`, backgroundPosition: 'center 68%' }} subtitulo={"Noto esa rabia que, joder, me va y me viene"} referencia={'home'} ></Jumbotron>
 
 
-                <div className="col">
-                    <div className="row">
+            <div className="container-fluid">
+                <div className="row">
+                    {/* Columna para los links oficiales de Sienna */}
+                    <div className="col-12 col-md-6 order-0 order-md-1">
                         <div className={`text-center ${styles.titulocol}`}>
-                            PERFILES DEL CLUB DE FANS
+                            PERFILES OFICIALES DE SIENNA
                         </div>
-                        <div className="row mt-3">
+                        <div className="row mt-3" >
                             <div className="col d-flex flex-column align-items-center">
-                                <a href="https://t.me/+meErawrgpUtmNmI8" target="_blank">
-                                    <FaTelegram fontSize={"30"} />
+                                <a href="https://www.siennaoficial.com" target="_blank">
+                                    <TbTriangleInverted fontSize={"35"} />
                                 </a>
-                                <p>Grupo de Telegram SiennaCharts</p>
+                                <p>Web Oficial</p>
                             </div>
                         </div>
-                        <div className="row mt-5">
+                        <div className="row">
                             <div className="col d-flex flex-column align-items-center">
-                                <a href="https://www.instagram.com/siennacharts/" target="_blank">
+                                <a href="https://www.instagram.com/siennamusica/" target="_blank">
                                     <FaInstagram fontSize={"30"} />
                                 </a>
-                                <p>Instagram Team Sienna</p>
+                                <p>Instagram</p>
                             </div>
-                        </div>
-
-                        <div className="row mt-5">
                             <div className="col d-flex flex-column align-items-center">
-                                <a href="https:https://www.tiktok.com/@sienna.charts" target="_blank">
+                                <a href="https://www.tiktok.com/@sienna.musica" target="_blank">
                                     <FaTiktok fontSize={"30"} />
                                 </a>
-                                <p>TikTok Sienna.Charts</p>
+                                <p>TikTok</p>
                             </div>
                         </div>
 
+                        <div className="row">
+                            <div className="col d-flex flex-column align-items-center">
+                                <a href="https://twitter.com/siennamusica" target="_blank">
+                                    <FaXTwitter fontSize={"30"} />
+                                </a>
+                                <p>Twitter / X</p>
+                            </div>
+                            <div className="col d-flex flex-column align-items-center">
+                                <a href="https://www.facebook.com/siennamusica" target="_blank">
+                                    <FaFacebook fontSize={"30"} />
+                                </a>
+                                <p>Facebook</p>
+                            </div>
+                        </div>
 
+                        <div className="row">
+                            <div className="col d-flex flex-column align-items-center">
+                                <a href="https://youtube.com/@siennamusica" target="_blank">
+                                    <FaYoutube fontSize={"30"} />
+                                </a>
+                                <p>Youtube</p>
+                            </div>
+                            <div className="col d-flex flex-column align-items-center">
+                                <a href="https://open.spotify.com/intl-es/artist/4PSNWFX3rYscMdKRp59uYA?si=hZEyrlKYQcGZN6wTPZaoFg" target="_blank">
+                                    <FaSpotify fontSize={"30"} />
+                                </a>
+                                <p>Spotify</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Columna para los links del Club de Fans */}
+                    <div className="col-12 col-md-6 order-1 order-md-1 ">
+                        <div className="row">
+                            <div className={`text-center ${styles.titulocol}`}>
+                                PERFILES DEL CLUB DE FANS
+                            </div>
+                            <div className="row mt-3">
+                                <div className="col d-flex flex-column align-items-center">
+                                    <a href="https://t.me/+meErawrgpUtmNmI8" target="_blank">
+                                        <FaTelegram fontSize={"30"} />
+                                    </a>
+                                    <p>Grupo de Telegram SiennaCharts</p>
+                                </div>
+                            </div>
+                            <div className="row mt-5">
+                                <div className="col d-flex flex-column align-items-center">
+                                    <a href="https://www.instagram.com/siennacharts/" target="_blank">
+                                        <FaInstagram fontSize={"30"} />
+                                    </a>
+                                    <p>Instagram Team Sienna</p>
+                                </div>
+                            </div>
+
+                            <div className="row mt-5">
+                                <div className="col d-flex flex-column align-items-center">
+                                    <a href="https://www.tiktok.com/@sienna.charts" target="_blank">
+                                        <FaTiktok fontSize={"30"} />
+                                    </a>
+                                    <p>TikTok Sienna.Charts</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
             </div>
-
-        </div>
+        </>
 
     )
 }

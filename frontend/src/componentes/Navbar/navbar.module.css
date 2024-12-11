@@ -1,26 +1,64 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Grape+Nuts&display=swap");
 
 .login_signup {
-    font-family: "Caveat", cursive;
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
-    margin-right: 3%;
-    
-  }
-
-  @font-face {
-    font-family: 'NavBarFont';
-    src: url("../../assets/JMH\ Typewriter.otf");
+  font-family: "Grape", cursive;
+  display: flex;
+  gap: 15px;
+  font-size: 18px;
+  font-style: normal;
+  margin-right: 5%;
+}
+.login_signup button {
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-
-.enlaces{
-    font-family: 'NavBarFont';
-    font-size: 12px;
+.login_signup button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.font_name{
+.login_signup button:active {
+  transform: scale(0.95);
+}
+
+@font-face {
+  font-family: "NavBarFont";
+  src: url("../../assets/JMH\ Typewriter.otf");
+}
+
+.enlaces {
+  font-family: "NavBarFont";
+}
+
+.font_name {
   color: black;
+  margin-right: 90px;
+}
+
+.font_name:hover {
+  color: #8f00ff;
+}
+
+.font_name:focus,
+.font_name:active {
+  color: 8f00ff;
+  outline: none;
+  box-shadow: none;
+}
+
+.mi_perfil {
+  color: black;
+  text-decoration: none;
+}
+
+.mi_perfil:hover {
+  color: #8f00ff; /* Color morado al pasar el ratón */
+}
+
+.mi_perfil:focus,
+.mi_perfil:active {
+  color: #8f00ff; /* Color morado cuando está enfocado o activo */
+  outline: none;
+  box-shadow: none;
 }

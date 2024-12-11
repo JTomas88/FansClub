@@ -1,5 +1,5 @@
 .form{
-    color:black !important
+    color: white;
 }
 
 label{
@@ -13,5 +13,9 @@ li:hover{
 
 li{
     font-size: 1rem;
+}
+
+.tabla{
+    background-color: white;
 }
 

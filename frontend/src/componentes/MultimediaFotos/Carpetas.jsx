@@ -30,7 +30,7 @@ export const Carpetas = ({ setCarpetaSeleccionada }) => {
                             key={index}
                             onClick={() => seleccionarCarpeta(carpeta)} //Click simple selecciona la carpeta
                             style={{
-                                border: carpetaClicada === carpeta.name ? "5px solid blue" : "none",
+                                border: carpetaClicada === carpeta.name ? "5px solid purple" : "none",
                                 padding: "10px",
                                 margin: "10px",
                                 textAlign: "center",

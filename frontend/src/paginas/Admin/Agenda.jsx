@@ -256,9 +256,6 @@ export const Agenda = () => {
     }
 
 
-    // useEffect(() => {
-    //     actions.buscarlocalidad()
-    // }, []);
 
 
     return (
@@ -266,7 +263,7 @@ export const Agenda = () => {
         <div className="container-fluid">
             <div>
                 {/* <!-- Button trigger modal --> */}
-                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalcrearEvento">
+                <button type="button" className="btn btn-primary mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#modalcrearEvento">
                     Añadir Evento
                 </button>
             </div>
@@ -491,9 +488,9 @@ export const Agenda = () => {
                                                 <div className="modal-body">
                                                     ¿Seguro que deseas eliminar este evento?
                                                 </div>
-                                                <div class="modal-footer">
+                                                <div className="modal-footer">
 
-                                                    <button type="button" data-bs-dismiss="modal" class="btn btn-primary" onClick={(ev) => eliminar_evento(evento, ev)}>Eliminar</button>
+                                                    <button type="button" data-bs-dismiss="modal" className="btn btn-primary" onClick={(ev) => eliminar_evento(evento, ev)}>Eliminar</button>
                                                 </div>
                                             </div>
                                         </div>

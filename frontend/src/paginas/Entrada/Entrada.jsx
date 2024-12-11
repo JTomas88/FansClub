@@ -20,7 +20,7 @@ export const Entrada = () => {
 
     const sideStyle = (delay) => ({
         fill: "none",
-        stroke: "#00ffff",
+        stroke: "#8F00FF",
         strokeWidth: "2",
         strokeLinecap: "round",
         strokeDasharray: "100",
