@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "../../store/AppContext";
 import { LuPencil } from "react-icons/lu";
 import { MdOutlineDelete } from "react-icons/md";
@@ -18,8 +18,13 @@ export const GestionSorteos = () => {
     const [miniaturas, setMiniaturas] = useState([]);
     const [sorteoSeleccionado, setSorteoSeleccionado] = useState('');
     const [error, setError] = useState('')
+    const [sorteoAEliminar, setSorteoAEliminar] = useState('')
+    const fileInputRef = useRef(null)
+    const hoy = new Date().toISOString().split('T')[0];
+    const [errorFecha, setErrorFecha] = useState('')
+    const [ganador, setGanador] = useState('')
 
-    //Para obtener todas las entrevistas
+    //Para obtener todos los sorteos
     useEffect(() => {
         actions.obtenerSorteos();
     }, [])
@@ -40,7 +45,7 @@ export const GestionSorteos = () => {
 
     };
 
-    //Función para SUBIR FOTOS al input de imágenes en la entrevista
+    //Función para SUBIR FOTOS al input de imágenes en la sorteo
     const subirFoto_entrevista = async (archivos) => {
         const formData = new FormData();
         archivos.forEach(file => {
@@ -86,7 +91,7 @@ export const GestionSorteos = () => {
 
         } catch (error) {
             console.error("Error durante la llamada al servicio:", error);
-            setError("Error al guardar los datos de la entrevista")
+            setError("Error al guardar los datos de la sorteo")
         }
     };
 
@@ -132,6 +137,10 @@ export const GestionSorteos = () => {
         setFechaFin('');
         setImagen("")
         setMiniaturas([])
+
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
     }
 
     const formatearFechaInicio = (fecha) => {
@@ -173,33 +182,94 @@ export const GestionSorteos = () => {
         setImagen(imagenesArray);
     };
 
-    //Función para eliminar una entrevista por su id
+    //Función para eliminar una sorteo por su id
     const eliminar_sorteo = async (idSorteo) => {
 
         try {
-            const resultado = await actions.eliminarSorteo(idSorteo)
-            console.log("Entrevista eliminada con éxito", resultado)
-            actions.obtenerSorteos()
+            await actions.eliminarSorteo(idSorteo)
+            await actions.obtenerSorteos()
         } catch (error) {
-            console.error("Error durante la eliminación de la entrevista:", error)
+            console.error("Error durante la eliminación del sorteo:", error)
+        }
+    }
+
+    const onChangeFechaInicio = (evento) => {
+        const nuevaFecha = evento.target.value;
+        setFechaInicio(nuevaFecha); // Actualizamos el estado con lo que el usuario escribe
+        setErrorFecha(''); // Limpiamos el error si el usuario está escribiendo
+    };
+
+    const onBlurFechaInicio = () => {
+        // Comprobamos si la fecha tiene el formato correcto
+        if (fechaInicio.length === 10) {
+            const hoy = new Date().toISOString().split('T')[0]; // Fecha actual en formato yyyy-mm-dd
+            if (fechaInicio < hoy) {
+                setErrorFecha('La fecha de inicio no puede ser menor que hoy');
+            } else {
+                setErrorFecha(''); // Limpiamos cualquier error si la fecha es válida
+            }
+        } else {
+            setErrorFecha('Por favor, ingresa una fecha válida en formato yyyy-mm-dd');
+        }
+    };
+
+
+    const onChangeFechaFin = (evento) => {
+        const nuevaFecha = evento.target.value;
+        setFechaFin(nuevaFecha); // Actualizamos el estado con lo que el usuario escribe
+        setErrorFecha(''); // Limpiamos el error si el usuario está escribiendo
+    };
+
+    const onBlurFechaFin = () => {
+        // Comprobamos si la fecha tiene el formato correcto
+        if (fechaFin.length === 10) {
+            const hoy = new Date().toISOString().split('T')[0]; // Fecha actual en formato yyyy-mm-dd
+            if (fechaFin < hoy) {
+                setErrorFecha('La fecha de inicio no puede ser menor que hoy');
+            } else {
+                setErrorFecha(''); // Limpiamos cualquier error si la fecha es válida
+            }
+        } else {
+            setErrorFecha('Por favor, ingresa una fecha válida en formato yyyy-mm-dd');
+        }
+    };
+
+    const sortear = async (idSorteo) => {
+        const sorteosActualizados = store.sorteos;
+        const sorteoSeleccionado = sorteosActualizados.find((sorteo) => sorteo.sorId === idSorteo);
+        const ganadorIndex = Math.floor(Math.random() * (sorteoSeleccionado.participantes.length - 1)) + 1;
+        const datosGanador = await actions.obtenerUsuarioPorId(ganadorIndex)
+        await actions.obtenerSorteos()
+        console.log('Datos Ganador: ', datosGanador);
+        setGanador(datosGanador);
+        if (ganador) {
+            anadir_resultado(idSorteo, ganador.id)
+        }
+    }
+
+    // Función para añadir resultado (componente, flux y backend) - pasarle id del sorteo e id ganador
+    const anadir_resultado = async (idSorteo, ganador) => {
+        try {
+            await actions.anadirResultado(idSorteo, ganador);
+        } catch (error) {
+            console.error('Error al anadir el resultado')
         }
     }
 
 
 
-
     return (
         <div className={styles.cuerpo_gestionSorteos}>
-            {/* Sección para crear entrevistas */}
+            {/* Sección para crear sorteos */}
             <h2 className="text-center">Gestión de Sorteos</h2>
-            <button className="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button className="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#crearSorteo">
                 Crear nuevo SORTEO
             </button>
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="crearSorteo" tabIndex="-1" aria-labelledby="crearSorteoLabel" aria-hidden="true">
                 <div className="modal-dialog modal-xl modal-dialog-scrollable">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" style={{ color: "black" }} id="exampleModalLabel">Sorteo</h1>
+                            <h1 className="modal-title fs-5" style={{ color: "black" }} id="crearSorteoLabel">Sorteo</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
@@ -219,15 +289,16 @@ export const GestionSorteos = () => {
 
                                 <div className="mb-3">
                                     <label htmlFor="fechainicio" className="form-label">Fecha Inicio</label>
-                                    <input type="date" className="form-control" id="fechainicio" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
+                                    <input type="date" className="form-control" id="fechainicio" value={fechaInicio} min={hoy} onChange={onChangeFechaInicio} onBlur={onBlurFechaInicio} />
+                                    {errorFecha && <div className="alert alert-danger" role="alert">{errorFecha}</div>}
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="fechafin" className="form-label">Fecha Fin</label>
-                                    <input type="date" className="form-control" id="fechafin" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
+                                    <input type="date" className="form-control" id="fechafin" value={fechaFin} min={hoy} onChange={onChangeFechaFin} onBlur={onBlurFechaFin} />
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="fotos" className="form-label">Fotos</label>
-                                    <input className="form-control" type="file" id="fotos" multiple onChange={manejarArchivos} />
+                                    <input className="form-control" type="file" id="fotos" multiple onChange={manejarArchivos} ref={fileInputRef} />
                                 </div>
                                 <div className="mb-3 d-flex flex-wrap">
                                     {miniaturas.map((url, index) => (
@@ -249,7 +320,7 @@ export const GestionSorteos = () => {
                                     ))}
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="submit" className="btn btn-primary">Guardar datos</button>
+                                    <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" >Guardar datos</button>
                                 </div>
                             </form>
                         </div>
@@ -270,15 +341,15 @@ export const GestionSorteos = () => {
                             <h6 className="card-text mb-2">{formatearFechaFin(sorteo.sorFechaFin)}</h6>
 
                             {/* Abierto modal para editar el sorteo */}
-                            <div >
-                                <button className="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#editarEntrevista" onClick={() => abrirModalEditar(sorteo)}>
+                            <div>
+                                <button className={`btn btn-primary p-2 ${styles.espacio_botones}`} data-bs-toggle="modal" data-bs-target="#editarSorteo" onClick={() => abrirModalEditar(sorteo)}>
                                     <LuPencil />
                                 </button>
-                                <div className="modal fade" id="editarEntrevista" tabIndex="-1" aria-labelledby="editarEntrevistaLabel" aria-hidden="true">
+                                <div className="modal fade" id="editarSorteo" tabIndex="-1" aria-labelledby="editarSorteoLabel" aria-hidden="true">
                                     <div className="modal-dialog">
                                         <div className="modal-content">
                                             <div className="modal-header">
-                                                <h1 className="modal-title fs-5" id="editarEntrevistaLabel">{nombreSorteo}</h1>
+                                                <h1 className="modal-title fs-5" id="editarSorteoLabel">{nombreSorteo}</h1>
                                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div className="modal-body">
@@ -294,11 +365,11 @@ export const GestionSorteos = () => {
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="fechainicio" className="form-label">Fecha Inicio</label>
-                                                        <input type="date" className="form-control" id="fechainicio" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
+                                                        <input type="date" className="form-control" id="fechainicio" value={fechaInicio} min={hoy} onChange={onChangeFechaInicio} onBlur={onBlurFechaInicio} />
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="fechafin" className="form-label">Fecha Fin</label>
-                                                        <input type="date" className="form-control" id="fechafin" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
+                                                        <input type="date" className="form-control" id="fechafin" value={fechaFin} min={hoy} onChange={onChangeFechaFin} onBlur={onBlurFechaFin} />
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="fotos" className="form-label">Imagenes sorteo</label>
@@ -331,18 +402,16 @@ export const GestionSorteos = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div>
                                 {/* Para eliminar un sorteo */}
-                                <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleliminarentrevista">
+                                <button className="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#modaleliminarSorteo" onClick={() => setSorteoAEliminar(sorteo.sorId)}>
                                     <MdOutlineDelete />
                                 </button>
-                                <div className="modal fade" id="modaleliminarentrevista" tabIndex="-1" aria-labelledby="modaleliminarEntrevistaLabel" aria-hidden="true">
+                                <div className="modal fade" id="modaleliminarSorteo" tabIndex="-1" aria-labelledby="modaleliminarSorteoLabel" aria-hidden="true">
                                     <div className="modal-dialog">
                                         <div className="modal-content">
                                             <div className="modal-header">
-                                                <h1 className="modal-title fs-5" id="modaleliminarEntrevistaLabel">Eliminar Entrevista</h1>
+                                                <h1 className="modal-title fs-5" id="modaleliminarSorteoLabel">Eliminar sorteo</h1>
                                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div className="modal-body">
@@ -350,12 +419,23 @@ export const GestionSorteos = () => {
                                             </div>
                                             <div className="modal-footer">
 
-                                                <button type="button" data-bs-dismiss="modal" className="btn btn-primary" onClick={() => eliminar_sorteo(sorteo.sorId)}>Eliminar sorteo</button>
+                                                <button type="button" data-bs-dismiss="modal" className="btn btn-primary" onClick={() => eliminar_sorteo(sorteoAEliminar)}>Eliminar sorteo</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div className="row mt-4">
+                                <button type="button " className="btn btn-danger" onClick={() => sortear(sorteo.sorId)}>Realizar sorteo</button>
+
+                            </div>
+                            <div className="row mt-4">
+                                {sorteo.sorResultado && <button type="button " className="btn btn-success" >Ver ganador</button>
+                                }
+
+                            </div>
+
+
                         </div>
                     </div>
                 ))}

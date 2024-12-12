@@ -11,11 +11,14 @@ export const Sorteos = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [datoUsuario, setDatoUsuario] = useState({})
+  const [participaciones, setParticipaciones] = useState({})
 
 
   useEffect(() => {
     actions.obtenerSorteos();
   }, [])
+
+
 
   useEffect(() => {
     try {
@@ -31,16 +34,40 @@ export const Sorteos = () => {
     }
   }, []);
 
+
+
   const participarEnSorteo = async (sorteoID) => {
     const userID = datoUsuario?.id;
-
     try {
       await actions.participarEnSorteo(sorteoID, userID);
+      await actions.obtenerSorteos()
+      const sorteosActualizados = store.sorteos;
+      // Comprobar si el usuario está en la lista de participantes del sorteo
+      const sorteoActualizado = sorteosActualizados.find((sorteo) => sorteo.id === sorteoID);
+      const haParticipado = sorteoActualizado?.participantes?.includes(userID);
+      // Actualizar el estado del botón o de las participaciones
+      setParticipaciones((prev) => ({
+        ...prev,
+        [sorteoID]: haParticipado,
+      }));
       alert("Se ha recibido tu participación en el sorteo!");
     } catch (error) {
       alert('Hay un problema con tu participación')
     }
   }
+
+
+  useEffect(() => {
+    const inicializarParticipaciones = () => {
+      const participacionesIniciales = store.sorteos.reduce((acc, sorteo) => {
+        acc[sorteo.sorId] = sorteo.participantes?.includes(datoUsuario?.id) || false;
+        return acc;
+      }, {});
+      setParticipaciones(participacionesIniciales);
+    };
+
+    inicializarParticipaciones();
+  }, [store.sorteos, datoUsuario]);
 
 
 
@@ -199,15 +226,20 @@ export const Sorteos = () => {
                 </div>
               </div>
               <button
-                className={styles.flotante}
-                onClick={() => participarEnSorteo(sorteo.sorId)}
+                className={`btn ${participaciones[sorteo.sorId]
+                  ? `btn-secondary ${styles.boton_inactivo}`
+                  : "btn-primary"
+                  } ${styles.flotante}`} onClick={() => participarEnSorteo(sorteo.sorId)}
+                disabled={participaciones[sorteo.sorId]} // Deshabilitar si ya participó
               >
-                Participar
+                {participaciones[sorteo.sorId]
+                  ? "Estás participando en este sorteo"
+                  : "Participar"}
               </button>
             </div>
           ))
         ) : (
-          <p className="text-center">No hay entrevistas disponibles.</p>
+          <p className="text-center">No hay sorteos disponibles.</p>
         )}
       </div>
     </>

@@ -47,7 +47,7 @@ export const Fotos = () => {
                 </div>
 
                 {/* Pasamos la carpeta seleccionada a VisorFotos */}
-                <div>
+                <div className="mb-5">
                     <VisorComponente carpetaSeleccionada={carpetaSeleccionada} />
                 </div>
 

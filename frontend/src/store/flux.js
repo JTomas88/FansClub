@@ -32,6 +32,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             sorteos: [],
 
+            participaciones: [],
+
         },
 
         actions: {
@@ -130,7 +132,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                             direccion: data.usDireccion || '',
                             rol: data.usRol || '',
                             token: objetoUsuario.token || '',
-                            id: objetoUsuario.id || ''
+                            id: data.usId || ''
 
                         }
                         // Guardar el objeto en localStorage (caché del navegador)
@@ -140,6 +142,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                             userData: detallesUsuario
                         });
                         console.log("Store actualizado: ", getStore());
+                        return detallesUsuario;
                     }
                 } catch (error) {
                     console.error('Error al obtener los detalles del usuario ', error)
@@ -817,6 +820,29 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
                 } catch (error) {
                     console.error('Error en la solicitud de eliminación: ', error)
+                }
+            },
+
+
+            anadirResultado: async (sorteoId, userId) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/resultado/${sorteoId}`,
+                        {
+                            method: "POST",
+                            body: JSON.stringify({ id: userId }),
+                            headers: { "Content-Type": "application/json" },
+                        })
+                    if (respuesta.ok) {
+                        console.log("Resultado añadido con exito.");
+
+                    } else {
+                        console.log('Problema al añadir el resultado.');
+                    }
+
+                } catch (error) {
+                    console.error('Error al crear la participación en el sorteo: ', error)
+
                 }
             },
 
