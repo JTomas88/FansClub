@@ -1,146 +1,91 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import Timeline from "@mui/lab/Timeline";
+import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineDot from "@mui/lab/TimelineDot";
+import { Box } from "@mui/material";
 import styles from "../Timeline/timeline.module.css";
-import { Chrono } from "react-chrono";
-import portadatragicoyfugaz from "../../assets/portadas_discos/portadatragicoyfugaz.jpg";
-import portadatiemposdeimpacto from "../../assets/portadas_discos/portadatiemposdeimpacto.jpg";
-import portadamelancolic from "../../assets/portadas_discos/portadamelancolic.jpeg";
-import portadatrance from "../../assets/portadas_discos/portadatrance.jpg";
+import tragicoyfugaz from "../../assets/portadas_discos/portadatragicoyfugaz.jpg";
+import melancolic from "../../assets/portadas_discos/portadamelancolic.jpeg";
+import tiempos from "../../assets/portadas_discos/portadatiemposdeimpacto.jpg";
+import trance from "../../assets/portadas_discos/portadatrance.jpg";
 
-export const Timeline = () => {
-    useEffect(() => {
-        const addBlurEffect = () => {
-            const elements = document.querySelectorAll(".hIeDvv, .dHWHqM");
-            elements.forEach((element) => {
-                if (!element.querySelector(`.${styles.blurBackground}`)) {
-                    const blurDiv = document.createElement("div");
-                    blurDiv.className = styles.blurBackground;
-                    blurDiv.style.position = "absolute";
-                    blurDiv.style.top = "0";
-                    blurDiv.style.left = "0";
-                    blurDiv.style.right = "0";
-                    blurDiv.style.bottom = "0";
-                    blurDiv.style.zIndex = "-1";
+export const TimelineComponent = () => {
+  const [selectedItem, setSelectedItem] = useState(null);
 
-                    element.insertBefore(blurDiv, element.firstChild);
-                }
-            });
-        };
+  /**
+   * Con esta función controlamos el contenido que queremos desplegar
+   * @param {*} index
+   */
+  const handleDotClick = (index) => {
+    setSelectedItem(selectedItem === index ? null : index);
+  };
 
-        const timeoutId = setTimeout(addBlurEffect, 100);
-        return () => clearTimeout(timeoutId);
-    }, []);
+  /**
+   * Objeto que se utiliza para almacenar la información de los discos
+   */
+  const timelineData = [
+    { img: tragicoyfugaz, text: "2017 - Trágico y Fugaz" },
+    { img: tiempos, text: "2020 - Tiempos de impacto" },
+    { img: melancolic, text: "2021 - Melancolic" },
+    { img: trance, text: "2024 - Trance" },
+  ];
 
-    return (
-        <div className="container mt-5">
-            <style>
-                {`
-            .ToolbarWrapper-sc-cif21b-6 {
-                display: none !important; /* Oculta la barra de herramientas */
-            }
-            .gJAGSz.active {
-                background: #ffdf0000;
-                color: #007FFF !important;
-            }
-            .hFrYSD {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 1.5rem;
-                height: 1.5rem;
-                position: absolute;
-                top: calc(50%);
-                background: #ffffff;
-                transform: translateY(-50%) rotate(225deg);
-                z-index: -2; /* Cambia el z-index aquí */
-                right: -8px;
-            }
-            .dHWHqM {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 1.5rem;
-                height: 1.5rem;
-                position: absolute;
-                top: calc(50%);
-                background: #ffffff;
-                transform: translateY(-50%) rotate(225deg);
-                z-index: -2;
-                left: -8px;
-            }
-            .TimelineContentDetails-sc-d7qjm1-5 {
-                font-size: 0.9rem !important;
-                text-align: justify;
-            }
-            .bzKFtd {
-              display: flex;
-              align-items: center;
-              justify-content: center;   
-            }
-            .iiIORr {
-              align-items: center;
-              display: flex;
-              flex-direction: column;
-              margin: 0 auto;
-              margin-top: 0.5em;
-              margin-bottom: 0.5em;
-              position: relative;
-              max-height: 150px;
-              overflow-x: hidden;
-              overflow-y: auto;
-              scrollbar-color: #007FFF default;
-              scrollbar-width: thin;
-              transition: max-height 0.25s ease-in-out;
-              width: calc(95% - 0.5rem);
-            }      
-
-                
-        `}
-            </style>
-            <Chrono
-                items={[
-                    {
-                        title: "2008-2009",
-                        cardDetailedText: `Álex da sus prrimeros pasos como cantante en concursos infantiles. Más tarde en audiciones a ciegas de "La Voz y en castings como el del musical de "El Rey León"`,
-                    },
-                    {
-                        title: "2017",
-                        media: {
-                            type: "IMAGE",
-                            source: { url: portadatragicoyfugaz },
-                        },
-                        cardDetailedText: `Debut como Sienna con el álbum Trágico y fugaz`,
-                    },
-                    {
-                        title: "2020",
-                        media: {
-                            type: "IMAGE",
-                            source: { url: portadatiemposdeimpacto },
-                        },
-                        cardDetailedText: `Tiempos de impacto: Sienna ya forma parte del panorama musical en España`,
-                    },
-                    {
-                        title: "2021",
-                        media: {
-                            type: "IMAGE",
-                            source: { url: portadamelancolic },
-                        },
-                        cardDetailedText: `Se lanza Melancolic, una introspección a los sentimientos`,
-                    },
-                    {
-                        title: "2024",
-                        media: {
-                            type: "IMAGE",
-                            source: { url: portadatrance },
-                        },
-                        cardDetailedText: `Se publica Trance: un disco con nuevos sonidos donde se suelta la rabia más humana.`,
-                    },
-                ].reverse()}
-                mode="VERTICAL_ALTERNATING"
-                cardHeight={200}
-                mediaHeight={200}
-                cardWidth={200}
-                hideControls={true}
+  return (
+    <Timeline position="alternate">
+      {timelineData.map((data, index) => (
+        <TimelineItem key={index}>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <TimelineDot
+              onClick={() => handleDotClick(index)}
+              sx={{
+                cursor: "pointer",
+                backgroundColor: selectedItem === index ? "blue" : "grey",
+                transition: "background-color 0.3s ease",
+                width: "20px",
+                height: "20px",
+              }}
             />
-        </div>
-    );
+            {index < timelineData.length - 1 && (
+              <TimelineConnector
+                sx={{
+                  bgcolor: selectedItem === index ? "blue" : "secondary.main",
+                  width: 2,
+                }}
+              />
+            )}
+          </Box>
+          <TimelineContent>
+            <div
+              className={`${styles.boxInfo} ${
+                selectedItem === index ? styles.expanded : ""
+              }`}
+            >
+              {selectedItem === index ? (
+                <div className={styles.expandedContent}>
+                  <img
+                    src={data.img}
+                    alt={`Portada ${index + 1}`}
+                    className={styles.image}
+                  />
+                  <br />
+                  <p>{data.text}</p>
+                </div>
+              ) : (
+                <div>
+                  <img
+                    src={data.img}
+                    alt={`Portada ${index + 1}`}
+                    className={styles.mini_image}
+                  ></img>
+                  <p>{data.text}</p>
+                </div>
+              )}
+            </div>
+          </TimelineContent>
+        </TimelineItem>
+      ))}
+    </Timeline>
+  );
 };
