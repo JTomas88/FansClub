@@ -1,57 +1,62 @@
 ul {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 @font-face {
-    font-family: 'Trance';
-    src: url("../../assets//whoaskssatan.ttf");
-    font-weight: bold;
-    font-style: normal;
+  font-family: "Trance";
+  src: url("../../assets//whoaskssatan.ttf");
+  font-weight: bold;
+  font-style: normal;
 }
 
 .tranceVideos {
-    font-family: 'Trance';
-    font-size: 60px;
-    color: white;
+  font-family: "Trance";
+  font-size: 60px;
+  color: white;
 }
 
 .canciones {
-    font-size: 20px;
-    color: ghostwhite
+  font-size: 20px;
+  color: ghostwhite;
 }
 
 .contenedor {
-    min-height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: start;
-
+  min-height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: start;
 }
 
 @media (max-width: 768px) {
+  /* Contenedor de títulos y reproductor centrado en móviles */
+  .vistaMovil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
 
-    /* Contenedor de títulos y reproductor centrado en móviles */
-    .vistaMovil {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 20px;
-    }
+  iframe {
+    width: 390px;
+    max-width: auto;
+    height: 219px;
+  }
 
-    iframe {
-        width: 390px;
-        max-width: auto;
-        height: 219px;
-    }
+  .tranceVideos {
+    font-family: "Trance";
+    font-size: 40px;
+    color: white;
+  }
+}
 
-    .tranceVideos {
-        font-family: 'Trance';
-        font-size: 40px;
-        color: white;
-    }
+.enlace {
+  text-decoration: none;
+  color: white; /* color por defecto */
+  transition: color 0.3s ease; /* para suavizar el cambio de color */
+}
 
-
-
-
+/* Efecto de hover para cambiar el color a morado */
+.enlace:hover {
+  color: purple; /* color morado al pasar el ratón */
 }

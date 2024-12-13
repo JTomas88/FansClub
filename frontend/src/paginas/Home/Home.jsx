@@ -4,6 +4,7 @@ import imgJumbo from "../../assets/imagenes_jumbotron/JumboHome.png"
 import { SliderHome } from "../../componentes/Slider/SliderHome";
 import { Videos } from "../../componentes/Videos/Videos";
 import { AgendaConciertos } from "../../componentes/AgendaConciertos/AgendaConciertos";
+import styles from "./home.module.css"
 
 export const Home = () => {
     return (
@@ -21,9 +22,10 @@ export const Home = () => {
 
                 <div className="d-flex justify-content-center align-items-center text-center">
                     <iframe
+                        className={styles.spotify_iframe}
                         style={{ borderRadius: "12px" }}
                         src="https://open.spotify.com/embed/artist/4PSNWFX3rYscMdKRp59uYA?utm_source=generator&theme=0&autoplay=1"
-                        width="50%"
+                        width="30%"
                         height="100"
                         frameBorder="0"
                         allowFullScreen

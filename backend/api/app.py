@@ -697,6 +697,23 @@ def eliminarSorteo(sorId):
     except Exception as Error:
         db.session.rollback()
         return jsonify({"Error": str(Error)}), 500
+    
+@app.route('/resultado/<int:sorId>', methods = ['POST'])
+def anadirResultado(sorId):
+    sorteo = Sorteo.query.get(sorId)
+    data = request.json
+    id_ganador = data.get('id')
+
+    if not sorteo:
+        return jsonify({"message": "Sorteo no encontrado"}), 404
+    
+    user = Usuario.query.get(id_ganador)
+    if user:
+        sorteo.sorResultado = user.usId
+        db.session.commit()
+        return jsonify({"message": "Ganador guardado con exito"}), 200
+    else:
+        return jsonify({"message": "Usuario no encontrado"}), 404
 
 
 ## -------------------------------------- >> SORTEOS - VISTA USUARIO-<< ----------------------------------- ##   
@@ -707,12 +724,12 @@ def participar_en_sorteo(sorteo_id):
     sorteo = Sorteo.query.get(sorteo_id)
     data = request.json
     print('Datos del participante: ', data)
-    id_participante = data
+    id_participante = data.get('id')
 
     if not sorteo:
         return jsonify({"message": "Sorteo no encontrado"}), 404
 
-    if id_participante in [user.id for user in sorteo.usuarios]:
+    if id_participante in [usuario.usId for usuario in sorteo.usuarios]:
         return jsonify({"message": "Ya estás participando en este sorteo"}), 400
 
     user = Usuario.query.get(id_participante)

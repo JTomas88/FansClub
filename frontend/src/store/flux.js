@@ -32,6 +32,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             sorteos: [],
 
+            participaciones: [],
+
         },
 
         actions: {
@@ -91,7 +93,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                     });
                     const data = await respuesta.json();
                     setStore({
-                        ...store,
                         usuarios: data
                     });
                 } catch (error) {
@@ -101,7 +102,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
             //Obtener un usuario a través de su id
-            obtenerUsuarioPorId: async () => {
+            obtenerUsuarioPorId: async (idUsuario) => {
                 const store = getStore();
 
                 if (!store.userData.id) {
@@ -109,7 +110,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     return;
                 }
                 try {
-                    const respuesta = await fetch(`${store.backendUrl}/todoslosusuarios/${store.userData.id}`, {
+                    const respuesta = await fetch(`${store.backendUrl}/todoslosusuarios/${idUsuario}`, {
                         method: 'GET'
                     });
                     if (!respuesta.ok) {
@@ -118,26 +119,30 @@ const getState = ({ getStore, getActions, setStore }) => {
                     const data = await respuesta.json()
                     console.log('Datos del usuario recibidos: ', data)
                     if (data) {
+                        const objetoUsuario = JSON.parse(localStorage.getItem('userData'))
                         const detallesUsuario = {
-                            ...store.userData, //cogemos lo que hay en userData, y lo actualizamos con lo siguiente
                             email: data.usEmail,
                             password: data.usPssword,
-                            userName: data.usUsername,
+                            username: data.usUsername,
                             nombre: data.usNombre || '',
                             apellidos: data.usApellidos || '',
                             telefono: data.usTelefono || '',
                             provincia: data.usProvincia || '',
                             pueblo: data.usPueblo || '',
-                            direccion: data.usDireccion || ''
+                            direccion: data.usDireccion || '',
+                            rol: data.usRol || '',
+                            token: objetoUsuario.token || '',
+                            id: data.usId || ''
+
                         }
                         // Guardar el objeto en localStorage (caché del navegador)
                         localStorage.setItem('userData', JSON.stringify(detallesUsuario));
 
                         setStore({
-                            ...store,
                             userData: detallesUsuario
                         });
                         console.log("Store actualizado: ", getStore());
+                        return detallesUsuario;
                     }
                 } catch (error) {
                     console.error('Error al obtener los detalles del usuario ', error)
@@ -169,6 +174,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
                     const data = await respuesta.json();
                     console.log('Datos de usuario: ', data)
+                    const objetoUsuario = JSON.parse(localStorage.getItem('userData'))
                     const datosUsuario = {
                         id: data.usId,
                         email: data.usEmail,
@@ -178,7 +184,9 @@ const getState = ({ getStore, getActions, setStore }) => {
                         pueblo: data.usPueblo,
                         provincia: data.usProvincia,
                         direccion: data.usDireccion,
-                        token: data.usToken
+                        token: data.usToken,
+                        username: objetoUsuario.username
+
                     };
                     localStorage.setItem('userData', JSON.stringify(datosUsuario))
 
@@ -222,6 +230,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                             userData: datoUsuario
                         });
                         console.log("Datos:", data)
+                        return (datoUsuario)
                     } else {
                         console.error("Error con token:", data)
                     }
@@ -297,20 +306,9 @@ const getState = ({ getStore, getActions, setStore }) => {
                 const store = getStore();
 
                 localStorage.clear();
+                localStorage.removeItem("userData");
                 setStore({
-                    ...store,
-                    userData: {
-                        token: null,
-                        id: '',
-                        email: null,
-                        userName: null,
-                        nombre: null,
-                        apellidos: null,
-                        telefono: null,
-                        pueblo: null,
-                        provincia: null,
-                        direccion: null
-                    }
+                    userData: null
                 })
             },
 
@@ -372,7 +370,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                     if (data) {
                         setStore({
-                            ...store,
                             eventos: data
                         });
                         console.log("Success:", data);
@@ -394,7 +391,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                     });
                     const data = await respuesta.json();
                     setStore({
-                        ...store,
                         eventos: data
                     });
 
@@ -424,7 +420,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
                     const data = await respuesta.json();
                     setStore({
-                        ...store,
                         eventos: store.eventos.map((evt) => (evt.id === eventoId ? { ...evt, ...evento } : evt))
                     });
                     console.log('Evento actualizado:', data);
@@ -445,7 +440,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                         console.log('Evento eliminado exitosamente');
                         const updateEventos = store.eventos.filter(evs => evs.id !== eventoid);
                         setStore({
-                            ...store,
                             eventos: updateEventos
                         })
                     } else {
@@ -479,7 +473,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                     //Se actualizan los datos del store. 
                     setStore({
-                        ...store,
                         usuarios: store.usuarios.map(usuario => usuario.usId === id ? { ...usuario, usRol: data.rol } : usuario)
                     });
 
@@ -501,7 +494,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                         console.log('Usuario eliminado con éxito');
                         const usuariosactuales = store.usuarios.filter(usuario => usuario.id !== usuarioId);
                         setStore({
-                            ...store,
                             usuarios: usuariosactuales
                         })
                     } else {
@@ -528,7 +520,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
                     const carpetaCreada = await respuesta.json();
                     setStore({
-                        ...store,
                         carpetasFotos: [...store.carpetasFotos, carpetaCreada]
                     })
                     return carpetaCreada
@@ -551,7 +542,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
                     const carpetas = await respuesta.json()
                     setStore({
-                        ...store,
                         carpetasFotos: carpetas
                     });
 
@@ -610,7 +600,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                     if (data) {
                         setStore({
-                            ...store,
                             entrevistas: data
                         });
                         console.log("Success:", data);
@@ -656,7 +645,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                     });
                     const data = await respuesta.json()
                     setStore({
-                        ...store,
                         entrevistas: data
                     });
                 } catch (error) {
@@ -717,7 +705,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                         console.log("Entrevista eliminada con éxito");
                         const entrevistasActivas = store.entrevistas.filter(entrevista => entrevista.id !== id);
                         setStore({
-                            ...store,
                             entrevistas: entrevistasActivas
                         })
                     } else {
@@ -758,7 +745,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                     if (data) {
                         setStore({
-                            ...store,
                             sorteos: data
                         });
                         console.log("success: ", data)
@@ -809,7 +795,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                     });
                     const data = await respuesta.json()
                     setStore({
-                        ...store,
                         sorteos: data
                     });
                 } catch (error) {
@@ -828,7 +813,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                         console.log("Sorteo eliminado con éxito");
                         const sorteosActivos = store.sorteos.filter(sorteo => sorteo.id !== id);
                         setStore({
-                            ...store,
                             sorteos: sorteosActivos
                         })
                     } else {
@@ -836,6 +820,29 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
                 } catch (error) {
                     console.error('Error en la solicitud de eliminación: ', error)
+                }
+            },
+
+
+            anadirResultado: async (sorteoId, userId) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/resultado/${sorteoId}`,
+                        {
+                            method: "POST",
+                            body: JSON.stringify({ id: userId }),
+                            headers: { "Content-Type": "application/json" },
+                        })
+                    if (respuesta.ok) {
+                        console.log("Resultado añadido con exito.");
+
+                    } else {
+                        console.log('Problema al añadir el resultado.');
+                    }
+
+                } catch (error) {
+                    console.error('Error al crear la participación en el sorteo: ', error)
+
                 }
             },
 

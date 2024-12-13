@@ -7,25 +7,26 @@ export const Admin = () => {
     return (
         <div>
             <div className={`cointainer row ${styles.body_admin}`}>
+                <h3 className="text-dark text-center"><strong> PERFIL DE ADMINISTRADOR</strong></h3>
 
                 <Link className="d-flex justify-content-center align-items-center" to="/admin/gestionusuarios">
-                    <button type="button" class="btn btn-light">Gestión de usuarios</button>
+                    <button type="button" className="btn btn-light">Gestión de usuarios</button>
                 </Link>
 
                 <Link className="d-flex justify-content-center align-items-center" to="/admin/agenda">
-                    <button type="button" class="btn btn-light">Agenda (Gira y conciertos)</button>
+                    <button type="button" className="btn btn-light">Agenda (Gira y conciertos)</button>
                 </Link>
 
                 <Link className="d-flex justify-content-center align-items-center" to="/admin/gestiongalerias">
-                    <button type="button" class="btn btn-light">Fotografías</button>
+                    <button type="button" className="btn btn-light">Fotografías</button>
                 </Link>
 
                 <Link className="d-flex justify-content-center align-items-center" to="/admin/gestionentrevistas">
-                    <button type="button" class="btn btn-light">Entrevistas</button>
+                    <button type="button" className="btn btn-light">Entrevistas</button>
                 </Link>
 
                 <Link className="d-flex justify-content-center align-items-center" to="/admin/gestionsorteos">
-                    <button type="button" class="btn btn-light">Sorteos</button>
+                    <button type="button" className="btn btn-light">Sorteos</button>
                 </Link>
 
 

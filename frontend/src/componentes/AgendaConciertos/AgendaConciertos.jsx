@@ -12,74 +12,74 @@ export const AgendaConciertos = () => {
         actions.admin_obtenereventos(); // 
     }, []); // 
 
-    useEffect(() => {
-        let camera, scene, renderer;
-        let smokeParticles = [];
-        const clock = new THREE.Clock();
+    // useEffect(() => {
+    //     let camera, scene, renderer;
+    //     let smokeParticles = [];
+    //     const clock = new THREE.Clock();
 
-        const init = () => {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(
-                95,
-                window.innerWidth / window.innerHeight,
-                1,
-                10000
-            );
-            camera.position.z = 1000;
+    //     const init = () => {
+    //         scene = new THREE.Scene();
+    //         camera = new THREE.PerspectiveCamera(
+    //             95,
+    //             window.innerWidth / window.innerHeight,
+    //             1,
+    //             10000
+    //         );
+    //         camera.position.z = 1000;
 
-            renderer = new THREE.WebGLRenderer();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.domElement.style.position = 'absolute';
-            renderer.domElement.style.top = '0';
-            renderer.domElement.style.height = '236px';
-            renderer.domElement.style.left = '0';
-            renderer.domElement.style.zIndex = '-1';
-            mountRef.current.appendChild(renderer.domElement);
+    //         renderer = new THREE.WebGLRenderer();
+    //         renderer.setSize(window.innerWidth, window.innerHeight);
+    //         renderer.domElement.style.position = 'absolute';
+    //         renderer.domElement.style.top = '0';
+    //         renderer.domElement.style.height = '236px';
+    //         renderer.domElement.style.left = '0';
+    //         renderer.domElement.style.zIndex = '-1';
+    //         mountRef.current.appendChild(renderer.domElement);
 
-            const smokeTexture = new THREE.TextureLoader().load(
-                'https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png'
-            );
-            const smokeMaterial = new THREE.MeshLambertMaterial({
-                color: 0x01dddd,
-                map: smokeTexture,
-                transparent: true,
-            });
-            const smokeGeo = new THREE.PlaneGeometry(300, 300);
+    //         const smokeTexture = new THREE.TextureLoader().load(
+    //             'https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png'
+    //         );
+    //         const smokeMaterial = new THREE.MeshLambertMaterial({
+    //             color: 0x01dddd,
+    //             map: smokeTexture,
+    //             transparent: true,
+    //         });
+    //         const smokeGeo = new THREE.PlaneGeometry(300, 300);
 
-            for (let p = 0; p < 150; p++) {
-                const particle = new THREE.Mesh(smokeGeo, smokeMaterial);
-                particle.position.set(
-                    Math.random() * 500 - 250,
-                    Math.random() * 500 - 250,
-                    Math.random() * 1000 - 100
-                );
-                particle.rotation.z = Math.random() * 360;
-                scene.add(particle);
-                smokeParticles.push(particle);
-            }
+    //         for (let p = 0; p < 150; p++) {
+    //             const particle = new THREE.Mesh(smokeGeo, smokeMaterial);
+    //             particle.position.set(
+    //                 Math.random() * 500 - 250,
+    //                 Math.random() * 500 - 250,
+    //                 Math.random() * 1000 - 100
+    //             );
+    //             particle.rotation.z = Math.random() * 360;
+    //             scene.add(particle);
+    //             smokeParticles.push(particle);
+    //         }
 
-            const light = new THREE.DirectionalLight(0xffffff,);
-            light.position.set(0, -1, 1);
-            scene.add(light);
+    //         const light = new THREE.DirectionalLight(0xffffff,);
+    //         light.position.set(0, -1, 1);
+    //         scene.add(light);
 
-            const animate = () => {
-                requestAnimationFrame(animate);
-                const delta = clock.getDelta();
-                smokeParticles.forEach((particle) => {
-                    particle.rotation.z += delta * 0.6;
-                });
-                renderer.render(scene, camera);
-            };
+    //         const animate = () => {
+    //             requestAnimationFrame(animate);
+    //             const delta = clock.getDelta();
+    //             smokeParticles.forEach((particle) => {
+    //                 particle.rotation.z += delta * 0.6;
+    //             });
+    //             renderer.render(scene, camera);
+    //         };
 
-            animate();
-        };
+    //         animate();
+    //     };
 
-        init();
+    //     init();
 
-        // return () => {
-        //     mountRef.current.removeChild(renderer.domElement);
-        // };
-    }, []);
+    //     // return () => {
+    //     //     mountRef.current.removeChild(renderer.domElement);
+    //     // };
+    // }, []);
 
     const formateoFecha = (fechaString) => {
         const fecha = new Date(fechaString);
@@ -95,10 +95,10 @@ export const AgendaConciertos = () => {
             <h2 className={styles.tit_agenda}>Próximos conciertos</h2>
 
             <div
-                ref={mountRef}
-                style={{ position: "relative", width: "100%", height: "40vh" }}
+            // ref={mountRef}
+            // style={{ position: "relative", width: "100%", height: "40vh" }}
             >
-                <div className="container mt-5">
+                <div className={`container mt-5 ${styles.fondo}`}>
 
                     <div className={styles.tablaResponsiva}>
                         <table className={`table table-dark text-center ${styles.tabla}`}>

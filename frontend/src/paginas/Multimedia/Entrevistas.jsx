@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/AppContext";
+import { useNavigate } from "react-router-dom";
 import styles from "./entrevistas.module.css";
 import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
 import Jumbo_entrevistas from "../../assets/imagenes_jumbotron/Jumbo_entrevistas.png"
@@ -7,12 +8,27 @@ import Jumbo_entrevistas from "../../assets/imagenes_jumbotron/Jumbo_entrevistas
 
 export const Entrevistas = () => {
     const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+    const [datoUsuario, setDatoUsuario] = useState('')
 
 
     useEffect(() => {
         actions.obtenerEntrevistas();
     }, [])
 
+    useEffect(() => {
+        try {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (!userData || !userData.token || !userData.email) {
+                navigate('/home');
+            } else {
+                setDatoUsuario(userData);
+            }
+        } catch (error) {
+            console.error('Error al obtener datos de localStorage:', error);
+            navigate('/home');
+        }
+    }, []);
 
 
     return (
@@ -93,13 +109,13 @@ export const Entrevistas = () => {
                                             let imagenIndex = 0; // Para recorrer las imágenes
                                             return (
                                                 <>
-                                                    <div className="row">
+                                                    <div className="row" style={{ fontSize: '15px' }}>
                                                         {parrafos.map((parrafo, index) => {
                                                             // Verificamos si ya hemos asignado una imagen
                                                             const mostrarImagen = (index % imagenesPorParrafo === 0) && imagenIndex < totalImagenes;
 
                                                             return (
-                                                                <div key={index} className="col-md-12 mb-3" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                                                <div key={index} className="col-md-12 mb-1" style={{ display: 'flex', flexDirection: 'column' }}>
                                                                     {/* Párrafo con texto */}
                                                                     <p style={{ textAlign: 'justify' }}>{parrafo}</p>
 

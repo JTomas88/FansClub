@@ -20,9 +20,6 @@ export const Videos = () => {
      * return () => window.removeEventListener("resize", comprobarEsMovil) --> se elimina la escucha del addEventListener para que deje de estar pendiente
      * cuando el componente ya está cargado y sabe en qué tipo de pantalla estamos. 
      */
-
-
-
     useEffect(() => {
         const comprobarEsMovil = () => setEsPantallaMovil(window.matchMedia("(max-width: 768px").matches)
         comprobarEsMovil()
@@ -47,16 +44,16 @@ export const Videos = () => {
                 <div className={`container ${styles.vistaMovil}`}>
                     <div className="row" style={{ fontSize: "14px" }}>
                         <div className="col">
-                            <a onClick={() => seleccionClick('https://www.youtube.com/embed/0qEnQmvJ_nY?si=TIC5jR2Y1AcAbOag')}> Creí que era eterno || </a>
-                            <a onClick={() => seleccionClick("https://www.youtube.com/embed/oe53HQUuLOo?si=MfD7LBouYOhtTG22")}> Como un animal  <br></br> </a>
-                            <a onClick={() => seleccionClick("https://www.youtube.com/embed/CQ6MuTnah64?si=sZimXX6BvR_TllmU")}> Tu fiel jodida mitad || </a>
-                            <a onClick={() => seleccionClick("https://www.youtube.com/embed/XEE7iUa_UjQ?si=_1ofSyCUyIAm1wSz")}> Esto no es el cielo <br></br></a>
-                            <a onClick={() => seleccionClick("https://www.youtube.com/embed/IFongdRgrF0?si=9pezlhz8JtAIJN2E")}> No se puede frenar || </a>
-                            <a onClick={() => seleccionClick('https://www.youtube.com/embed/lFThDfOLfuw?si=UvrO6EztR7PP5rpd')}> Fuera (x3) <br></br></a>
-                            <a onClick={() => seleccionClick("https://www.youtube.com/embed/nLTVNPHoeaQ?si=RydnWjv24We3tnBz")}> Cristales en mi mente ||</a>
-                            <a onClick={() => seleccionClick("https://www.youtube.com/embed/duwFCGCozJM?si=_OBZCMzIVAHhfEbT")}> Un poco cabrón <br></br></a>
-                            <a onClick={() => seleccionClick("https://www.youtube.com/embed/1oE3gFWVvUc?si=uov33rNB80BTl7A8")}> Tengo que soltar ||</a>
-                            <a onClick={() => seleccionClick("https://www.youtube.com/embed/MvCpIp4_2XE?si=rMsVFcciiMfP6O3H")}> Siempre es lo mismo  </a>
+                            <a className={styles.enlace} onClick={() => seleccionClick('https://www.youtube.com/embed/0qEnQmvJ_nY?si=TIC5jR2Y1AcAbOag')}> Creí que era eterno || </a>
+                            <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/oe53HQUuLOo?si=MfD7LBouYOhtTG22")}> Como un animal  <br></br> </a>
+                            <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/CQ6MuTnah64?si=sZimXX6BvR_TllmU")}> Tu fiel jodida mitad || </a>
+                            <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/XEE7iUa_UjQ?si=_1ofSyCUyIAm1wSz")}> Esto no es el cielo <br></br></a>
+                            <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/IFongdRgrF0?si=9pezlhz8JtAIJN2E")}> No se puede frenar || </a>
+                            <a className={styles.enlace} onClick={() => seleccionClick('https://www.youtube.com/embed/lFThDfOLfuw?si=UvrO6EztR7PP5rpd')}> Fuera (x3) <br></br></a>
+                            <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/nLTVNPHoeaQ?si=RydnWjv24We3tnBz")}> Cristales en mi mente ||</a>
+                            <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/duwFCGCozJM?si=_OBZCMzIVAHhfEbT")}> Un poco cabrón <br></br></a>
+                            <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/1oE3gFWVvUc?si=uov33rNB80BTl7A8")}> Tengo que soltar ||</a>
+                            <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/MvCpIp4_2XE?si=rMsVFcciiMfP6O3H")}> Siempre es lo mismo  </a>
                         </div>
                     </div>
 
@@ -80,9 +77,9 @@ export const Videos = () => {
                     {/* Acceso para pantalla escritorio */}
                     <div className="row d-flex align-items-center justify-content-center">
                         <div className="col-4 text-center" style={{ fontSize: "15px" }}>
-                            <ul>
-                                <li> <a onClick={() => seleccionClick('https://www.youtube.com/embed/0qEnQmvJ_nY?si=TIC5jR2Y1AcAbOag')}> Creí que era eterno </a></li>
-                                <li> <a onClick={() => seleccionClick("https://www.youtube.com/embed/oe53HQUuLOo?si=MfD7LBouYOhtTG22")}> Como un animal </a></li>
+                            <ul >
+                                <li> <a className={styles.enlace} onClick={() => seleccionClick('https://www.youtube.com/embed/0qEnQmvJ_nY?si=TIC5jR2Y1AcAbOag')}> Creí que era eterno </a></li>
+                                <li> <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/oe53HQUuLOo?si=MfD7LBouYOhtTG22")}> Como un animal </a></li>
 
                             </ul>
                         </div>
@@ -90,9 +87,9 @@ export const Videos = () => {
                     <div className="row d-flex align-items-center justify-content-center" style={{ fontSize: "15px" }}>
                         <div className="col-3">
                             <ul>
-                                <li> <a onClick={() => seleccionClick("https://www.youtube.com/embed/CQ6MuTnah64?si=sZimXX6BvR_TllmU")}> Tu fiel jodida mitad </a></li>
-                                <li> <a onClick={() => seleccionClick("https://www.youtube.com/embed/XEE7iUa_UjQ?si=_1ofSyCUyIAm1wSz")}> Esto no es el cielo </a></li>
-                                <li> <a onClick={() => seleccionClick("https://www.youtube.com/embed/IFongdRgrF0?si=9pezlhz8JtAIJN2E")}> No se puede frenar </a></li>
+                                <li> <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/CQ6MuTnah64?si=sZimXX6BvR_TllmU")}> Tu fiel jodida mitad </a></li>
+                                <li> <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/XEE7iUa_UjQ?si=_1ofSyCUyIAm1wSz")}> Esto no es el cielo </a></li>
+                                <li> <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/IFongdRgrF0?si=9pezlhz8JtAIJN2E")}> No se puede frenar </a></li>
                             </ul>
                         </div>
 
@@ -112,9 +109,9 @@ export const Videos = () => {
 
                         <div className="col-3" >
                             <ul>
-                                <li> <a onClick={() => seleccionClick('https://www.youtube.com/embed/lFThDfOLfuw?si=UvrO6EztR7PP5rpd')}> Fuera (x3) </a></li>
-                                <li> <a onClick={() => seleccionClick("https://www.youtube.com/embed/nLTVNPHoeaQ?si=RydnWjv24We3tnBz")}> Cristales en mi mente</a></li>
-                                <li> <a onClick={() => seleccionClick("https://www.youtube.com/embed/duwFCGCozJM?si=_OBZCMzIVAHhfEbT")}> Un poco cabrón </a></li>
+                                <li> <a className={styles.enlace} onClick={() => seleccionClick('https://www.youtube.com/embed/lFThDfOLfuw?si=UvrO6EztR7PP5rpd')}> Fuera (x3) </a></li>
+                                <li> <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/nLTVNPHoeaQ?si=RydnWjv24We3tnBz")}> Cristales en mi mente</a></li>
+                                <li> <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/duwFCGCozJM?si=_OBZCMzIVAHhfEbT")}> Un poco cabrón </a></li>
                             </ul>
                         </div>
                     </div>
@@ -122,8 +119,8 @@ export const Videos = () => {
                     <div className="row d-flex align-items-center justify-content-center" style={{ fontSize: "15px" }}>
                         <div className="col-4 text-center">
                             <ul>
-                                <li> <a onClick={() => seleccionClick("https://www.youtube.com/embed/1oE3gFWVvUc?si=uov33rNB80BTl7A8")}> Tengo que soltar </a></li>
-                                <li> <a onClick={() => seleccionClick("https://www.youtube.com/embed/MvCpIp4_2XE?si=rMsVFcciiMfP6O3H")}> Siempre es lo mismo </a></li>
+                                <li> <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/1oE3gFWVvUc?si=uov33rNB80BTl7A8")}> Tengo que soltar </a></li>
+                                <li> <a className={styles.enlace} onClick={() => seleccionClick("https://www.youtube.com/embed/MvCpIp4_2XE?si=rMsVFcciiMfP6O3H")}> Siempre es lo mismo </a></li>
                             </ul>
                         </div>
                     </div>

@@ -42,15 +42,9 @@ function App() {
             <Route path="/admin/gestionentrevistas" element={<GestionEntrevistas />} />
             <Route path="/admin/gestionsorteos" element={<GestionSorteos />} />
             <Route path="/links" element={<Links />} />
-
-
             <Route path="/galeriasfotos" element={<Fotos />} />
             <Route path="/entrevistas" element={<Entrevistas />} />
             <Route path="/sorteos" element={<Sorteos />} />
-
-
-
-
 
           </Routes>
         </div>

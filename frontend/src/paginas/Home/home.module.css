@@ -1,0 +1,12 @@
+.spotify_iframe {
+  .spotify-iframe {
+    max-width: 600px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .spotify_iframe {
+    height: 80px; /* Reduce la altura en pantallas medianas */
+  }
+}

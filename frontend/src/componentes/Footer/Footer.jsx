@@ -17,11 +17,11 @@ export const Footer = () => {
                             <FaInstagram fontSize={"20"} />
                         </a>
                     </div>
-                    <div className="col-1">
+                    {/* <div className="col-1">
                         <a href="https://x.com" target="_blank">
                             <RiTwitterXLine fontSize={"20"} />
                         </a>
-                    </div>
+                    </div> */}
                     <div className="col-1">
                         <a href="https://tiktok.com" target="_blank">
                             <BsTiktok fontSize={"20"} />

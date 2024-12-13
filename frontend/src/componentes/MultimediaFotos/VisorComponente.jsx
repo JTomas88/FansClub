@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/AppContext";
+import styles from "./visorcomponente.module.css";
 
 export const VisorComponente = ({ carpetaSeleccionada }) => {
     const { store, actions } = useContext(Context);
@@ -67,7 +68,8 @@ export const VisorComponente = ({ carpetaSeleccionada }) => {
                         style={{
                             margin: "0 auto",
                             position: "relative",
-                            zIndex: 10
+                            zIndex: 10,
+                            minHeight: '600px'
                         }}
                     >
                         {/* Indicadores */}
@@ -86,19 +88,16 @@ export const VisorComponente = ({ carpetaSeleccionada }) => {
                         </div>
 
                         {/* Contenedor de imágenes */}
-                        <div className="carousel-inner" style={{ height: "100%" }}>
+                        <div className={`carousel-inner ${styles.carruinner}`}>
                             {fotos.map((foto, index) => (
-                                <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
+                                <div
+                                    key={index}
+                                    className={`carousel-item  ${index === 0 ? "active" : ""}`}
+                                >
                                     <img
                                         src={foto.secure_url}
-                                        className="d-block"
+                                        className={`d-block ${styles.carousel_image}`}
                                         alt={`Foto ${index}`}
-                                        style={{
-                                            maxHeight: "100%",
-                                            maxWidth: "100%",
-                                            objectFit: "contain",
-                                            margin: "0 auto"
-                                        }}
                                     />
                                 </div>
                             ))}

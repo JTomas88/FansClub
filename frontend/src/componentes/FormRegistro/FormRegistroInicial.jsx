@@ -42,7 +42,7 @@ export const FormRegistroInicial = () => {
                 <form onSubmit={(event) => registro(event, email, username, password)} >
                     {error && <div className="alert alert-danger" role="alert">{error}</div>}
                     <div className="mb-3">
-                        <label htmlFor="inputEmail" className="form-label">Correo Electronico</label>
+                        <label htmlFor="inputEmail" className="form-label text-white">Correo Electronico</label>
                         <input type="email"
                             className="form-control"
                             id="inputEmail"
@@ -53,7 +53,7 @@ export const FormRegistroInicial = () => {
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="inputUsuario" className="form-label">Nombre de usuario</label>
+                        <label htmlFor="inputUsuario" className="form-label text-white ">Nombre de usuario</label>
                         <input type="text"
                             className="form-control"
                             id="inputUsuario"
@@ -63,7 +63,7 @@ export const FormRegistroInicial = () => {
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="inputPassword" className="form-label">Contraseña</label>
+                        <label htmlFor="inputPassword" className="form-label text-white">Contraseña</label>
                         <input type="password"
                             className="form-control"
                             id="inputPassword"
@@ -71,11 +71,11 @@ export const FormRegistroInicial = () => {
                         </input>
                     </div>
 
-                    <div className="mb-3 form-check">
+                    <div className="mb-3 form-check text-start">
                         <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                        <label className="form-check-label" htmlFor="exampleCheck1">Recordar mis datos</label>
+                        <label className="form-check-label text-white" htmlFor="exampleCheck1">Recordar mis datos</label>
                     </div>
-                    <button type="submit" className="btn btn-primary">Enviar</button>
+                    <button type="submit" className="btn btn-light">Enviar</button>
                     <p className="text-secondary fst-italic pt-2">¿Ya tienes una cuenta?<Link to="/inicioSesion"><button className="btn text-primary fw-bold">¡Inicia sesión!</button></Link></p>
                 </form>
             </div>
