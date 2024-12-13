@@ -1,109 +1,126 @@
 .blurBackground {
-    filter: blur(10px);
-    z-index: -1;
-    border-radius: 8px;
+  filter: blur(10px);
+  z-index: -1;
+  border-radius: 8px;
 }
 
 .hFrYSD {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    position: absolute;
-    top: calc(50%);
-    background: #ffffff;
-    transform: translateY(-50%) rotate(225deg);
-    z-index: -2;
-    right: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  top: calc(50%);
+  background: #ffffff;
+  transform: translateY(-50%) rotate(225deg);
+  z-index: -2;
+  right: -8px;
 }
 
 /* Configuración para el div que contiene la información */
-.boxInfo,
+.boxInfo {
+  width: 30%;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  height: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  /* margin: 0 auto; */
+  position: relative;
+  transition: all 0.3s ease;
+}
 .box_info_right {
-    width: 30%;
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    height: 85%;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    margin: 0 auto;
-    position: relative;
-    transition: all 0.3s ease;
+  width: 30%;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  height: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin: 0 auto;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
 /* Flechas */
 .arrow_left {
-    position: absolute;
-    top: 50%;
-    left: -10px;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 10px solid white;
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid white;
 }
 
 .arrow_right {
-    position: absolute;
-    top: 50%;
-    right: -10px;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 10px solid white;
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid white;
 }
 
 /* Estado expandido */
 .expanded {
-    width: 50%;
-    height: 390px;
-    transition: all 0.3s ease;
+  width: 50%;
+  height: 390px;
+  transition: all 0.3s ease;
 }
 
 /* Contenido expandido */
 .expandedContent {
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-    transition: opacity 0.3s ease-in-out;
-    opacity: 1;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
 }
 
 .image {
-    width: 300px;
-    height: auto;
-    margin-top: 10px;
-    border-radius: 10px;
-    border: 1px solid black;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .mini_image {
-    width: 100px;
-    height: auto;
-    border-radius: 10px;
-    border: 1px solid black;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  width: 100px;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .buttons_content {
-    border-radius: 20px;
-    background-color: cadetblue;
+  border-radius: 20px;
+  background-color: cadetblue;
 }
 
 /* Configuración para dispositivos móviles */
 @media (max-width: 768px) {
-    .boxInfo,
-    .box_info_right {
-        width: 80%;
-        margin: 0 auto;
-    }
+  .boxInfo,
+  .box_info_right {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+.css-n2vkcm-MuiTimelineDot-root {
+  height: 250px;
 }

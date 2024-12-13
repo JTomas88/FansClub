@@ -12,6 +12,7 @@ export const Sorteos = () => {
   const navigate = useNavigate();
   const [datoUsuario, setDatoUsuario] = useState({})
   const [participaciones, setParticipaciones] = useState({})
+  const [mostrarBoton, setMostrarBoton] = useState(false)
 
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export const Sorteos = () => {
     const userID = datoUsuario?.id;
     try {
 
-      const sorteo = store.sorteos.find((sorteo) => sorteo.id === sorteoID)
+      const sorteo = store.sorteos.find((sorteo) => sorteo.sorId === sorteoID)
       if (!sorteo) {
         alert('El sorteo no existe o no se ha encontrado')
         return
@@ -84,6 +85,22 @@ export const Sorteos = () => {
   }, [store.sorteos, datoUsuario]);
 
 
+  useEffect(() => {
+    if (store?.sorteos) {
+      const sorteos = store.sorteos;
+      const hoy = new Date();
+      const activos = sorteos.filter(sorteo => new Date(sorteo.sorFechaInicio) <= hoy && new Date(sorteo.sorFechaFin) >= hoy)
+      console.log('Sorteos activos: ', activos)
+      if (activos) {
+        setMostrarBoton(true)
+      } else { setMostrarBoton(false) }
+
+    } else {
+      alert('No se han encontrado sorteos')
+    }
+  }, [])
+
+
 
   return (
     <>
@@ -107,151 +124,162 @@ export const Sorteos = () => {
         style={{ color: "black" }}
       >
         {store.sorteos && store.sorteos.length > 0 ? (
-          store.sorteos.map((sorteo, index) => (
-            <div
-              key={index}
-              className={`${styles.contenedor} p-4 mb-5`}
-              style={{
-                width: "80%",
-                backgroundColor: "#f9f9f9",
-                borderRadius: "10px",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                position: "relative",
-                paddingBottom: "60px",
-              }}
-            >
+          store.sorteos.map((sorteo, index) => {
 
-              <div className="row mb-3">
-                <div
-                  className="col-6"
-                  style={{
-                    maxHeight: "400px",
-                    overflowY: "auto",
-                    overflowX: "hidden",
-                    paddingRight: "10px",
-                  }}
-                >
-                  {/* Nombre sorteo */}
-                  <h2 className={styles.titular}>{sorteo.sorNombre}</h2>
-                  <hr></hr>
+            const hoy = new Date();
+            const fechaInicio = new Date(sorteo.sorFechaInicio);
+            const fechaFin = new Date(sorteo.sorFechaFin);
+            const esActivo = fechaInicio <= hoy && fechaFin >= hoy;
 
-                  {/* Periodo participación */}
-                  <h4>Periodo para participar</h4>
-                  <p>
-                    <strong>Fecha Inicio: </strong>
-                    {new Date(sorteo.sorFechaInicio).toLocaleDateString()}
-                  </p>
-                  <p>
-                    <strong>Fecha Fin: </strong>
-                    {new Date(sorteo.sorFechaFin).toLocaleDateString()}
-                  </p>
-
-                  {/* Descripción del sorteo */}
-                  <h4>Detalles del sorteo</h4>
-                  <p className="text-muted">{sorteo.sorDescripcion}</p>
-                </div>
-
-                {/* IMAGENES */}
-                <div className="col">
-                  {sorteo.sorImagen && sorteo.sorImagen.length > 0 ? (
-                    (() => {
-                      const imagenesSeparadas = sorteo.sorImagen
-                        .split(",")
-                        .map((img) => img.trim());
-                      const recuentoImagenes = imagenesSeparadas.length;
-
-                      if (recuentoImagenes === 1) {
-                        return (
-                          <div className="d-flex justify-content-center">
-                            <img
-                              alt="imagen promocional"
-                              src={imagenesSeparadas[0]}
-                              className="img-fluid mb-5"
-                              style={{
-                                maxHeight: "400px",
-                                objectFit: "cover",
-                                borderRadius: "10px",
-                              }}
-                            />
-                          </div>
-                        );
-                      } else if (recuentoImagenes === 2) {
-                        return (
-                          <div className="d-flex">
-                            {imagenesSeparadas.map((img, imgIndex) => (
-                              <img
-                                key={imgIndex}
-                                alt={`imagen promocional ${imgIndex + 1}`}
-                                src={img}
-                                className="img-fluid mb-3 me-2"
-                                style={{
-                                  width: "48%",
-                                  height: "auto",
-                                  objectFit: "cover",
-                                  borderRadius: "10px",
-                                }}
-                              />
-                            ))}
-                          </div>
-                        );
-                      } else if (recuentoImagenes === 3) {
-                        return (
-                          <div className="d-flex flex-wrap">
-                            {imagenesSeparadas.map((img, imgIndex) => (
-                              <img
-                                key={imgIndex}
-                                alt={`imagen promocional ${imgIndex + 1}`}
-                                src={img}
-                                className="img-fluid mb-3 me-2"
-                                style={{
-                                  width: imgIndex === 0 ? "100%" : "48%",
-                                  height: "auto",
-                                  objectFit: "cover",
-                                  borderRadius: "10px",
-                                }}
-                              />
-                            ))}
-                          </div>
-                        );
-                      } else if (recuentoImagenes === 4) {
-                        return (
-                          <div className="d-flex flex-wrap justify-content-between">
-                            {imagenesSeparadas.map((img, imgIndex) => (
-                              <img
-                                key={imgIndex}
-                                alt={`imagen promocional ${imgIndex + 1}`}
-                                src={img}
-                                className="img-fluid mb-3"
-                                style={{
-                                  width: "48%",
-                                  height: "auto",
-                                  objectFit: "cover",
-                                  borderRadius: "10px",
-                                }}
-                              />
-                            ))}
-                          </div>
-                        );
-                      }
-                    })()
-                  ) : (
-                    <p className="text-muted">No hay imágenes disponibles</p>
-                  )}
-                </div>
-              </div>
-              <button
-                className={`btn ${participaciones[sorteo.sorId]
-                  ? `btn-secondary ${styles.boton_inactivo}`
-                  : "btn-primary"
-                  } ${styles.flotante}`} onClick={() => participarEnSorteo(sorteo.sorId)}
-                disabled={participaciones[sorteo.sorId]} // Deshabilitar si ya participó
+            return (
+              <div
+                key={index}
+                className={`${styles.contenedor} p-4 mb-5`}
+                style={{
+                  width: "80%",
+                  backgroundColor: "#f9f9f9",
+                  borderRadius: "10px",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                  position: "relative",
+                  paddingBottom: "60px",
+                }}
               >
-                {participaciones[sorteo.sorId]
-                  ? "Estás participando en este sorteo"
-                  : "Participar"}
-              </button>
-            </div>
-          ))
+
+                <div className="row mb-3">
+                  <div
+                    className="col-6"
+                    style={{
+                      maxHeight: "400px",
+                      overflowY: "auto",
+                      overflowX: "hidden",
+                      paddingRight: "10px",
+                    }}
+                  >
+                    {/* Nombre sorteo */}
+                    <h2 className={styles.titular}>{sorteo.sorNombre}</h2>
+                    <hr></hr>
+
+                    {/* Periodo participación */}
+                    <h4>Periodo para participar</h4>
+                    <p>
+                      <strong>Fecha Inicio: </strong>
+                      {new Date(sorteo.sorFechaInicio).toLocaleDateString()}
+                    </p>
+                    <p>
+                      <strong>Fecha Fin: </strong>
+                      {new Date(sorteo.sorFechaFin).toLocaleDateString()}
+                    </p>
+
+                    {/* Descripción del sorteo */}
+                    <h4>Detalles del sorteo</h4>
+                    <p className="text-muted">{sorteo.sorDescripcion}</p>
+                  </div>
+
+                  {/* IMAGENES */}
+                  <div className="col">
+                    {sorteo.sorImagen && sorteo.sorImagen.length > 0 ? (
+                      (() => {
+                        const imagenesSeparadas = sorteo.sorImagen
+                          .split(",")
+                          .map((img) => img.trim());
+                        const recuentoImagenes = imagenesSeparadas.length;
+
+                        if (recuentoImagenes === 1) {
+                          return (
+                            <div className="d-flex justify-content-center">
+                              <img
+                                alt="imagen promocional"
+                                src={imagenesSeparadas[0]}
+                                className="img-fluid mb-5"
+                                style={{
+                                  maxHeight: "400px",
+                                  objectFit: "cover",
+                                  borderRadius: "10px",
+                                }}
+                              />
+                            </div>
+                          );
+                        } else if (recuentoImagenes === 2) {
+                          return (
+                            <div className="d-flex">
+                              {imagenesSeparadas.map((img, imgIndex) => (
+                                <img
+                                  key={imgIndex}
+                                  alt={`imagen promocional ${imgIndex + 1}`}
+                                  src={img}
+                                  className="img-fluid mb-3 me-2"
+                                  style={{
+                                    width: "48%",
+                                    height: "auto",
+                                    objectFit: "cover",
+                                    borderRadius: "10px",
+                                  }}
+                                />
+                              ))}
+                            </div>
+                          );
+                        } else if (recuentoImagenes === 3) {
+                          return (
+                            <div className="d-flex flex-wrap">
+                              {imagenesSeparadas.map((img, imgIndex) => (
+                                <img
+                                  key={imgIndex}
+                                  alt={`imagen promocional ${imgIndex + 1}`}
+                                  src={img}
+                                  className="img-fluid mb-3 me-2"
+                                  style={{
+                                    width: imgIndex === 0 ? "100%" : "48%",
+                                    height: "auto",
+                                    objectFit: "cover",
+                                    borderRadius: "10px",
+                                  }}
+                                />
+                              ))}
+                            </div>
+                          );
+                        } else if (recuentoImagenes === 4) {
+                          return (
+                            <div className="d-flex flex-wrap justify-content-between">
+                              {imagenesSeparadas.map((img, imgIndex) => (
+                                <img
+                                  key={imgIndex}
+                                  alt={`imagen promocional ${imgIndex + 1}`}
+                                  src={img}
+                                  className="img-fluid mb-3"
+                                  style={{
+                                    width: "48%",
+                                    height: "auto",
+                                    objectFit: "cover",
+                                    borderRadius: "10px",
+                                  }}
+                                />
+                              ))}
+                            </div>
+                          );
+                        }
+                      })()
+                    ) : (
+                      <p className="text-muted">No hay imágenes disponibles</p>
+                    )}
+                  </div>
+                </div>
+                {esActivo && (
+                  <button
+                    className={`btn ${participaciones[sorteo.sorId]
+                      ? `btn-secondary ${styles.boton_inactivo}`
+                      : "btn-primary"
+                      } ${styles.flotante}`}
+                    onClick={() => participarEnSorteo(sorteo.sorId)}
+                    disabled={participaciones[sorteo.sorId]} // Deshabilitar si ya participó
+                  >
+                    {participaciones[sorteo.sorId]
+                      ? "Estás participando en este sorteo"
+                      : "Participar"}
+                  </button>
+                )}
+              </div>
+            )
+          })
         ) : (
           <p className="text-center">No hay sorteos disponibles.</p>
         )}

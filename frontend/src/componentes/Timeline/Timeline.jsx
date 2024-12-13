@@ -34,9 +34,9 @@ export const TimelineComponent = () => {
 
   return (
     <Timeline position="alternate">
-      {timelineData.map((data, index) => (
+      {timelineData.reverse().map((data, index) => (
         <TimelineItem key={index}>
-          <Box display="flex" flexDirection="column" alignItems="center">
+          <Box display="flex" flexDirection="column" alignItems="center" >
             <TimelineDot
               onClick={() => handleDotClick(index)}
               sx={{
@@ -58,9 +58,8 @@ export const TimelineComponent = () => {
           </Box>
           <TimelineContent>
             <div
-              className={`${styles.boxInfo} ${
-                selectedItem === index ? styles.expanded : ""
-              }`}
+              className={`${styles.boxInfo} ${selectedItem === index ? styles.expanded : ""
+                }`}
             >
               {selectedItem === index ? (
                 <div className={styles.expandedContent}>
