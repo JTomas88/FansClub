@@ -681,6 +681,16 @@ def obtenersorteos():
     return jsonify([sorteo.serialize() for sorteo in sorteos])
 
 
+#Función para obtener un sorteo por ID
+@app.route ('/admin/sorteo/<int:sorId>')
+def obtenerSorteoPorId(sorId):
+    sorteo = Sorteo.query.get(sorId)
+    if sorteo is None:
+        return jsonify({"error": "no se ha encontrado el sorteo"}), 404
+    
+    return jsonify(sorteo.serialize())
+
+
 
 # FUnción para borrar un sorteo por id
 @app.route('/admin/eliminarsorteo/<int:sorId>', methods = ['DELETE'])
@@ -698,6 +708,7 @@ def eliminarSorteo(sorId):
         db.session.rollback()
         return jsonify({"Error": str(Error)}), 500
     
+#Función para añadir el resultado del ganador
 @app.route('/resultado/<int:sorId>', methods = ['POST'])
 def anadirResultado(sorId):
     sorteo = Sorteo.query.get(sorId)

@@ -802,6 +802,39 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
+
+            //Función para obtener un sorteo por ID
+            obtenerSorteoPorId: async (idSorteo) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/admin/sorteo/${idSorteo}`, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    })
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status: ${respuesta.status}`)
+                    }
+                    const data = await respuesta.json()
+                    console.log(('Datos del sorteo: ', data));
+                    if (data) {
+                        const detalleSorteo = {
+                            idSorteo: data.sorId,
+                            nombreSorteo: data.sorNombre,
+                            descripcionSorteo: data.sorDescripcion,
+                            inicioSorteo: data.sorFechaInicio,
+                            finSorteo: data.sorFechaFin,
+                            imagen: data.sorImagen,
+                            resultado: data.sorResultado
+                        }
+                        // setStore({ sorteos: detalleSorteo })
+                        return detalleSorteo;
+                    }
+                } catch (error) {
+                    console.error('Error al obtener los detalles del sorteo: ', error);
+                }
+            },
+
+
             //Función para eliminar un sorteo
             eliminarSorteo: async (id) => {
                 const store = getStore();

@@ -39,6 +39,20 @@ export const Sorteos = () => {
   const participarEnSorteo = async (sorteoID) => {
     const userID = datoUsuario?.id;
     try {
+
+      const sorteo = store.sorteos.find((sorteo) => sorteo.id === sorteoID)
+      if (!sorteo) {
+        alert('El sorteo no existe o no se ha encontrado')
+        return
+      }
+
+      const fechaActual = new Date();
+      const fechaInicio = new Date(sorteo.fechaInicio)
+      const fechaFin = new Date(sorteo.fechaFin)
+      if (fechaActual < fechaInicio || fechaActual > fechaFin) {
+        alert('Este sorteo ya no está activo, no puedes participar')
+      }
+
       await actions.participarEnSorteo(sorteoID, userID);
       await actions.obtenerSorteos()
       const sorteosActualizados = store.sorteos;

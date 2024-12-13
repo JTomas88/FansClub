@@ -237,6 +237,9 @@ export const GestionSorteos = () => {
     const sortear = async (idSorteo) => {
         const sorteosActualizados = store.sorteos;
         const sorteoSeleccionado = sorteosActualizados.find((sorteo) => sorteo.sorId === idSorteo);
+        if (!sorteoSeleccionado || !sorteoSeleccionado.participantes || sorteoSeleccionado.participantes.length === 0) {
+            console.error('No hay participantes en este sorteo, o el sorteo no existe')
+        }
         const ganadorIndex = Math.floor(Math.random() * (sorteoSeleccionado.participantes.length - 1)) + 1;
         const datosGanador = await actions.obtenerUsuarioPorId(ganadorIndex)
         await actions.obtenerSorteos()
@@ -255,6 +258,20 @@ export const GestionSorteos = () => {
             console.error('Error al anadir el resultado')
         }
     }
+
+
+    const buscarSorteo = async (idSorteo) => {
+        try {
+            const datosSorteo = await actions.obtenerSorteoPorId(idSorteo)
+            const datosGanador = await actions.obtenerUsuarioPorId(datosSorteo.resultado)
+            await actions.obtenerSorteos()
+            setGanador(datosGanador)
+        } catch (error) {
+            console.error('Error')
+        }
+    }
+
+
 
 
 
@@ -331,12 +348,11 @@ export const GestionSorteos = () => {
             {/* Sección para mostrar sorteos realizados*/}
             <h2>Sorteos realizados</h2>
 
-            <div className="container d-flex m-3">
+            <div className="container d-flex m-3 flex-wrap">
                 {(Array.isArray(store.sorteos) ? store.sorteos : []).map((sorteo, index) => (
-                    <div className="card" key={index} style={{ width: "18rem", backgroundColor: "PowderBlue" }}>
+                    <div className="card mb-4 me-4" key={index} style={{ width: "18rem", backgroundColor: "PowderBlue" }}>
                         <div className="card-body">
                             <h3 className="card-title">{sorteo.sorNombre}</h3>
-                            <h5 className="card-text mb-2">{sorteo.sorDescripcion}</h5>
                             <h6 className="card-text mb-2">{formatearFechaInicio(sorteo.sorFechaInicio)}</h6>
                             <h6 className="card-text mb-2">{formatearFechaFin(sorteo.sorFechaFin)}</h6>
 
@@ -430,8 +446,9 @@ export const GestionSorteos = () => {
 
                             </div>
                             <div className="row mt-4">
-                                {sorteo.sorResultado && <button type="button " className="btn btn-success" >Ver ganador</button>
+                                {sorteo.sorResultado && <button type="button" onClick={() => buscarSorteo(sorteo.sorId)} className="btn btn-success" data-bs-toggle="modal" data-bs-target="#datosGanador" >Ver ganador</button>
                                 }
+
 
                             </div>
 
@@ -439,6 +456,32 @@ export const GestionSorteos = () => {
                         </div>
                     </div>
                 ))}
+
+                {/*  Modal para mostrar datos del ganador */}
+                <div class="modal fade" id="datosGanador" tabindex="-1" aria-labelledby="datosGanadorLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="datosGanadorLabel">Datos ganador sorteo</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Nombre: {ganador.nombre}</p>
+                                <p>Apellidos: {ganador.apellidos}</p>
+                                <p>Email: {ganador.email}</p>
+                                <p>Teléfono: {ganador.telefono}</p>
+                                <p>Población: {ganador.pueblo}</p>
+                                <p>Provincia: {ganador.provincia}</p>
+                                <p>Dirección: {ganador.direccion}</p>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div >
