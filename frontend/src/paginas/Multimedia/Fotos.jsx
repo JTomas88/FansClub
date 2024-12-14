@@ -15,6 +15,7 @@ export const Fotos = () => {
 
 
 
+    //Para que no se pueda acceder con un perfil diferente al de 'admin//
     useEffect(() => {
         try {
             const userData = JSON.parse(localStorage.getItem('userData'));

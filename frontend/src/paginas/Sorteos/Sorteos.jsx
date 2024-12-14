@@ -259,7 +259,10 @@ export const Sorteos = () => {
                         }
                       })()
                     ) : (
-                      <p className="text-muted">No hay imágenes disponibles</p>
+                      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px" }}>
+                        <p className="text-muted ">No hay imágenes disponibles</p>
+                      </div>
+
                     )}
                   </div>
                 </div>

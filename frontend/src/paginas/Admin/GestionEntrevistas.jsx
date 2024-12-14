@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/AppContext";
 import { LuPencil } from "react-icons/lu";
 import { MdOutlineDelete } from "react-icons/md";
@@ -6,6 +7,8 @@ import styles from "./gestionentrevistas.module.css"
 
 export const GestionEntrevistas = () => {
     const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+    const [datoUsuario, setDatoUsuario] = useState({})
     const [fecha, setFecha] = useState('');
     const [titular, setTitular] = useState('')
     const [subtitulo, setSubtitulo] = useState('')
@@ -27,6 +30,22 @@ export const GestionEntrevistas = () => {
     useEffect(() => {
         actions.obtenerEntrevistas();
     }, [])
+
+
+    //Para que no se pueda acceder con un perfil diferente al de 'admin//
+    useEffect(() => {
+        try {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
+                navigate('/home');
+            } else {
+                setDatoUsuario(userData);
+            }
+        } catch (error) {
+            console.error('Error al obtener datos de localStorage:', error);
+            navigate('/home');
+        }
+    }, []);
 
 
     //Para resetear el formulario

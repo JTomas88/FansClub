@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../Admin/gestionusuarios.module.css";
 import { Context } from "../../store/AppContext";
@@ -7,12 +7,28 @@ import { MdDelete } from "react-icons/md";
 
 export const GestionUsuarios = () => {
     const { store, actions } = useContext(Context);
+    const [datoUsuario, setDatoUsuario] = useState({})
     const navigate = useNavigate();
     const [error, setError] = useState('');
 
     //Cargamos los usuarios al montar el componente
     useEffect(() => {
         actions.obtenerTodosLosUsuarios();
+    }, []);
+
+    //Para que no se pueda acceder con un perfil diferente al de 'admin//
+    useEffect(() => {
+        try {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
+                navigate('/home');
+            } else {
+                setDatoUsuario(userData);
+            }
+        } catch (error) {
+            console.error('Error al obtener datos de localStorage:', error);
+            navigate('/home');
+        }
     }, []);
 
 

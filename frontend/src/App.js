@@ -19,6 +19,7 @@ import { GestionSorteos } from "./paginas/Admin/GestionSorteos.jsx";
 import { Sorteos } from "./paginas/Sorteos/Sorteos.jsx";
 import { Entrada } from "./paginas/Entrada/Entrada.jsx";
 import { Links } from "./paginas/Links/Links.jsx";
+import { BsJustify } from "react-icons/bs";
 
 function App() {
   return (
@@ -34,17 +35,26 @@ function App() {
             <Route path="/inicioSesion" element={<InicioSesion />} />
             <Route path="/quienessienna" element={<QuienEsSienna />} />
             <Route path="/objetivoscf" element={<ObjetivosCF />} />
+            <Route path="/links" element={<Links />} />
+            <Route path="/galeriasfotos" element={<Fotos />} />
+            <Route path="/entrevistas" element={<Entrevistas />} />
+            <Route path="/sorteos" element={<Sorteos />} />
+            <Route element={<h1 style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100vh', // Ocupar toda la altura de la pantalla
+              margin: 0, // Eliminar márgenes adicionales
+            }}>Página no encontrada</h1>} path="*" />
 
+            {/* Rutas para administrador */}
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/agenda" element={<Agenda />} />
             <Route path="/admin/gestionusuarios" element={<GestionUsuarios />} />
             <Route path="/admin/gestiongalerias" element={<GestionGalerias />} />
             <Route path="/admin/gestionentrevistas" element={<GestionEntrevistas />} />
             <Route path="/admin/gestionsorteos" element={<GestionSorteos />} />
-            <Route path="/links" element={<Links />} />
-            <Route path="/galeriasfotos" element={<Fotos />} />
-            <Route path="/entrevistas" element={<Entrevistas />} />
-            <Route path="/sorteos" element={<Sorteos />} />
+
 
           </Routes>
         </div>

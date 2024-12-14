@@ -19,10 +19,11 @@
 }
 
 /* Configuración para el div que contiene la información */
-.boxInfo {
+.pares {
   width: 30%;
-  background-color: white;
-  color: black;
+  background-color: rgba(166, 57, 230, 0.5);
+  backdrop-filter: blur(px); /* Aplica el desenfoque */
+  color: rgb(243, 195, 195);
   border-radius: 10px;
   height: 100%;
   text-align: center;
@@ -32,55 +33,66 @@
   /* margin: 0 auto; */
   position: relative;
   transition: all 0.3s ease;
+  transform-origin: left center;
 }
-.box_info_right {
+.impares {
   width: 30%;
-  background-color: white;
-  color: black;
+  background-color: rgba(166, 57, 230, 0.5);
+  backdrop-filter: blur(0.5px); /* Aplica el desenfoque */
+  color: rgb(243, 195, 195);
   border-radius: 10px;
   height: 100%;
   text-align: center;
   align-items: center;
   justify-content: center;
   display: flex;
-  margin: 0 auto;
+  margin-left: 70%;
   position: relative;
   transition: all 0.3s ease;
+  transform-origin: right;
 }
 
 /* Flechas */
 .arrow_left {
   position: absolute;
-  top: 50%;
-  left: -10px;
+  top: 10%;
+  left: 51.1%;
   transform: translateY(-50%);
   width: 0;
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-right: 10px solid white;
+  border-right: 10px solid rgba(166, 57, 230, 0.5);
 }
 
 .arrow_right {
   position: absolute;
-  top: 50%;
-  right: -10px;
+  top: 10%;
+  right: 51.1%;
   transform: translateY(-50%);
   width: 0;
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-left: 10px solid white;
+  border-left: 10px solid rgba(166, 57, 230, 0.5);
 }
 
 /* Estado expandido */
-.expanded {
+.expanded_left {
   width: 50%;
-  height: 390px;
+  height: 500px;
   transition: all 0.3s ease;
+  transform: scaleX(1);
+  margin-left: 50%;
 }
 
-/* Contenido expandido */
+.expanded_right {
+  width: 50%;
+  height: 500px;
+  transition: all 0.3s ease;
+  transform: scaleX(1);
+}
+
 .expandedContent {
   margin-top: 10px;
   padding: 10px;
@@ -88,6 +100,11 @@
   text-align: center;
   transition: opacity 0.3s ease-in-out;
   opacity: 1;
+}
+
+.expandedContent.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .image {
@@ -112,15 +129,49 @@
   background-color: cadetblue;
 }
 
-/* Configuración para dispositivos móviles */
+/* Deshabilitar la expansión en pantallas pequeñas */
 @media (max-width: 768px) {
-  .boxInfo,
-  .box_info_right {
-    width: 80%;
-    margin: 0 auto;
+  .image {
+    width: 100px;
   }
-}
 
-.css-n2vkcm-MuiTimelineDot-root {
-  height: 250px;
+  .pares {
+    width: 105%;
+    background-color: rgba(166, 57, 230, 0.5);
+    backdrop-filter: blur(10px);
+    color: rgb(243, 195, 195);
+    border-radius: 10px;
+    height: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: relative;
+    transition: all 0.3s ease;
+    transform-origin: left center;
+  }
+  .impares {
+    width: 105%;
+    background-color: rgba(166, 57, 230, 0.5);
+    backdrop-filter: blur(10px);
+    color: rgb(243, 195, 195);
+    border-radius: 10px;
+    height: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-left: -3%;
+    position: relative;
+    transition: all 0.3s ease;
+    transform-origin: right;
+  }
+
+  .arrow_right {
+    right: 53.7%;
+  }
+
+  .arrow_left {
+    left: 54.5%;
+  }
 }

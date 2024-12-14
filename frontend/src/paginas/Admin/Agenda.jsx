@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useNavigate } from "react";
 import styles from "../Admin/agenda.module.css";
 import { Context } from "../../store/AppContext";
 import { LuPencil } from "react-icons/lu";
@@ -8,6 +8,8 @@ import { IoIosSave } from "react-icons/io";
 
 export const Agenda = () => {
     const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+    const [datoUsuario, setDatoUsuario] = useState({})
     const [fecha, setFecha] = useState('')
     const [poblacion, setPoblacion] = useState('')
     const [provincia, setProvincia] = useState('')
@@ -28,6 +30,21 @@ export const Agenda = () => {
         actions.admin_obtenereventos();
         console.log(store.eventos);
     }, [])
+
+    //Para que no se pueda acceder con un perfil diferente al de 'admin//
+    useEffect(() => {
+        try {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
+                navigate('/home');
+            } else {
+                setDatoUsuario(userData);
+            }
+        } catch (error) {
+            console.error('Error al obtener datos de localStorage:', error);
+            navigate('/home');
+        }
+    }, []);
 
 
     /**PARA EDITAR CUALQUIER CAMPO DEL EVENTO

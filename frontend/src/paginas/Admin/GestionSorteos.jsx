@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useState, useContext, useEffect, useNavigate, useRef } from "react";
 import { Context } from "../../store/AppContext";
 import { LuPencil } from "react-icons/lu";
 import { MdOutlineDelete } from "react-icons/md";
@@ -8,6 +8,8 @@ import styles from "./gestionsorteos.module.css"
 
 export const GestionSorteos = () => {
     const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+    const [datoUsuario, setDatoUsuario] = useState({})
     const [nombreSorteo, setNombreSorteo] = useState('')
     const [descripcion, setDescripcion] = useState('')
     const [fechaInicio, setFechaInicio] = useState('')
@@ -32,6 +34,21 @@ export const GestionSorteos = () => {
     useEffect(() => {
         actions.obtenerSorteos();
     }, [])
+
+    //Para que no se pueda acceder con un perfil diferente al de 'admin//
+    useEffect(() => {
+        try {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
+                navigate('/home');
+            } else {
+                setDatoUsuario(userData);
+            }
+        } catch (error) {
+            console.error('Error al obtener datos de localStorage:', error);
+            navigate('/home');
+        }
+    }, []);
 
 
     // Función para manejar la selección de archivos

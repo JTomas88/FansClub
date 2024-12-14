@@ -1,10 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/AppContext";
 import styles from "../Admin/gestiongalerias.module.css"
 import { FaFolder, FaPlus, FaImage } from "react-icons/fa";
 
 export const GestionGalerias = () => {
     const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+    const [datoUsuario, setDatoUsuario] = useState({})
     const [nombreCarpeta, setNombreCarpeta] = useState('');
     const [foto, setFoto] = useState('');
     const [carpetaSeleccionada, setCarpetaSeleccionada] = useState(null);
@@ -15,6 +18,21 @@ export const GestionGalerias = () => {
     //Llamo a la función para mostrar las carpetas cuando el componente se cargue.
     useEffect(() => {
         actions.admin_mostrarCarpetas();
+    }, []);
+
+    //Para que no se pueda acceder con un perfil diferente al de 'admin//
+    useEffect(() => {
+        try {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
+                navigate('/home');
+            } else {
+                setDatoUsuario(userData);
+            }
+        } catch (error) {
+            console.error('Error al obtener datos de localStorage:', error);
+            navigate('/home');
+        }
     }, []);
 
     //Función para crear carpetas vacías 
