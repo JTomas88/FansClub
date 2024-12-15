@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Grape+Nuts&display=swap");
+
 /* Estilos base */
 .jumbotron_edit,
 .jumbotron_edit_home,
@@ -7,6 +9,11 @@
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
+}
+
+.titulo_jumbo {
+  font-family: "Grape";
+  font-size: 18px;
 }
 
 .jumbotron_edit::before,

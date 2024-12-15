@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect, useNavigate, useRef } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/AppContext";
 import { LuPencil } from "react-icons/lu";
 import { MdOutlineDelete } from "react-icons/md";
@@ -38,7 +39,7 @@ export const GestionSorteos = () => {
     //Para que no se pueda acceder con un perfil diferente al de 'admin//
     useEffect(() => {
         try {
-            const userData = JSON.parse(localStorage.getItem('userData'));
+            const userData = JSON.parse(localStorage.getItem('loginData'));
             if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
                 navigate('/home');
             } else {
@@ -297,28 +298,51 @@ export const GestionSorteos = () => {
     const clasificarSorteos = (sorteos) => {
         try {
             const hoy = new Date();
-            const proximos = sorteos.filter(sorteo => new Date(sorteo.sorFechaInicio) > hoy)
-            const activos = sorteos.filter(sorteo => new Date(sorteo.sorFechaInicio) <= hoy && new Date(sorteo.sorFechaFin) >= hoy)
-            console.log('Sorteos activos: ', activos)
-            const pasados = sorteos.filter(sorteo => new Date(sorteo.sorFechaFin) < hoy)
+
+            // Ajusta la fecha del día actual para que sea a las 23:59:59
+            const finHoy = new Date(hoy);
+            finHoy.setHours(23, 59, 59, 999);
+
+            const proximos = sorteos.filter(sorteo => new Date(sorteo.sorFechaInicio) > hoy);
+
+            const activos = sorteos.filter(sorteo => {
+                const inicio = new Date(sorteo.sorFechaInicio);
+                const fin = new Date(sorteo.sorFechaFin);
+
+                // Ajusta la fecha de fin del sorteo para incluir el día completo
+                fin.setHours(23, 59, 59, 999);
+
+                return inicio <= hoy && fin >= hoy;
+            });
+
+            const pasados = sorteos.filter(sorteo => {
+                const fin = new Date(sorteo.sorFechaFin);
+
+                // Ajusta la fecha de fin del sorteo para incluir el día completo
+                fin.setHours(23, 59, 59, 999);
+
+                return fin < hoy;
+            });
+
+            console.log("Sorteos activos: ", activos);
 
             switch (filtro) {
-                case 'proximos':
+                case "proximos":
                     return proximos;
-                case 'activos':
+                case "activos":
                     return activos;
-                case 'pasados':
+                case "pasados":
                     return pasados;
-                case 'todos':
-                    return store.sorteos
+                case "todos":
+                    return store.sorteos;
                 default:
                     return activos;
             }
         } catch (error) {
-            return []
+            console.error("Error clasificando sorteos:", error);
+            return [];
         }
-
-    }
+    };
 
 
 
@@ -429,111 +453,120 @@ export const GestionSorteos = () => {
                     </div>
                 ) : (
                     <div className="container d-flex m-3 flex-wrap">
-                        {(Array.isArray(clasificarSorteos(store.sorteos)) ? clasificarSorteos(store.sorteos) : []).map((sorteo, index) => (
-                            <div className="card mb-4 me-4" key={index} style={{ width: "18rem", backgroundColor: "PowderBlue" }}>
-                                <div className="card-body">
-                                    <h3 className="card-title">{sorteo.sorNombre}</h3>
-                                    <h6 className="card-text mb-2">{formatearFechaInicio(sorteo.sorFechaInicio)}</h6>
-                                    <h6 className="card-text mb-2">{formatearFechaFin(sorteo.sorFechaFin)}</h6>
+                        {(Array.isArray(clasificarSorteos(store.sorteos)) ? clasificarSorteos(store.sorteos) : []).map((sorteo, index) => {
+                            const hoy = new Date();
+                            const fechaInicio = new Date(sorteo.sorFechaInicio);
+                            const fechaFin = new Date(sorteo.sorFechaFin);
+                            fechaFin.setHours(23, 59, 59, 999);
+                            const sorteoFinalizado = fechaFin < hoy;
 
-                                    {/* Abierto modal para editar el sorteo */}
-                                    <div>
-                                        <button className={`btn btn-primary p-2 ${styles.espacio_botones}`} data-bs-toggle="modal" data-bs-target="#editarSorteo" onClick={() => abrirModalEditar(sorteo)}>
-                                            <LuPencil />
-                                        </button>
-                                        <div className="modal fade" id="editarSorteo" tabIndex="-1" aria-labelledby="editarSorteoLabel" aria-hidden="true">
-                                            <div className="modal-dialog">
-                                                <div className="modal-content">
-                                                    <div className="modal-header">
-                                                        <h1 className="modal-title fs-5" id="editarSorteoLabel">{nombreSorteo}</h1>
-                                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div className="modal-body">
 
-                                                        <form >
-                                                            <div className="mb-3" style={{ color: "black" }}>
-                                                                <label htmlFor="nombreSorteo" className="form-label" >Nombre sorteo</label>
-                                                                <input type="text" className="form-control" id="fecnombreSorteoha" aria-describedby="nombreSorteo" value={nombreSorteo} onChange={(e) => setNombreSorteo(e.target.value)} />
-                                                            </div>
-                                                            <div className="mb-3">
-                                                                <label htmlFor="descripcion" className="form-label">Descripcion</label>
-                                                                <textarea type="text" className="form-control" id="descripcion" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} rows={8} />
-                                                            </div>
-                                                            <div className="mb-3">
-                                                                <label htmlFor="fechainicio" className="form-label">Fecha Inicio</label>
-                                                                <input type="date" className="form-control" id="fechainicio" value={fechaInicio} min={hoy} onChange={onChangeFechaInicio} onBlur={onBlurFechaInicio} />
-                                                            </div>
-                                                            <div className="mb-3">
-                                                                <label htmlFor="fechafin" className="form-label">Fecha Fin</label>
-                                                                <input type="date" className="form-control" id="fechafin" value={fechaFin} min={hoy} onChange={onChangeFechaFin} onBlur={onBlurFechaFin} />
-                                                            </div>
-                                                            <div className="mb-3">
-                                                                <label htmlFor="fotos" className="form-label">Imagenes sorteo</label>
-                                                                <input className="form-control" type="file" id="fotos" multiple onChange={manejarArchivos} />
-                                                            </div>
-                                                            <div className="mb-3 d-flex flex-wrap">
-                                                                {miniaturas.map((url, index) => (
-                                                                    <div key={index} style={{ position: 'relative', margin: '5px' }}>
-                                                                        <img
-                                                                            src={url}
-                                                                            alt={`miniatura-${index}`}
-                                                                            style={{ width: '80px', height: '80px', objectFit: 'cover' }}
-                                                                        />
-                                                                        <div className={styles.div_boton_flotante}>
-                                                                            <button
-                                                                                className={styles.boton_flotante}
-                                                                                onClick={() => eliminarImagen(index)}
-                                                                            >
-                                                                                X
-                                                                            </button>
+                            return (
+                                <div className="card mb-4 me-4" key={index} style={{ width: "18rem", backgroundColor: "PowderBlue" }}>
+                                    <div className="card-body">
+                                        <h3 className="card-title">{sorteo.sorNombre}</h3>
+                                        <h6 className="card-text mb-2">{formatearFechaInicio(sorteo.sorFechaInicio)}</h6>
+                                        <h6 className="card-text mb-2">{formatearFechaFin(sorteo.sorFechaFin)}</h6>
+
+                                        {/* Abierto modal para editar el sorteo */}
+                                        <div>
+                                            <button className={`btn btn-primary p-2 ${styles.espacio_botones}`} data-bs-toggle="modal" data-bs-target="#editarSorteo" onClick={() => abrirModalEditar(sorteo)}>
+                                                <LuPencil />
+                                            </button>
+                                            <div className="modal fade" id="editarSorteo" tabIndex="-1" aria-labelledby="editarSorteoLabel" aria-hidden="true">
+                                                <div className="modal-dialog">
+                                                    <div className="modal-content">
+                                                        <div className="modal-header">
+                                                            <h1 className="modal-title fs-5" id="editarSorteoLabel">{nombreSorteo}</h1>
+                                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div className="modal-body">
+
+                                                            <form >
+                                                                <div className="mb-3" style={{ color: "black" }}>
+                                                                    <label htmlFor="nombreSorteo" className="form-label" >Nombre sorteo</label>
+                                                                    <input type="text" className="form-control" id="fecnombreSorteoha" aria-describedby="nombreSorteo" value={nombreSorteo} onChange={(e) => setNombreSorteo(e.target.value)} />
+                                                                </div>
+                                                                <div className="mb-3">
+                                                                    <label htmlFor="descripcion" className="form-label">Descripcion</label>
+                                                                    <textarea type="text" className="form-control" id="descripcion" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} rows={8} />
+                                                                </div>
+                                                                <div className="mb-3">
+                                                                    <label htmlFor="fechainicio" className="form-label">Fecha Inicio</label>
+                                                                    <input type="date" className="form-control" id="fechainicio" value={fechaInicio} min={hoy} onChange={onChangeFechaInicio} onBlur={onBlurFechaInicio} />
+                                                                </div>
+                                                                <div className="mb-3">
+                                                                    <label htmlFor="fechafin" className="form-label">Fecha Fin</label>
+                                                                    <input type="date" className="form-control" id="fechafin" value={fechaFin} min={hoy} onChange={onChangeFechaFin} onBlur={onBlurFechaFin} />
+                                                                </div>
+                                                                <div className="mb-3">
+                                                                    <label htmlFor="fotos" className="form-label">Imagenes sorteo</label>
+                                                                    <input className="form-control" type="file" id="fotos" multiple onChange={manejarArchivos} />
+                                                                </div>
+                                                                <div className="mb-3 d-flex flex-wrap">
+                                                                    {miniaturas.map((url, index) => (
+                                                                        <div key={index} style={{ position: 'relative', margin: '5px' }}>
+                                                                            <img
+                                                                                src={url}
+                                                                                alt={`miniatura-${index}`}
+                                                                                style={{ width: '80px', height: '80px', objectFit: 'cover' }}
+                                                                            />
+                                                                            <div className={styles.div_boton_flotante}>
+                                                                                <button
+                                                                                    className={styles.boton_flotante}
+                                                                                    onClick={() => eliminarImagen(index)}
+                                                                                >
+                                                                                    X
+                                                                                </button>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                            <div className="modal-footer">
-                                                                <button type="button" className="btn btn-primary" onClick={(evento) => editar_sorteo(evento, nombreSorteo, descripcion, fechaInicio, fechaFin, imagen)} data-bs-dismiss="modal" >Guardar datos</button>
-                                                            </div>
-                                                        </form>
+                                                                    ))}
+                                                                </div>
+                                                                <div className="modal-footer">
+                                                                    <button type="button" className="btn btn-primary" onClick={(evento) => editar_sorteo(evento, nombreSorteo, descripcion, fechaInicio, fechaFin, imagen)} data-bs-dismiss="modal" >Guardar datos</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Para eliminar un sorteo */}
+                                            <button className="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#modaleliminarSorteo" onClick={() => setSorteoAEliminar(sorteo.sorId)}>
+                                                <MdOutlineDelete />
+                                            </button>
+                                            <div className="modal fade" id="modaleliminarSorteo" tabIndex="-1" aria-labelledby="modaleliminarSorteoLabel" aria-hidden="true">
+                                                <div className="modal-dialog">
+                                                    <div className="modal-content">
+                                                        <div className="modal-header">
+                                                            <h1 className="modal-title fs-5" id="modaleliminarSorteoLabel">Eliminar sorteo</h1>
+                                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div className="modal-body">
+                                                            ¿Seguro que deseas eliminar este sorteo?
+                                                        </div>
+                                                        <div className="modal-footer">
+
+                                                            <button type="button" data-bs-dismiss="modal" className="btn btn-primary" onClick={() => eliminar_sorteo(sorteoAEliminar)}>Eliminar sorteo</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        {/* Para eliminar un sorteo */}
-                                        <button className="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#modaleliminarSorteo" onClick={() => setSorteoAEliminar(sorteo.sorId)}>
-                                            <MdOutlineDelete />
-                                        </button>
-                                        <div className="modal fade" id="modaleliminarSorteo" tabIndex="-1" aria-labelledby="modaleliminarSorteoLabel" aria-hidden="true">
-                                            <div className="modal-dialog">
-                                                <div className="modal-content">
-                                                    <div className="modal-header">
-                                                        <h1 className="modal-title fs-5" id="modaleliminarSorteoLabel">Eliminar sorteo</h1>
-                                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div className="modal-body">
-                                                        ¿Seguro que deseas eliminar este sorteo?
-                                                    </div>
-                                                    <div className="modal-footer">
-
-                                                        <button type="button" data-bs-dismiss="modal" className="btn btn-primary" onClick={() => eliminar_sorteo(sorteoAEliminar)}>Eliminar sorteo</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div className="row mt-4">
+                                            {!sorteo.sorResultado && sorteoFinalizado && <button type="button " className="btn btn-danger" onClick={() => sortear(sorteo.sorId)}>Realizar sorteo</button>
+                                            }
                                         </div>
-                                    </div>
-                                    <div className="row mt-4">
-                                        {!sorteo.sorResultado && <button type="button " className="btn btn-danger" onClick={() => sortear(sorteo.sorId)}>Realizar sorteo</button>
-                                        }
-                                    </div>
-                                    <div className="row mt-4">
-                                        {sorteo.sorResultado && <button type="button" onClick={() => buscarSorteo(sorteo.sorId)} className="btn btn-success" data-bs-toggle="modal" data-bs-target="#datosGanador" >Ver ganador</button>
-                                        }
-                                    </div>
+                                        <div className="row mt-4">
+                                            {sorteo.sorResultado && <button type="button" onClick={() => buscarSorteo(sorteo.sorId)} className="btn btn-success" data-bs-toggle="modal" data-bs-target="#datosGanador" >Ver ganador</button>
+                                            }
+                                        </div>
 
 
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            )
+                        })}
 
                         {/*  Modal para mostrar datos del ganador */}
                         <div class="modal fade" id="datosGanador" tabindex="-1" aria-labelledby="datosGanadorLabel" aria-hidden="true">

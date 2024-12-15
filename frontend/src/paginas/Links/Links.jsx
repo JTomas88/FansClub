@@ -17,7 +17,7 @@ import { FaTelegram } from "react-icons/fa";
 export const Links = () => {
     return (
         <>
-            <Jumbotron imagenFondo={{ backgroundImage: `url(${jumbo_links})`, backgroundPosition: 'center 68%' }} subtitulo={"Noto esa rabia que, joder, me va y me viene"} referencia={'home'} ></Jumbotron>
+            <Jumbotron imagenFondo={{ backgroundImage: `url(${jumbo_links})`, backgroundPosition: 'center 68%' }} subtitulo={"Sigo buscando al niño que solía brillar"} referencia={'home'} ></Jumbotron>
 
 
             <div className="container-fluid">

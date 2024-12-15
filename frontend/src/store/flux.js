@@ -223,7 +223,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                             rol: data.rol
                         };
 
-                        localStorage.setItem('userData', JSON.stringify(datoUsuario))
+                        localStorage.setItem('loginData', JSON.stringify(datoUsuario))
+
 
                         setStore({
                             ...store,
@@ -797,6 +798,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     setStore({
                         sorteos: data
                     });
+                    localStorage.setItem('sorteos', JSON.stringify(data))
                 } catch (error) {
                     console.log(error)
                 }

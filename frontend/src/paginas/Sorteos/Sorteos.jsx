@@ -13,17 +13,25 @@ export const Sorteos = () => {
   const [datoUsuario, setDatoUsuario] = useState({})
   const [participaciones, setParticipaciones] = useState({})
   const [mostrarBoton, setMostrarBoton] = useState(false)
+  const [sorteosConResultado, setSorteosConResultado] = useState({})
+  const [ganadores, setGanadores] = useState({});
+  const [sorteosCache, setSorteosCache] = useState([])
 
-
+  //Obtiene todos los sorteos
   useEffect(() => {
     actions.obtenerSorteos();
   }, [])
 
+  useEffect(() => {
+
+    const sorteos = JSON.parse(localStorage.getItem('sorteos'));
+    setSorteosCache(sorteos)
+  }, [store.sorteos])
 
 
   useEffect(() => {
     try {
-      const userData = JSON.parse(localStorage.getItem('userData'));
+      const userData = JSON.parse(localStorage.getItem('loginData'));
       if (!userData || !userData.token || !userData.email) {
         navigate('/home');
       } else {
@@ -101,6 +109,21 @@ export const Sorteos = () => {
   }, [])
 
 
+  useEffect(() => {
+    if (store?.sorteos) {
+      const sorteos = store.sorteos;
+      const sorteosConGanadores = sorteos.filter(sorteo => sorteo.sorResultado)
+      console.log('sorteosGanadores: ', sorteosConGanadores);
+      setSorteosConResultado(sorteosConGanadores)
+
+
+    } else {
+      alert('No se han encontrado sorteos')
+    }
+
+  }, [])
+
+
 
   return (
     <>
@@ -123,31 +146,26 @@ export const Sorteos = () => {
         className={`container d-flex flex-column align-items-start ${styles.tarjeta}`}
         style={{ color: "black" }}
       >
-        {store.sorteos && store.sorteos.length > 0 ? (
-          store.sorteos.map((sorteo, index) => {
+        {sorteosCache && sorteosCache.length > 0 ? (
+          sorteosCache.map((sorteo, index) => {
 
             const hoy = new Date();
             const fechaInicio = new Date(sorteo.sorFechaInicio);
             const fechaFin = new Date(sorteo.sorFechaFin);
+            fechaFin.setDate(fechaFin.getDate() + 1); //suma un dia mas
             const esActivo = fechaInicio <= hoy && fechaFin >= hoy;
-
+            const proximos = fechaInicio > hoy
+            const pasados = fechaFin < hoy
             return (
               <div
                 key={index}
                 className={`${styles.contenedor} p-4 mb-5`}
-                style={{
-                  width: "80%",
-                  backgroundColor: "#f9f9f9",
-                  borderRadius: "10px",
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                  position: "relative",
-                  paddingBottom: "60px",
-                }}
+
               >
 
                 <div className="row mb-3">
                   <div
-                    className="col-6"
+                    className={` ${styles.col_6}`}
                     style={{
                       maxHeight: "400px",
                       overflowY: "auto",
@@ -160,23 +178,24 @@ export const Sorteos = () => {
                     <hr></hr>
 
                     {/* Periodo participación */}
-                    <h4>Periodo para participar</h4>
-                    <p>
+                    <h5>Periodo para participar</h5>
+                    <p style={{ fontSize: '18px', marginBottom: '0px' }}>
                       <strong>Fecha Inicio: </strong>
                       {new Date(sorteo.sorFechaInicio).toLocaleDateString()}
                     </p>
-                    <p>
+                    <p style={{ fontSize: '18px' }}>
                       <strong>Fecha Fin: </strong>
                       {new Date(sorteo.sorFechaFin).toLocaleDateString()}
                     </p>
 
                     {/* Descripción del sorteo */}
-                    <h4>Detalles del sorteo</h4>
+                    <h5>Detalles del sorteo</h5>
                     <p className="text-muted">{sorteo.sorDescripcion}</p>
                   </div>
 
+
                   {/* IMAGENES */}
-                  <div className="col">
+                  <div className={styles.col}>
                     {sorteo.sorImagen && sorteo.sorImagen.length > 0 ? (
                       (() => {
                         const imagenesSeparadas = sorteo.sorImagen
@@ -190,12 +209,7 @@ export const Sorteos = () => {
                               <img
                                 alt="imagen promocional"
                                 src={imagenesSeparadas[0]}
-                                className="img-fluid mb-5"
-                                style={{
-                                  maxHeight: "400px",
-                                  objectFit: "cover",
-                                  borderRadius: "10px",
-                                }}
+                                className={`img-fluid mb-5 ${styles.box_imagen}`}
                               />
                             </div>
                           );
@@ -207,32 +221,22 @@ export const Sorteos = () => {
                                   key={imgIndex}
                                   alt={`imagen promocional ${imgIndex + 1}`}
                                   src={img}
-                                  className="img-fluid mb-3 me-2"
-                                  style={{
-                                    width: "48%",
-                                    height: "auto",
-                                    objectFit: "cover",
-                                    borderRadius: "10px",
-                                  }}
+                                  className={`img-fluid mb-3 me-2 ${styles.box_imagen} ${styles.dos_img}`}
+
                                 />
                               ))}
                             </div>
                           );
                         } else if (recuentoImagenes === 3) {
                           return (
-                            <div className="d-flex flex-wrap">
+                            <div className="d-flex flex-wrap justify-content-between">
                               {imagenesSeparadas.map((img, imgIndex) => (
                                 <img
                                   key={imgIndex}
                                   alt={`imagen promocional ${imgIndex + 1}`}
                                   src={img}
-                                  className="img-fluid mb-3 me-2"
-                                  style={{
-                                    width: imgIndex === 0 ? "100%" : "48%",
-                                    height: "auto",
-                                    objectFit: "cover",
-                                    borderRadius: "10px",
-                                  }}
+                                  className={`img-fluid mb-3  ${styles.box_imagen}`}
+
                                 />
                               ))}
                             </div>
@@ -245,13 +249,8 @@ export const Sorteos = () => {
                                   key={imgIndex}
                                   alt={`imagen promocional ${imgIndex + 1}`}
                                   src={img}
-                                  className="img-fluid mb-3"
-                                  style={{
-                                    width: "48%",
-                                    height: "auto",
-                                    objectFit: "cover",
-                                    borderRadius: "10px",
-                                  }}
+                                  className={`img-fluid mb-3 ${styles.box_imagen}`}
+
                                 />
                               ))}
                             </div>
@@ -279,6 +278,31 @@ export const Sorteos = () => {
                       ? "Estás participando en este sorteo"
                       : "Participar"}
                   </button>
+                )}
+                {proximos && (
+                  <button
+                    className={`btn ${`btn-warning ${styles.boton_inactivo}`}
+                     ${styles.informativo}`}
+                    disabled                 >
+                    Disponible próximamente
+                  </button>
+                )}
+                {pasados && (
+                  <button
+                    className={`btn ${`btn-warning ${styles.boton_inactivo}`}
+                     ${styles.informativo}`}
+                    disabled                 >
+                    Este sorteo ya ha finalizado
+                  </button>
+                )}
+
+                {pasados && sorteo.sorResultado && (
+                  <div
+                    className={`btn ${`btn-warning ${styles.boton_inactivo}`}
+                     ${styles.ganador}`}
+                    disabled                 >
+                    Ganador/a del sorteo: {ganadores[sorteo.sorId]?.nombre || "Cargando..."}
+                  </div>
                 )}
               </div>
             )

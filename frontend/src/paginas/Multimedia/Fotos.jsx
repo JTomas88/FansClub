@@ -18,7 +18,7 @@ export const Fotos = () => {
     //Para que no se pueda acceder con un perfil diferente al de 'admin//
     useEffect(() => {
         try {
-            const userData = JSON.parse(localStorage.getItem('userData'));
+            const userData = JSON.parse(localStorage.getItem('loginData'));
             if (!userData || !userData.token || !userData.email) {
                 navigate('/home');
             } else {
@@ -34,7 +34,7 @@ export const Fotos = () => {
     return (
         <>
             <div>
-                <Jumbotron imagenFondo={{ backgroundImage: `url(${Jumbo_fotos})`, backgroundPosition: 'center 30%' }} subtitulo={"Tal vez sólo hay sombras y formas"} referencia={'foto'} ></Jumbotron>
+                <Jumbotron imagenFondo={{ backgroundImage: `url(${Jumbo_fotos})`, backgroundPosition: 'center 30%' }} subtitulo={"¿Cómo has podido destrozar todo lo que vivimos?"} referencia={'foto'} ></Jumbotron>
             </div>
             <div className="container justify-content-center align-items-center text-center">
                 <div className={`${styles.titulo}`}>

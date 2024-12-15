@@ -48,7 +48,7 @@ export const RegistroCompleto = () => {
 
 
     useEffect(() => {
-        setDatoUsuario(JSON.parse(localStorage.getItem('userData')))
+        setDatoUsuario(JSON.parse(localStorage.getItem('loginData')))
     }, [store.userData])
 
 

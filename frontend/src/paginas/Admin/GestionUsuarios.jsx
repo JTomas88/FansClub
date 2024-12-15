@@ -19,7 +19,7 @@ export const GestionUsuarios = () => {
     //Para que no se pueda acceder con un perfil diferente al de 'admin//
     useEffect(() => {
         try {
-            const userData = JSON.parse(localStorage.getItem('userData'));
+            const userData = JSON.parse(localStorage.getItem('loginData'));
             if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
                 navigate('/home');
             } else {

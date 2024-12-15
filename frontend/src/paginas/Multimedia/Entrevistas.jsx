@@ -18,7 +18,7 @@ export const Entrevistas = () => {
 
     useEffect(() => {
         try {
-            const userData = JSON.parse(localStorage.getItem('userData'));
+            const userData = JSON.parse(localStorage.getItem('loginData'));
             if (!userData || !userData.token || !userData.email) {
                 navigate('/home');
             } else {
@@ -33,7 +33,7 @@ export const Entrevistas = () => {
 
     return (
         <>
-            <Jumbotron imagenFondo={{ backgroundImage: `url(${Jumbo_entrevistas})`, backgroundPosition: 'center 35%' }} subtitulo={"Tal vez sólo hay sombras y formas"} referencia={'foto'} ></Jumbotron>
+            <Jumbotron imagenFondo={{ backgroundImage: `url(${Jumbo_entrevistas})`, backgroundPosition: 'center 35%' }} subtitulo={"Se que no parará, no se puede frenar"} referencia={'foto'} ></Jumbotron>
             <div className="container justify-content-center align-items-center text-center">
                 <div className={`${styles.titulo}`}>
                     <h1 className={`${styles.titulo}`}>ENTREVISTAS</h1>
