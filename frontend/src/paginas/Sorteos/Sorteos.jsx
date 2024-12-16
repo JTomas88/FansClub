@@ -13,8 +13,8 @@ export const Sorteos = () => {
   const [datoUsuario, setDatoUsuario] = useState({})
   const [participaciones, setParticipaciones] = useState({})
   const [mostrarBoton, setMostrarBoton] = useState(false)
-  const [sorteosConResultado, setSorteosConResultado] = useState({})
-  const [ganadores, setGanadores] = useState({});
+  const [sorteosConResultado, setSorteosConResultado] = useState([])
+  const [ganadores, setGanadores] = useState([]);
   const [sorteosCache, setSorteosCache] = useState([])
 
   //Obtiene todos los sorteos
@@ -93,36 +93,53 @@ export const Sorteos = () => {
   }, [store.sorteos, datoUsuario]);
 
 
+  // useEffect(() => {
+  //   if (store?.sorteos) {
+  //     const sorteos = store.sorteos;
+  //     const hoy = new Date();
+  //     const activos = sorteos.filter(sorteo => new Date(sorteo.sorFechaInicio) <= hoy && new Date(sorteo.sorFechaFin) >= hoy)
+  //     console.log('Sorteos activos: ', activos)
+  //     if (activos) {
+  //       setMostrarBoton(true)
+  //     } else { setMostrarBoton(false) }
+
+  //   } else {
+  //     alert('No se han encontrado sorteos')
+  //   }
+  // }, [])
+
+
   useEffect(() => {
     if (store?.sorteos) {
-      const sorteos = store.sorteos;
-      const hoy = new Date();
-      const activos = sorteos.filter(sorteo => new Date(sorteo.sorFechaInicio) <= hoy && new Date(sorteo.sorFechaFin) >= hoy)
-      console.log('Sorteos activos: ', activos)
-      if (activos) {
-        setMostrarBoton(true)
-      } else { setMostrarBoton(false) }
+      const sorteos = JSON.parse(localStorage.getItem('sorteos'));
+      const sorteosConGanadores = sorteos.filter((sorteo) => sorteo.sorResultado);
 
+      setSorteosConResultado(sorteosConGanadores);
+
+      // Extraer los IDs de los ganadores (sorResultado).
+      const idsGanadores = sorteosConGanadores.map((sorteo) => sorteo.sorResultado);
+
+      // Llamar a obtenerUsuarioPorId con los IDs.
+      (async () => {
+        try {
+          const ganadoresData = await actions.obtenerUsuarioPorId(idsGanadores);
+
+          // Transformar los datos obtenidos en un mapa por sorId para fácil acceso.
+          const ganadoresMap = sorteosConGanadores.reduce((acc, sorteo, index) => {
+            const idGanador = sorteo.sorResultado;
+            acc[sorteo.sorId] = ganadoresData.find((usuario) => usuario.id === idGanador) || null;
+            return acc;
+          }, {});
+
+          setGanadores(ganadoresMap);
+        } catch (error) {
+          console.error("Error al obtener los usuarios por ID:", error);
+        }
+      })();
     } else {
-      alert('No se han encontrado sorteos')
+      alert("No se han encontrado sorteos");
     }
-  }, [])
-
-
-  useEffect(() => {
-    if (store?.sorteos) {
-      const sorteos = store.sorteos;
-      const sorteosConGanadores = sorteos.filter(sorteo => sorteo.sorResultado)
-      console.log('sorteosGanadores: ', sorteosConGanadores);
-      setSorteosConResultado(sorteosConGanadores)
-
-
-    } else {
-      alert('No se han encontrado sorteos')
-    }
-
-  }, [])
-
+  }, [store, actions]);
 
 
   return (
