@@ -3,70 +3,66 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/AppContext";
 import { useNavigate } from "react-router-dom";
 import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
-import jumbo_sorteos from "../../assets/imagenes_jumbotron/Jumbo_sorteos.png"
-import styles from "./sorteos.module.css"
-
+import jumbo_sorteos from "../../assets/imagenes_jumbotron/Jumbo_sorteos.png";
+import styles from "./sorteos.module.css";
 
 export const Sorteos = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-  const [datoUsuario, setDatoUsuario] = useState({})
-  const [participaciones, setParticipaciones] = useState({})
-  const [mostrarBoton, setMostrarBoton] = useState(false)
-  const [sorteosConResultado, setSorteosConResultado] = useState([])
+  const [datoUsuario, setDatoUsuario] = useState({});
+  const [participaciones, setParticipaciones] = useState({});
+  const [mostrarBoton, setMostrarBoton] = useState(false);
+  const [sorteosConResultado, setSorteosConResultado] = useState([]);
   const [ganadores, setGanadores] = useState([]);
-  const [sorteosCache, setSorteosCache] = useState([])
+  const [sorteosCache, setSorteosCache] = useState([]);
 
   //Obtiene todos los sorteos
   useEffect(() => {
     actions.obtenerSorteos();
-  }, [])
+  }, []);
 
   useEffect(() => {
-
-    const sorteos = JSON.parse(localStorage.getItem('sorteos'));
-    setSorteosCache(sorteos)
-  }, [store.sorteos])
-
+    const sorteos = JSON.parse(localStorage.getItem("sorteos"));
+    setSorteosCache(sorteos);
+  }, [store.sorteos]);
 
   useEffect(() => {
     try {
-      const userData = JSON.parse(localStorage.getItem('loginData'));
+      const userData = JSON.parse(localStorage.getItem("loginData"));
       if (!userData || !userData.token || !userData.email) {
-        navigate('/home');
+        navigate("/home");
       } else {
         setDatoUsuario(userData);
       }
     } catch (error) {
-      console.error('Error al obtener datos de localStorage:', error);
-      navigate('/home');
+      console.error("Error al obtener datos de localStorage:", error);
+      navigate("/home");
     }
   }, []);
-
-
 
   const participarEnSorteo = async (sorteoID) => {
     const userID = datoUsuario?.id;
     try {
-
-      const sorteo = store.sorteos.find((sorteo) => sorteo.sorId === sorteoID)
+      const sorteo = store.sorteos.find((sorteo) => sorteo.sorId === sorteoID);
       if (!sorteo) {
-        alert('El sorteo no existe o no se ha encontrado')
-        return
+        alert("El sorteo no existe o no se ha encontrado");
+        return;
       }
 
       const fechaActual = new Date();
-      const fechaInicio = new Date(sorteo.fechaInicio)
-      const fechaFin = new Date(sorteo.fechaFin)
+      const fechaInicio = new Date(sorteo.fechaInicio);
+      const fechaFin = new Date(sorteo.fechaFin);
       if (fechaActual < fechaInicio || fechaActual > fechaFin) {
-        alert('Este sorteo ya no está activo, no puedes participar')
+        alert("Este sorteo ya no está activo, no puedes participar");
       }
 
       await actions.participarEnSorteo(sorteoID, userID);
-      await actions.obtenerSorteos()
+      await actions.obtenerSorteos();
       const sorteosActualizados = store.sorteos;
       // Comprobar si el usuario está en la lista de participantes del sorteo
-      const sorteoActualizado = sorteosActualizados.find((sorteo) => sorteo.id === sorteoID);
+      const sorteoActualizado = sorteosActualizados.find(
+        (sorteo) => sorteo.id === sorteoID
+      );
       const haParticipado = sorteoActualizado?.participantes?.includes(userID);
       // Actualizar el estado del botón o de las participaciones
       setParticipaciones((prev) => ({
@@ -75,15 +71,15 @@ export const Sorteos = () => {
       }));
       alert("Se ha recibido tu participación en el sorteo!");
     } catch (error) {
-      alert('Hay un problema con tu participación')
+      alert("Hay un problema con tu participación");
     }
-  }
-
+  };
 
   useEffect(() => {
     const inicializarParticipaciones = () => {
       const participacionesIniciales = store.sorteos.reduce((acc, sorteo) => {
-        acc[sorteo.sorId] = sorteo.participantes?.includes(datoUsuario?.id) || false;
+        acc[sorteo.sorId] =
+          sorteo.participantes?.includes(datoUsuario?.id) || false;
         return acc;
       }, {});
       setParticipaciones(participacionesIniciales);
@@ -91,7 +87,6 @@ export const Sorteos = () => {
 
     inicializarParticipaciones();
   }, [store.sorteos, datoUsuario]);
-
 
   // useEffect(() => {
   //   if (store?.sorteos) {
@@ -108,39 +103,54 @@ export const Sorteos = () => {
   //   }
   // }, [])
 
-
   useEffect(() => {
-    if (store?.sorteos) {
-      const sorteos = JSON.parse(localStorage.getItem('sorteos'));
-      const sorteosConGanadores = sorteos.filter((sorteo) => sorteo.sorResultado);
+    const cargarGanadores = async () => {
+      if (store?.sorteos) {
+        /**
+         * Se filtran los sorteos para obtener solamente 
+         * aquellos que tienen datos de resultados (Ganadores).
+         */
+        const sorteosConGanadores = store.sorteos.filter(
+          (sorteo) => sorteo.sorResultado
+        );
 
-      setSorteosConResultado(sorteosConGanadores);
+        /**
+         * nuevosGanadores -> objeto temporal para mantener el estado 
+         * de los ganadores y no perder datos anteriores.
+         */
+        const nuevosGanadores = {};
 
-      // Extraer los IDs de los ganadores (sorResultado).
-      const idsGanadores = sorteosConGanadores.map((sorteo) => sorteo.sorResultado);
-
-      // Llamar a obtenerUsuarioPorId con los IDs.
-      (async () => {
-        try {
-          const ganadoresData = await actions.obtenerUsuarioPorId(idsGanadores);
-
-          // Transformar los datos obtenidos en un mapa por sorId para fácil acceso.
-          const ganadoresMap = sorteosConGanadores.reduce((acc, sorteo, index) => {
-            const idGanador = sorteo.sorResultado;
-            acc[sorteo.sorId] = ganadoresData.find((usuario) => usuario.id === idGanador) || null;
-            return acc;
-          }, {});
-
-          setGanadores(ganadoresMap);
-        } catch (error) {
-          console.error("Error al obtener los usuarios por ID:", error);
+        for (const sorteo of sorteosConGanadores) {
+          try {
+            /** Se obtiene el id del ganador. */
+            const ganadorData = await actions.obtenerUsuarioPorId(
+              sorteo.sorResultado
+            );
+            if (ganadorData) {
+              nuevosGanadores[sorteo.sorId] = ganadorData;
+            }
+          } catch (error) {
+            console.error(
+              `Error al obtener datos del ganador para sorteo ${sorteo.sorId}:`,
+              error
+            );
+          }
         }
-      })();
-    } else {
-      alert("No se han encontrado sorteos");
-    }
-  }, [store, actions]);
 
+        /**
+         * Se actualiza el estado de los ganadores.
+         * Manteniendo el estado del ganador anterior para no perder los datos.
+         * S
+         */
+        setGanadores((prevGanadores) => ({
+          ...prevGanadores,
+          ...nuevosGanadores,
+        }));
+      }
+    };
+
+    cargarGanadores();
+  }, [store.sorteos, actions]);
 
   return (
     <>
@@ -165,21 +175,15 @@ export const Sorteos = () => {
       >
         {sorteosCache && sorteosCache.length > 0 ? (
           sorteosCache.map((sorteo, index) => {
-
             const hoy = new Date();
             const fechaInicio = new Date(sorteo.sorFechaInicio);
             const fechaFin = new Date(sorteo.sorFechaFin);
             fechaFin.setDate(fechaFin.getDate() + 1); //suma un dia mas
             const esActivo = fechaInicio <= hoy && fechaFin >= hoy;
-            const proximos = fechaInicio > hoy
-            const pasados = fechaFin < hoy
+            const proximos = fechaInicio > hoy;
+            const pasados = fechaFin < hoy;
             return (
-              <div
-                key={index}
-                className={`${styles.contenedor} p-4 mb-5`}
-
-              >
-
+              <div key={index} className={`${styles.contenedor} p-4 mb-5`}>
                 <div className="row mb-3">
                   <div
                     className={` ${styles.col_6}`}
@@ -196,11 +200,11 @@ export const Sorteos = () => {
 
                     {/* Periodo participación */}
                     <h5>Periodo para participar</h5>
-                    <p style={{ fontSize: '18px', marginBottom: '0px' }}>
+                    <p style={{ fontSize: "18px", marginBottom: "0px" }}>
                       <strong>Fecha Inicio: </strong>
                       {new Date(sorteo.sorFechaInicio).toLocaleDateString()}
                     </p>
-                    <p style={{ fontSize: '18px' }}>
+                    <p style={{ fontSize: "18px" }}>
                       <strong>Fecha Fin: </strong>
                       {new Date(sorteo.sorFechaFin).toLocaleDateString()}
                     </p>
@@ -209,7 +213,6 @@ export const Sorteos = () => {
                     <h5>Detalles del sorteo</h5>
                     <p className="text-muted">{sorteo.sorDescripcion}</p>
                   </div>
-
 
                   {/* IMAGENES */}
                   <div className={styles.col}>
@@ -239,7 +242,6 @@ export const Sorteos = () => {
                                   alt={`imagen promocional ${imgIndex + 1}`}
                                   src={img}
                                   className={`img-fluid mb-3 me-2 ${styles.box_imagen} ${styles.dos_img}`}
-
                                 />
                               ))}
                             </div>
@@ -253,7 +255,6 @@ export const Sorteos = () => {
                                   alt={`imagen promocional ${imgIndex + 1}`}
                                   src={img}
                                   className={`img-fluid mb-3  ${styles.box_imagen}`}
-
                                 />
                               ))}
                             </div>
@@ -267,7 +268,6 @@ export const Sorteos = () => {
                                   alt={`imagen promocional ${imgIndex + 1}`}
                                   src={img}
                                   className={`img-fluid mb-3 ${styles.box_imagen}`}
-
                                 />
                               ))}
                             </div>
@@ -275,19 +275,24 @@ export const Sorteos = () => {
                         }
                       })()
                     ) : (
-                      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px" }}>
-                        <p className="text-muted ">No hay imágenes disponibles</p>
+                      <div
+                        className="d-flex justify-content-center align-items-center"
+                        style={{ minHeight: "300px" }}
+                      >
+                        <p className="text-muted ">
+                          No hay imágenes disponibles
+                        </p>
                       </div>
-
                     )}
                   </div>
                 </div>
                 {esActivo && (
                   <button
-                    className={`btn ${participaciones[sorteo.sorId]
-                      ? `btn-secondary ${styles.boton_inactivo}`
-                      : "btn-primary"
-                      } ${styles.flotante}`}
+                    className={`btn ${
+                      participaciones[sorteo.sorId]
+                        ? `btn-secondary ${styles.boton_inactivo}`
+                        : "btn-primary"
+                    } ${styles.flotante}`}
                     onClick={() => participarEnSorteo(sorteo.sorId)}
                     disabled={participaciones[sorteo.sorId]} // Deshabilitar si ya participó
                   >
@@ -300,7 +305,8 @@ export const Sorteos = () => {
                   <button
                     className={`btn ${`btn-warning ${styles.boton_inactivo}`}
                      ${styles.informativo}`}
-                    disabled                 >
+                    disabled
+                  >
                     Disponible próximamente
                   </button>
                 )}
@@ -308,7 +314,8 @@ export const Sorteos = () => {
                   <button
                     className={`btn ${`btn-warning ${styles.boton_inactivo}`}
                      ${styles.informativo}`}
-                    disabled                 >
+                    disabled
+                  >
                     Este sorteo ya ha finalizado
                   </button>
                 )}
@@ -316,13 +323,15 @@ export const Sorteos = () => {
                 {pasados && sorteo.sorResultado && (
                   <div
                     className={`btn ${`btn-warning ${styles.boton_inactivo}`}
-                     ${styles.ganador}`}
-                    disabled                 >
-                    Ganador/a del sorteo: {ganadores[sorteo.sorId]?.nombre || "Cargando..."}
+                      ${styles.ganador}`}
+                    disabled
+                  >
+                    Ganador/a del sorteo:{" "}
+                    {ganadores[sorteo.sorId]?.nombre || "Cargando..."}
                   </div>
                 )}
               </div>
-            )
+            );
           })
         ) : (
           <p className="text-center">No hay sorteos disponibles.</p>
@@ -330,4 +339,4 @@ export const Sorteos = () => {
       </div>
     </>
   );
-}
+};
