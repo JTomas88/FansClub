@@ -6,7 +6,7 @@ import Jumbo_Objetvos from "../../assets/imagenes_jumbotron/Jumbo_Objetivos.png"
 
 export const ObjetivosCF = () => {
     return (
-        <div className="container-fluid">
+        <div className="container-fluid" style={{height: '100vh'}}>
             <div>
                 <Jumbotron imagenFondo={{ backgroundImage: `url(${Jumbo_Objetvos})`, backgroundPosition: 'center 25%' }} subtitulo={"Noto esa rabia que, joder, me va y me viene"} referencia={'home'} ></Jumbotron>
             </div>

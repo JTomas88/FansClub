@@ -1,0 +1,185 @@
+.entrada-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-image: url('../../assets/bg/bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    object-fit: contain;
+}
+
+.box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    z-index: 1;
+}
+
+.inner-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: none;
+    z-index: 1;
+    position: relative;
+}
+
+.inner-box.scale-out-center {
+    animation: scale-out-center 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+.svg {
+    width: 80%;
+    height: auto;
+}
+
+.side {
+    fill: none;
+    stroke: #8f00ff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: draw-side 2s ease-out forwards, blur-fade 2s ease-out forwards;
+    filter: drop-shadow(0 0 10px #8f00ff) drop-shadow(0 0 20px #8f00ff) drop-shadow(0 0 30px #8f00ff);
+    transition: filter 0.3s ease-in-out;
+}
+
+.text {
+    margin-top: 1rem;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ff0080;
+    text-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080;
+    opacity: 0;
+    animation: fadeIn 4s ease-in-out 4s forwards;
+    z-index: 2;
+    position: relative;
+}
+
+/* Animaciones */
+@keyframes draw-side {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes blur-fade {
+    0% {
+        filter: blur(8px);
+        opacity: 0.7;
+    }
+
+    100% {
+        filter: none;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+.blink-1 {
+    -webkit-animation: blink-1 2s infinite both;
+    animation: blink-1 2s infinite both;
+}
+
+@-webkit-keyframes blink-1 {
+
+    0%,
+    50%,
+    100% {
+        opacity: 1;
+    }
+
+    25%,
+    75% {
+        opacity: 0;
+    }
+}
+
+@keyframes blink-1 {
+
+    0%,
+    50%,
+    100% {
+        -webkit-transform: scale(1);
+        opacity: 1;
+    }
+
+    25%,
+    75% {
+        opacity: 0;
+    }
+}
+
+.scale-out-center {
+    -webkit-animation: scale-out-center 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+    animation: scale-out-center 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+@keyframes scale-out-center {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes scale-out-center {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scale-out-center {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        opacity: 1;
+    }
+}

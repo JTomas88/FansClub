@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "./componentes/Navbar/Navbar.jsx";
 import { Home } from "./paginas/Home/Home.jsx";
 import { Registro } from "./paginas/Registro/Registro.jsx";
@@ -19,47 +19,86 @@ import { GestionSorteos } from "./paginas/Admin/GestionSorteos.jsx";
 import { Sorteos } from "./paginas/Sorteos/Sorteos.jsx";
 import { Entrada } from "./paginas/Entrada/Entrada.jsx";
 import { Links } from "./paginas/Links/Links.jsx";
-import { BsJustify } from "react-icons/bs";
 
 function App() {
+  const [showSplash, setShowSplash] = useState(false);
+
+  useEffect(() => {
+    // Verificar si el splash ya se mostró
+    const splashShown = localStorage.getItem("splashShown");
+    if (!splashShown) {
+      setShowSplash(true); // Mostrar el splash si no se ha mostrado antes
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+        localStorage.setItem("splashShown", "true"); // Marcar el splash como mostrado
+      }, 8000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
     <BrowserRouter>
-      <Navbar />
-      <div className="App-content">
-        <div className="page-content">
-          <Routes>
-            <Route path="/" element={<Entrada />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/registro" element={<Registro />} />
-            <Route path="/completar-registro" element={<RegistroCompleto />} />
-            <Route path="/inicioSesion" element={<InicioSesion />} />
-            <Route path="/quienessienna" element={<QuienEsSienna />} />
-            <Route path="/objetivoscf" element={<ObjetivosCF />} />
-            <Route path="/links" element={<Links />} />
-            <Route path="/galeriasfotos" element={<Fotos />} />
-            <Route path="/entrevistas" element={<Entrevistas />} />
-            <Route path="/sorteos" element={<Sorteos />} />
-            <Route element={<h1 style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '100vh', // Ocupar toda la altura de la pantalla
-              margin: 0, // Eliminar márgenes adicionales
-            }}>Página no encontrada</h1>} path="*" />
+      {showSplash ? (
+        <Entrada />
+      ) : (
+        <>
+          <Navbar />
+          <div className="App-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/registro" element={<Registro />} />
+              <Route
+                path="/completar-registro"
+                element={<RegistroCompleto />}
+              />
+              <Route path="/inicioSesion" element={<InicioSesion />} />
+              <Route path="/quienessienna" element={<QuienEsSienna />} />
+              <Route path="/objetivoscf" element={<ObjetivosCF />} />
+              <Route path="/links" element={<Links />} />
+              <Route path="/galeriasfotos" element={<Fotos />} />
+              <Route path="/entrevistas" element={<Entrevistas />} />
+              <Route path="/sorteos" element={<Sorteos />} />
+              <Route
+                element={
+                  <h1
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
+                      margin: 0,
+                    }}
+                  >
+                    Página no encontrada
+                  </h1>
+                }
+                path="*"
+              />
 
-            {/* Rutas para administrador */}
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/admin/agenda" element={<Agenda />} />
-            <Route path="/admin/gestionusuarios" element={<GestionUsuarios />} />
-            <Route path="/admin/gestiongalerias" element={<GestionGalerias />} />
-            <Route path="/admin/gestionentrevistas" element={<GestionEntrevistas />} />
-            <Route path="/admin/gestionsorteos" element={<GestionSorteos />} />
-
-
-          </Routes>
-        </div>
-        <Footer />
-      </div>
+              {/* Rutas para administrador */}
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/agenda" element={<Agenda />} />
+              <Route
+                path="/admin/gestionusuarios"
+                element={<GestionUsuarios />}
+              />
+              <Route
+                path="/admin/gestiongalerias"
+                element={<GestionGalerias />}
+              />
+              <Route
+                path="/admin/gestionentrevistas"
+                element={<GestionEntrevistas />}
+              />
+              <Route
+                path="/admin/gestionsorteos"
+                element={<GestionSorteos />}
+              />
+            </Routes>
+            <Footer />
+          </div>
+        </>
+      )}
     </BrowserRouter>
   );
 }

@@ -1,84 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./entrada.css";
 
 export const Entrada = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [isBlinking, setIsBlinking] = useState(false);
+  const [isScalingOut, setIsScalingOut] = useState(false);
 
-    const containerStyle = {
-        backgroundColor: "black",
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+  useEffect(() => {
+    const timerBlink = setTimeout(() => {
+      setIsBlinking(true);
+    }, 5000);
+
+    const timerNavigate = setTimeout(() => {
+      setIsScalingOut(true); 
+      setTimeout(() => {
+        navigate("/");
+      }, 500); 
+    }, 7000);
+
+    return () => {
+      clearTimeout(timerBlink);
+      clearTimeout(timerNavigate);
     };
+  }, [navigate]);
 
-    const svgStyle = {
-        width: "30%",
-        height: "auto",
-    };
-
-    const sideStyle = (delay) => ({
-        fill: "none",
-        stroke: "#8F00FF",
-        strokeWidth: "2",
-        strokeLinecap: "round",
-        strokeDasharray: "100",
-        strokeDashoffset: "100",
-        animation: `draw-side 2s ease-out forwards ${delay}s, blur-fade 2s ease-out forwards ${delay}s`,
-    });
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            navigate("/home");
-        }, 7000);
-        return () => clearTimeout(timer);
-    }, [navigate]);
-
-    return (
-        <div style={containerStyle}>
-            <svg viewBox="0 0 100 100" style={svgStyle}>
-
-                {/* Lado 1 */}
-                <path
-                    style={sideStyle(0)} // Sin retraso
-                    d="M 50 90 L 10 10"
-                />
-
-                {/* Lado 2 */}
-                <path
-                    style={sideStyle(2)} // Retraso de 2s
-                    d="M 10 10 L 90 10"
-                />
-
-                {/* Lado 3 */}
-                <path
-                    style={sideStyle(4)} // Retraso de 4s
-                    d="M 90 10 L 50 90"
-                />
-            </svg>
-            <style>
-                {`
-          /* Animación para el dibujo de cada lado */
-          @keyframes draw-side {
-            to {
-              stroke-dashoffset: 0; /* Lado completamente visible */
-            }
-          }
-
-          /* Animación del efecto de desenfoque */
-          @keyframes blur-fade {
-            0% {
-              filter: url(#blur-effect);
-              opacity: 0.7;
-            }
-            100% {
-              filter: none;
-              opacity: 1;
-            }
-          }
-        `}
-            </style>
+  return (
+    <div className="entrada-overlay">
+      <div className={`inner-box ${isScalingOut ? "scale-out-center" : ""}`}>
+        <svg className="svg" viewBox="0 0 100 100">
+          <path
+            d="M 50 90 L 10 10"
+            className="side"
+            style={{ animationDelay: "0s" }}
+          />
+          <path
+            d="M 10 10 L 90 10"
+            className="side"
+            style={{ animationDelay: "2s" }}
+          />
+          <path
+            d="M 90 10 L 50 90"
+            className="side"
+            style={{ animationDelay: "4s" }}
+          />
+        </svg>
+        <div className={`text ${isBlinking ? "blink-1" : ""}`}>
+          CLUB DE FANS SIENNA
         </div>
-    );
+      </div>
+    </div>
+  );
 };
