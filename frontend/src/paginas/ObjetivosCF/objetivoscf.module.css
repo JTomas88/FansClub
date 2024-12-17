@@ -1,31 +1,91 @@
-.objetivoscf{
-    background-color: black;
+.objetivoscf {
+  background-color: black;
 }
 
 @font-face {
-    font-family: 'Trance';
-    src: url("../../assets//whoaskssatan.ttf");
-    font-weight: bold;
-    font-style: normal;
+  font-family: "Trance";
+  src: url("../../assets//whoaskssatan.ttf");
+  font-weight: bold;
+  font-style: normal;
 }
 
 .titulocol {
-    font-family: 'Trance';
-    font-size: 40px;
-    color: white
+  font-family: "Trance";
+  font-size: 40px;
+  color: white;
+  margin-bottom: 15px;
 }
 
-.texto{
-    margin: 20px;
-    justify-content: center;
+.quienes_somos {
+  font-size: 16px;
+  display: flex;
+  text-align: justify;
+  justify-content: center;
+}
+
+.columna {
+  margin-top: 15px;
+}
+
+.que_haremos,
+.entre_todos {
+  display: flex;
+  justify-content: center;
+  text-align: justify;
+}
+
+.que_haremos ul,
+.entre_todos ul {
+  list-style: none; /* Elimina los bullets predeterminados */
+  padding-left: 0; /* Elimina el padding izquierdo */
+}
+
+.que_haremos ul li,
+.entre_todos ul li {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.decorador {
+  background-image: url("../../assets/-Pendientes-/favicon2.png");
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  background-position: left center;
+  padding-left: 25px;
+}
+
+/* Estilos para dispositivos móviles */
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .columna {
+    width: 100% !important;
+    flex: 0 0 100%;
+    max-width: 100% !important;
+    margin-bottom: 15px;
+  }
+
+  .que_haremos,
+  .entre_todos {
     text-align: justify;
-    align-items: center;
-    font-size: 16px;
-    cursor: default;
-}
+    margin: 0 15px;
+  }
 
-.foto{
-    border-radius: 2%;
-    width: 500px;
-    height: 600px;
+  .titulocol {
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+
+  .que_haremos ul li,
+  .entre_todos ul li {
+    padding-left: 30px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
 }

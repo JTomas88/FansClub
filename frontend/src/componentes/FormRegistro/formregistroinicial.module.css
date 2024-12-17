@@ -9,3 +9,9 @@
 form {
   margin: 3%;
 }
+
+@media (max-width: 768px) {
+  .boxFormulario {
+    width: 350px;
+  }
+}

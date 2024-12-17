@@ -51,7 +51,7 @@ export const FormInicioSesion = () => {
 
 
     return (
-        <div className="container mb-5 mt-5">
+        <div className="container mb-5 mt-5" style={{ height: "50vh" }}>
             <h3 className="justify-text-center">FORMULARIO DE INICIO DE SESIÓN</h3>
             <div className={`${styles.boxFormulario}`}>
 

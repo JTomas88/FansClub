@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/AppContext";
 import { useNavigate } from "react-router-dom";
@@ -88,29 +87,17 @@ export const Sorteos = () => {
     inicializarParticipaciones();
   }, [store.sorteos, datoUsuario]);
 
-  // useEffect(() => {
-  //   if (store?.sorteos) {
-  //     const sorteos = store.sorteos;
-  //     const hoy = new Date();
-  //     const activos = sorteos.filter(sorteo => new Date(sorteo.sorFechaInicio) <= hoy && new Date(sorteo.sorFechaFin) >= hoy)
-  //     console.log('Sorteos activos: ', activos)
-  //     if (activos) {
-  //       setMostrarBoton(true)
-  //     } else { setMostrarBoton(false) }
 
-  //   } else {
-  //     alert('No se han encontrado sorteos')
-  //   }
-  // }, [])
 
   useEffect(() => {
+    const sorteos = JSON.parse(localStorage.getItem("sorteos"));
     const cargarGanadores = async () => {
-      if (store?.sorteos) {
+      if (sorteos) {
         /**
          * Se filtran los sorteos para obtener solamente 
          * aquellos que tienen datos de resultados (Ganadores).
          */
-        const sorteosConGanadores = store.sorteos.filter(
+        const sorteosConGanadores = sorteos.filter(
           (sorteo) => sorteo.sorResultado
         );
 
@@ -288,11 +275,10 @@ export const Sorteos = () => {
                 </div>
                 {esActivo && (
                   <button
-                    className={`btn ${
-                      participaciones[sorteo.sorId]
-                        ? `btn-secondary ${styles.boton_inactivo}`
-                        : "btn-primary"
-                    } ${styles.flotante}`}
+                    className={`btn ${participaciones[sorteo.sorId]
+                      ? `btn-secondary ${styles.boton_inactivo}`
+                      : "btn-primary"
+                      } ${styles.flotante}`}
                     onClick={() => participarEnSorteo(sorteo.sorId)}
                     disabled={participaciones[sorteo.sorId]} // Deshabilitar si ya participó
                   >

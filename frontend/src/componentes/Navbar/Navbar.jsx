@@ -107,7 +107,7 @@ export const Navbar = () => {
 
                         {datoUsuario?.rol === 'admin' ? (
                             <li className="nav-item">
-                                <Link className="nav-link" to="/admin">ADMINISTRADOR</Link>
+                                <Link className="nav-link" to="/admin" style={{ color: 'red' }}>ADMINISTRADOR</Link>
                             </li>
                         ) : (<></>)}
                     </ul>

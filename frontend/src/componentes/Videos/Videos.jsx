@@ -59,8 +59,8 @@ export const Videos = () => {
 
                     <div className="col-6">
                         {!mostrarVideo ? (
-                            <div style={{ margin: '20px 0' }} className="d-flex justify-content-center align-items-center">
-                                <img src={img} style={{ width: "390", height: "219px" }}></img>
+                            <div style={{ margin: '2%' }} className="d-flex justify-content-center align-items-center">
+                                <img src={img} className={styles.foto}></img>
                             </div>
                         ) : (
                             <div className="d-flex justify-content-center align-items-center" style={{ margin: '20px 0' }}>

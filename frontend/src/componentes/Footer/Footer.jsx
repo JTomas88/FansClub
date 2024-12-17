@@ -6,6 +6,7 @@ import { BsTiktok } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { ModalProteccionDatos } from "./ModalProteccionDatos";
 import { ModalUsoCookies } from "./ModalUsoCookies";
+import { PiTelegramLogoLight } from "react-icons/pi";
 
 export const Footer = () => {
     return (
@@ -13,17 +14,17 @@ export const Footer = () => {
             <div className="container">
                 <div className="row text-center justify-content-center">
                     <div className="col-1">
-                        <a href="http://instagram.com" target="_blank">
+                        <a href="https://www.instagram.com/siennacharts/" target="_blank">
                             <FaInstagram fontSize={"20"} />
                         </a>
                     </div>
-                    {/* <div className="col-1">
-                        <a href="https://x.com" target="_blank">
-                            <RiTwitterXLine fontSize={"20"} />
-                        </a>
-                    </div> */}
                     <div className="col-1">
-                        <a href="https://tiktok.com" target="_blank">
+                        <a href="https://t.me/+meErawrgpUtmNmI8" target="_blank">
+                            <PiTelegramLogoLight fontSize={"20"} />
+                        </a>
+                    </div>
+                    <div className="col-1">
+                        <a href="https://www.tiktok.com/@sienna.charts" target="_blank">
                             <BsTiktok fontSize={"20"} />
                         </a>
                     </div>

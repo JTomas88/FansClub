@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect, useNavigate } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "../Admin/agenda.module.css";
 import { Context } from "../../store/AppContext";
 import { LuPencil } from "react-icons/lu";
@@ -22,6 +23,7 @@ export const Agenda = () => {
     const [sugerencias, setSugerencias] = useState([]);
     const [idEditFila, setIdEditFila] = useState(null); //Almacena el Id de la fila que se está editando(
     const [filaEditada, setFilaEditada] = useState({}); // Almacenda los datos editados temporalmente.
+    const [eventoAEliminar, setEventoAEliminar] = useState('')
 
 
 
@@ -260,10 +262,10 @@ export const Agenda = () => {
     };
 
     //Función para eliminar un evento. 
-    const eliminar_evento = async (evento, ev) => {
-        ev.preventDefault();
+    const eliminar_evento = async (idEvento) => {
+
         try {
-            const resultado = await actions.admin_eliminarevento(evento.evId)
+            const resultado = await actions.admin_eliminarevento(idEvento)
             console.log("Evento eliminado con exito", resultado)
             actions.admin_obtenereventos()
 
@@ -349,7 +351,7 @@ export const Agenda = () => {
                                     <textarea type="text" className="form-control" id="observaciones" onChange={changeObservaciones} value={observaciones} />
                                 </div>
                                 <div className="modal-footer d-flex justify-content-center">
-                                    <button type="submit" className="btn btn-primary">Guardar Evento</button>
+                                    <button type="submit" data-bs-dismiss="modal" className="btn btn-primary">Guardar Evento</button>
                                 </div>
 
                             </form>
@@ -492,7 +494,7 @@ export const Agenda = () => {
 
 
                                     {/* //Botón eliminar y modal para confirmar eliminación */}
-                                    <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleliminarevento">
+                                    <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modaleliminarevento" onClick={() => setEventoAEliminar(evento.evId)}>
                                         <MdOutlineDelete />
                                     </button>
                                     <div className="modal fade" id="modaleliminarevento" tabIndex="-1" aria-labelledby="modaleliminareventoLabel" aria-hidden="true">
@@ -507,7 +509,7 @@ export const Agenda = () => {
                                                 </div>
                                                 <div className="modal-footer">
 
-                                                    <button type="button" data-bs-dismiss="modal" className="btn btn-primary" onClick={(ev) => eliminar_evento(evento, ev)}>Eliminar</button>
+                                                    <button type="button" data-bs-dismiss="modal" className="btn btn-primary" onClick={(ev) => eliminar_evento(eventoAEliminar)}>Eliminar</button>
                                                 </div>
                                             </div>
                                         </div>

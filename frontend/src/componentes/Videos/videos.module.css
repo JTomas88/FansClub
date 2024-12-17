@@ -20,6 +20,11 @@ ul {
   color: ghostwhite;
 }
 
+.foto {
+  width: 250px;
+  height: auto;
+}
+
 .contenedor {
   min-height: auto;
   display: flex;

@@ -105,10 +105,10 @@ const getState = ({ getStore, getActions, setStore }) => {
             obtenerUsuarioPorId: async (idUsuario) => {
                 const store = getStore();
 
-                if (!store.userData.id) {
-                    console.error('Id de usuario no disponible')
-                    return;
-                }
+                // if (!store.userData.id) {
+                //     console.error('Id de usuario no disponible')
+                //     return;
+                // }
                 try {
                     const respuesta = await fetch(`${store.backendUrl}/todoslosusuarios/${idUsuario}`, {
                         method: 'GET'
@@ -119,7 +119,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     const data = await respuesta.json()
                     console.log('Datos del usuario recibidos: ', data)
                     if (data) {
-                        const objetoUsuario = JSON.parse(localStorage.getItem('userData'))
+                        const objetoUsuario = JSON.parse(localStorage.getItem('loginData'))
                         const detallesUsuario = {
                             email: data.usEmail,
                             password: data.usPssword,

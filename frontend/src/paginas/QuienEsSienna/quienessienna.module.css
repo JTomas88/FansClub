@@ -1,21 +1,22 @@
 @font-face {
-    font-family: 'Trance';
-    src: url("../../assets/whoaskssatan.ttf");
-    font-weight: bold;
-    font-style: normal;
+  font-family: "Trance";
+  src: url("../../assets/whoaskssatan.ttf");
+  font-weight: bold;
+  font-style: normal;
 }
 
 .titTimeLine {
-    font-family: 'Trance';
-    font-size: 60px;
-    color: white;
-    justify-content: center;
-    display: flex;
-    text-align: center;
+  font-family: "Trance";
+  font-size: 60px;
+  color: white;
+  justify-content: center;
+  display: flex;
+  text-align: center;
+  margin-top: 3%;
 }
 
-@media (max-width: 768px){
-    .titTimeLine{
-        font-size: 45px;
-    }
+@media (max-width: 768px) {
+  .titTimeLine {
+    font-size: 45px;
+  }
 }
