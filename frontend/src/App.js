@@ -24,13 +24,11 @@ function App() {
   const [showSplash, setShowSplash] = useState(false);
 
   useEffect(() => {
-    // Verificar si el splash ya se mostró
-    const splashShown = localStorage.getItem("splashShown");
-    if (!splashShown) {
-      setShowSplash(true); // Mostrar el splash si no se ha mostrado antes
+    if (!localStorage.getItem("splashShown")) {
+      setShowSplash(true);
       const timer = setTimeout(() => {
         setShowSplash(false);
-        localStorage.setItem("splashShown", "true"); // Marcar el splash como mostrado
+        localStorage.setItem("splashShown", "true");
       }, 8000);
       return () => clearTimeout(timer);
     }
