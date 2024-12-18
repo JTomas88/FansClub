@@ -34,6 +34,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             participaciones: [],
 
+            userGanador: [],
+
         },
 
         actions: {
@@ -58,7 +60,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     if (data.access_token) {
                         const datosRecogidos = {
                             token: data.access_token,
-                            userName: data.usUsername,
+                            username: data.usUsername,
                             email: data.usEmail,
                             id: data.usId
                         };
@@ -104,11 +106,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             //Obtener un usuario a través de su id
             obtenerUsuarioPorId: async (idUsuario) => {
                 const store = getStore();
-
-                // if (!store.userData.id) {
-                //     console.error('Id de usuario no disponible')
-                //     return;
-                // }
                 try {
                     const respuesta = await fetch(`${store.backendUrl}/todoslosusuarios/${idUsuario}`, {
                         method: 'GET'
@@ -119,7 +116,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     const data = await respuesta.json()
                     console.log('Datos del usuario recibidos: ', data)
                     if (data) {
-                        const objetoUsuario = JSON.parse(localStorage.getItem('loginData'))
+                        const objetoUsuario = JSON.parse(localStorage.getItem('userData'))
                         const detallesUsuario = {
                             email: data.usEmail,
                             password: data.usPssword,
@@ -223,7 +220,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                             rol: data.rol
                         };
 
-                        localStorage.setItem('loginData', JSON.stringify(datoUsuario))
+                        localStorage.setItem('userData', JSON.stringify(datoUsuario))
 
 
                         setStore({
@@ -904,6 +901,49 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
                 } catch (error) {
                     console.error('Error al crear la participación en el sorteo: ', error)
+                }
+            },
+
+
+            obtenerGanador: async (idUsuario) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(`${store.backendUrl}/todoslosusuarios/${idUsuario}`, {
+                        method: 'GET'
+                    });
+                    if (!respuesta.ok) {
+                        throw new Error(`HTTP error! status: ${respuesta.status}`)
+                    }
+                    const data = await respuesta.json()
+                    console.log('Datos del usuario recibidos: ', data)
+                    if (data) {
+                        const objetoUsuario = JSON.parse(localStorage.getItem('userData'))
+                        const detallesUsuario = {
+                            email: data.usEmail,
+                            password: data.usPssword,
+                            username: data.usUsername,
+                            nombre: data.usNombre || '',
+                            apellidos: data.usApellidos || '',
+                            telefono: data.usTelefono || '',
+                            provincia: data.usProvincia || '',
+                            pueblo: data.usPueblo || '',
+                            direccion: data.usDireccion || '',
+                            rol: data.usRol || '',
+                            token: objetoUsuario.token || '',
+                            id: data.usId || ''
+
+                        }
+                        // Guardar el objeto en localStorage (caché del navegador)
+                        localStorage.setItem('userGanador', JSON.stringify(detallesUsuario));
+
+                        setStore({
+                            userGanador: detallesUsuario
+                        });
+                        console.log("Store actualizado: ", getStore());
+                        return detallesUsuario;
+                    }
+                } catch (error) {
+                    console.error('Error al obtener los detalles del usuario ', error)
                 }
             },
 

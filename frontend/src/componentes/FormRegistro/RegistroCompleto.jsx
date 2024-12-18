@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./registrocompleto.module.css"
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/AppContext";
+import logo from "../../assets/-Pendientes-/logo.png"
 
 export const RegistroCompleto = () => {
     const { store, actions } = useContext(Context);
@@ -48,7 +49,7 @@ export const RegistroCompleto = () => {
 
 
     useEffect(() => {
-        setDatoUsuario(JSON.parse(localStorage.getItem('loginData')))
+        setDatoUsuario(JSON.parse(localStorage.getItem('userData')))
     }, [store.userData])
 
 
@@ -126,7 +127,7 @@ export const RegistroCompleto = () => {
             await actions.editar_usuario(datoUsuario.id, token, email, nombre, apellidos, telefono, pueblo, provincia, direccion)
             setMsjOK("Has actualizado tus datos!");
             setError(null)
-            navigate('/home')
+            navigate('/')
         } else {
             console.error('No se ha encontrado al usuario')
         }
@@ -208,6 +209,11 @@ export const RegistroCompleto = () => {
                 {error && <div className="alert alert-danger" role="alert">{error}</div>}
 
                 <p>Aquí podrás completar tu perfil o editar los datos cuando lo necesites</p>
+                <div className={styles.advertencia}>
+                    <p style={{ backgroundColor: 'orange', display: 'flex', alignItems: 'center', padding: '1%', borderRadius: '10px' }}>
+                        Todos los datos son requeridos para particpar en sorteos
+                    </p>
+                </div>
                 <div className="row mt-4">
                     <div className="col-md-6">
 
@@ -312,6 +318,10 @@ export const RegistroCompleto = () => {
                 </div>
 
             </form>
+
+            <div className="d-flex justify-content-center align-items-center">
+                <img src={logo} className={styles.logo}></img>
+            </div>
 
             {/* //Formulario para cambiar la contraseña */}
             <form onSubmit={handleClickCambioPw}>

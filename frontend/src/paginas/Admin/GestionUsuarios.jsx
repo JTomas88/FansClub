@@ -19,15 +19,15 @@ export const GestionUsuarios = () => {
     //Para que no se pueda acceder con un perfil diferente al de 'admin//
     useEffect(() => {
         try {
-            const userData = JSON.parse(localStorage.getItem('loginData'));
+            const userData = JSON.parse(localStorage.getItem('userData'));
             if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
-                navigate('/home');
+                navigate('/');
             } else {
                 setDatoUsuario(userData);
             }
         } catch (error) {
             console.error('Error al obtener datos de localStorage:', error);
-            navigate('/home');
+            navigate('/');
         }
     }, []);
 
@@ -50,7 +50,7 @@ export const GestionUsuarios = () => {
 
 
     return (
-        <div className="container-fluid">
+        <div className="container-fluid" style={{ height: '85.8vh', overflowY: 'hidden', overflowX: 'hidden' }}>
             <div className={styles.tabla}>
                 <h2 className="text-center">Tabla de Usuarios</h2>
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>

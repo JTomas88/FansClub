@@ -1,0 +1,13 @@
+.advertencia {
+  display: flex;
+  align-content: start;
+
+  margin-bottom: 3%;
+  color: black;
+  height: 90px;
+}
+
+.logo {
+  height: 180px;
+  width: 180px;
+}

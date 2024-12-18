@@ -93,8 +93,9 @@ function App() {
                 element={<GestionSorteos />}
               />
             </Routes>
-            <Footer />
+
           </div>
+          <Footer />
         </>
       )}
     </BrowserRouter>

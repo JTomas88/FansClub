@@ -10,20 +10,20 @@ export const Admin = () => {
 
     useEffect(() => {
         try {
-            const userData = JSON.parse(localStorage.getItem('loginData'));
+            const userData = JSON.parse(localStorage.getItem('userData'));
             if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
-                navigate('/home');
+                navigate('/');
             } else {
                 setDatoUsuario(userData);
             }
         } catch (error) {
             console.error('Error al obtener datos de localStorage:', error);
-            navigate('/home');
+            navigate('/');
         }
     }, []);
 
     return (
-        <div>
+        <div style={{ height: '85.8vh', overflowY: 'hidden', overflowX: 'hidden' }}>
             <div className={`cointainer row ${styles.body_admin}`}>
                 <h3 className="text-dark text-center"><strong> PERFIL DE ADMINISTRADOR</strong></h3>
 

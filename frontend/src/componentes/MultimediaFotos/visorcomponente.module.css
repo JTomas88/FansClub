@@ -18,3 +18,24 @@
   width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
   height: 600px;
 }
+
+.carrousel_movil {
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  min-height: 600px;
+}
+
+@media (max-width: 768px) {
+  .carrousel_movil {
+    margin: 0px auto;
+    position: relative;
+    z-index: 10;
+    min-height: 10px;
+    max-height: 300px;
+  }
+
+  .carousel_image {
+    max-height: 300px;
+  }
+}

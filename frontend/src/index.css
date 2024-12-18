@@ -8,8 +8,8 @@ body {
   background-color: black;
   overflow-x: hidden;
   flex-direction: column;
-  min-height: 100vh;
   display: flex;
+  height: 100%;
 }
 
 code {
@@ -18,9 +18,9 @@ code {
 }
 
 App-content {
+  flex: 1; /* Permite que el contenido principal se expanda */
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Asegura que el contenedor ocupe al menos el 100% de la ventana */
 }
 
 .page-content {
@@ -31,9 +31,11 @@ App-content {
 footer {
   /* Estilos para el footer */
   background-color: #f1f1f1; /* Ejemplo de color */
-  padding: 20px;
   text-align: center;
-  margin-top: auto;
+  padding: 10px;
+  position: relative; /* Para que el footer se posicione bien en layouts largos */
+  bottom: 0;
+  width: 100%;
 }
 .footer-content {
   margin-top: auto; /* Empuja el footer hacia abajo */

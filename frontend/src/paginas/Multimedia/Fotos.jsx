@@ -18,15 +18,15 @@ export const Fotos = () => {
     //Para que no se pueda acceder con un perfil diferente al de 'admin//
     useEffect(() => {
         try {
-            const userData = JSON.parse(localStorage.getItem('loginData'));
+            const userData = JSON.parse(localStorage.getItem('userData'));
             if (!userData || !userData.token || !userData.email) {
-                navigate('/home');
+                navigate('/');
             } else {
                 setDatoUsuario(userData);
             }
         } catch (error) {
             console.error('Error al obtener datos de localStorage:', error);
-            navigate('/home');
+            navigate('/');
         }
     }, []);
 
@@ -36,7 +36,7 @@ export const Fotos = () => {
             <div>
                 <Jumbotron imagenFondo={{ backgroundImage: `url(${Jumbo_fotos})`, backgroundPosition: 'center 30%' }} subtitulo={"¿Cómo has podido destrozar todo lo que vivimos?"} referencia={'foto'} ></Jumbotron>
             </div>
-            <div className="container justify-content-center align-items-center text-center">
+            <div className="container justify-content-center align-items-center text-center" style={{ height: '100vh' }}>
                 <div className={`${styles.titulo}`}>
                     <h1 className={`${styles.titulo}`}>FOTOS</h1>
                 </div>
@@ -51,9 +51,6 @@ export const Fotos = () => {
                 <div className="mb-5">
                     <VisorComponente carpetaSeleccionada={carpetaSeleccionada} />
                 </div>
-
-
-
             </div>
         </>
     )

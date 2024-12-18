@@ -1,26 +1,30 @@
-.tabla{
-    color:black;
-    width: 100%;
-    border-collapse: collapse;
+.tabla {
+  color: black;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.tabla th, .tabla td {
-    padding: 10px;
-    text-align: left;
+.tabla th,
+.tabla td {
+  padding: 10px;
+  text-align: left;
 }
 
 .table-row {
-    border-bottom: 1px solid #ccc; 
+  border-bottom: 1px solid #ccc;
 }
 
 .table-row:last-child {
-    border-bottom: none; 
+  border-bottom: none;
 }
 
 .table-header {
-    background-color: #f2f2f2; 
+  background-color: #f2f2f2;
 }
 
-.body_admin{
-    background-color: white;
+.body_admin {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

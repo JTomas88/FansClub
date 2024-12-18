@@ -59,3 +59,15 @@
     font-size: 0.9rem; /* Tamaño reducido para subtítulos */
   }
 }
+
+@media (max-width: 768px) {
+  .jumbotron_edit,
+  .jumbotron_edit_home,
+  .jumbotron_edit_foto {
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+  }
+}

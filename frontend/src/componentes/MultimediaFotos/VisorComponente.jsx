@@ -62,15 +62,10 @@ export const VisorComponente = ({ carpetaSeleccionada }) => {
                 mostrarCarrusel && (
                     <div
                         id="carrouselFotos"
-                        className="carousel slide"
+                        className={`carousel slide ${styles.carrousel_movil}`}
                         data-bs-ride="carousel"
                         onClick={handleCarouselClick}
-                        style={{
-                            margin: "0 auto",
-                            position: "relative",
-                            zIndex: 10,
-                            minHeight: '600px'
-                        }}
+
                     >
                         {/* Indicadores */}
                         <div className="carousel-indicators">

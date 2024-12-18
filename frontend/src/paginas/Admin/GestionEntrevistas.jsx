@@ -35,15 +35,15 @@ export const GestionEntrevistas = () => {
     //Para que no se pueda acceder con un perfil diferente al de 'admin//
     useEffect(() => {
         try {
-            const userData = JSON.parse(localStorage.getItem('loginData'));
+            const userData = JSON.parse(localStorage.getItem('userData'));
             if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
-                navigate('/home');
+                navigate('/');
             } else {
                 setDatoUsuario(userData);
             }
         } catch (error) {
             console.error('Error al obtener datos de localStorage:', error);
-            navigate('/home');
+            navigate('/');
         }
     }, []);
 
@@ -234,7 +234,7 @@ export const GestionEntrevistas = () => {
 
 
     return (
-        <div className={styles.cuerpo_gestionentrevistas}>
+        <div className={styles.cuerpo_gestionentrevistas} style={{ height: '85.8vh', overflowY: 'hidden', overflowX: 'hidden' }}>
             {/* Sección para crear entrevistas */}
             <h2 className="text-center">Gestión de Entrevistas</h2>
             <button className="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={reseteoFormulario}>

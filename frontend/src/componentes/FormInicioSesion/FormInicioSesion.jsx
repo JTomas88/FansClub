@@ -31,7 +31,7 @@ export const FormInicioSesion = () => {
 
             if (datoUsuario.rol && datoUsuario.email === email) {
                 if (datoUsuario.token && datoUsuario.rol === "usuario") {
-                    navigate('/home')
+                    navigate('/')
                 } else if (datoUsuario.token && datoUsuario.rol === "admin") {
                     navigate('/admin')
                 }

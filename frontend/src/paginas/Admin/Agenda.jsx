@@ -36,15 +36,15 @@ export const Agenda = () => {
     //Para que no se pueda acceder con un perfil diferente al de 'admin//
     useEffect(() => {
         try {
-            const userData = JSON.parse(localStorage.getItem('loginData'));
+            const userData = JSON.parse(localStorage.getItem('userData'));
             if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
-                navigate('/home');
+                navigate('/');
             } else {
                 setDatoUsuario(userData);
             }
         } catch (error) {
             console.error('Error al obtener datos de localStorage:', error);
-            navigate('/home');
+            navigate('/');
         }
     }, []);
 
@@ -279,7 +279,7 @@ export const Agenda = () => {
 
     return (
 
-        <div className="container-fluid">
+        <div className="container-fluid" style={{ height: '85.8vh', overflowY: 'hidden', overflowX: 'hidden' }}>
             <div>
                 {/* <!-- Button trigger modal --> */}
                 <button type="button" className="btn btn-primary mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#modalcrearEvento">

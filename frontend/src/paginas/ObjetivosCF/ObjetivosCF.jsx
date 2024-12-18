@@ -7,7 +7,7 @@ import favicon2 from "../../assets/-Pendientes-/favicon2.png"
 
 export const ObjetivosCF = () => {
     return (
-        <div className="container-fluid">
+        <div>
             <div>
                 <Jumbotron
                     imagenFondo={{

@@ -39,15 +39,15 @@ export const GestionSorteos = () => {
     //Para que no se pueda acceder con un perfil diferente al de 'admin//
     useEffect(() => {
         try {
-            const userData = JSON.parse(localStorage.getItem('loginData'));
+            const userData = JSON.parse(localStorage.getItem('userData'));
             if (!userData || !userData.token || !userData.email || userData.rol !== 'admin') {
-                navigate('/home');
+                navigate('/');
             } else {
                 setDatoUsuario(userData);
             }
         } catch (error) {
             console.error('Error al obtener datos de localStorage:', error);
-            navigate('/home');
+            navigate('/');
         }
     }, []);
 
@@ -356,7 +356,7 @@ export const GestionSorteos = () => {
 
 
     return (
-        <div className={styles.cuerpo_gestionSorteos}>
+        <div className={styles.cuerpo_gestionSorteos} style={{ height: '85.8vh', overflowY: 'hidden', overflowX: 'hidden' }}>
             {/* Sección para crear sorteos */}
             <h2 className="text-center">Gestión de Sorteos</h2>
             <button className="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#crearSorteo">

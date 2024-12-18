@@ -12,7 +12,7 @@
 }
 
 .contenedor {
-  width: 80%;
+  width: 100%;
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -94,6 +94,15 @@
 }
 .col {
   flex: 1 0 0%;
+}
+
+.advertencia {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  margin-bottom: 3%;
+  color: black;
+  height: 90px;
 }
 
 @media (max-width: 768px) {

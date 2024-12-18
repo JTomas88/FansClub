@@ -14,6 +14,9 @@ export const Sorteos = () => {
   const [sorteosConResultado, setSorteosConResultado] = useState([]);
   const [ganadores, setGanadores] = useState([]);
   const [sorteosCache, setSorteosCache] = useState([]);
+  const [filtro, setFiltro] = useState('activos')
+  const [selectedItem, setSelectedItem] = useState(1);
+  const [spinner, setSpinner] = useState(false)
 
   //Obtiene todos los sorteos
   useEffect(() => {
@@ -27,25 +30,30 @@ export const Sorteos = () => {
 
   useEffect(() => {
     try {
-      const userData = JSON.parse(localStorage.getItem("loginData"));
+      const userData = JSON.parse(localStorage.getItem("userData"));
       if (!userData || !userData.token || !userData.email) {
-        navigate("/home");
+        navigate("/");
       } else {
         setDatoUsuario(userData);
       }
     } catch (error) {
       console.error("Error al obtener datos de localStorage:", error);
-      navigate("/home");
+      navigate("/");
     }
   }, []);
 
   const participarEnSorteo = async (sorteoID) => {
     const userID = datoUsuario?.id;
+    const sorteos = JSON.parse(localStorage.getItem("sorteos"));
     try {
-      const sorteo = store.sorteos.find((sorteo) => sorteo.sorId === sorteoID);
+      const sorteo = sorteos.find((sorteo) => sorteo.sorId === sorteoID);
       if (!sorteo) {
         alert("El sorteo no existe o no se ha encontrado");
         return;
+      }
+      if (!datoUsuario.nombre) {
+        alert('nombre vacio, rellena tus datos para poder participar en sorteos')
+        return
       }
 
       const fechaActual = new Date();
@@ -110,7 +118,7 @@ export const Sorteos = () => {
         for (const sorteo of sorteosConGanadores) {
           try {
             /** Se obtiene el id del ganador. */
-            const ganadorData = await actions.obtenerUsuarioPorId(
+            const ganadorData = await actions.obtenerGanador(
               sorteo.sorResultado
             );
             if (ganadorData) {
@@ -137,7 +145,56 @@ export const Sorteos = () => {
     };
 
     cargarGanadores();
-  }, [store.sorteos, actions]);
+  }, [store.sorteos]);
+
+
+  const handleDotClick = (index) => {
+    setSelectedItem(selectedItem === index ? null : index);
+  };
+
+
+  const clasificarSorteos = (sorteos) => {
+    try {
+      const hoy = new Date();
+
+      // Ajusta la fecha del día actual para que sea a las 23:59:59
+      const finHoy = new Date(hoy);
+      finHoy.setHours(23, 59, 59, 999);
+
+      const activos = sorteos.filter(sorteo => {
+        const inicio = new Date(sorteo.sorFechaInicio);
+        const fin = new Date(sorteo.sorFechaFin);
+
+        // Ajusta la fecha de fin del sorteo para incluir el día completo
+        fin.setHours(23, 59, 59, 999);
+
+        return inicio >= hoy || (inicio <= hoy && fin >= hoy);
+      });
+
+      const pasados = sorteos.filter(sorteo => {
+        const fin = new Date(sorteo.sorFechaFin);
+
+        // Ajusta la fecha de fin del sorteo para incluir el día completo
+        fin.setHours(23, 59, 59, 999);
+
+        return fin < hoy;
+      });
+
+      console.log("Sorteos activos: ", activos);
+
+      switch (filtro) {
+        case "activos":
+          return activos;
+        case "pasados":
+          return pasados;
+        default:
+          return activos;
+      }
+    } catch (error) {
+      console.error("Error clasificando sorteos:", error);
+      return [];
+    }
+  };
 
   return (
     <>
@@ -154,14 +211,33 @@ export const Sorteos = () => {
           <h1 className={`${styles.titulo}`}>SORTEOS</h1>
         </div>
       </div>
+      <div className={styles.advertencia}>
+        <p style={{ backgroundColor: 'orange', display: 'flex', alignItems: 'center', padding: '1%', borderRadius: '10px' }}>
+          Sólo es posible participar si los datos en "Mi perfil" están completos
+        </p>
+      </div>
+      <div className="d-flex d-flex justify-content-center">
+        <p>Filtrar sorteos por: </p>
+      </div>
+
+      <div className="d-flex mb-4 d-flex justify-content-center">
+
+        <button className={`btn m-2 ${selectedItem === 0 ? 'btn-success' : 'btn-secondary'}`} onClick={() => { setFiltro('pasados'); handleDotClick(0) }}>
+          Sorteos pasados
+        </button>
+
+        <button className={`btn m-2 ${selectedItem === 1 ? 'btn-success' : 'btn-secondary'}`} onClick={() => { setFiltro('activos'); handleDotClick(1) }}>
+          Sorteos Vigentes / Futuros
+        </button>
+      </div>
 
       {/* Contenedor de sorteos */}
       <div
         className={`container d-flex flex-column align-items-start ${styles.tarjeta}`}
         style={{ color: "black" }}
       >
-        {sorteosCache && sorteosCache.length > 0 ? (
-          sorteosCache.map((sorteo, index) => {
+        {sorteosCache && sorteosCache.length > 0
+          ? clasificarSorteos(sorteosCache).map((sorteo, index) => {
             const hoy = new Date();
             const fechaInicio = new Date(sorteo.sorFechaInicio);
             const fechaFin = new Date(sorteo.sorFechaFin);
@@ -318,10 +394,10 @@ export const Sorteos = () => {
                 )}
               </div>
             );
-          })
-        ) : (
-          <p className="text-center">No hay sorteos disponibles.</p>
-        )}
+          }
+          ) : (
+            <p className="text-center">No hay sorteos disponibles.</p>
+          )}
       </div>
     </>
   );

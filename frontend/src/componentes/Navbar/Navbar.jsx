@@ -13,7 +13,8 @@ export const Navbar = () => {
 
 
     useEffect(() => {
-        setDatoUsuario(JSON.parse(localStorage.getItem('loginData')))
+        // setDatoUsuario(JSON.parse(localStorage.getItem('loginData')))
+        setDatoUsuario(JSON.parse(localStorage.getItem('userData')))
     }, [store.userData])
 
 
