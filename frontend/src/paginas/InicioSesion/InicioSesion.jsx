@@ -1,6 +1,6 @@
 import React from "react";
 import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
-import Jumbo_InicioSesion from "../../assets/imagenes_jumbotron/Jumbotron_InicioSesion.jpg"
+import Jumbo_InicioSesion from "../../assets/imagenes_jumbotron/Jumbotron_InicioSesion.png"
 import { FormInicioSesion } from "../../componentes/FormInicioSesion/FormInicioSesion";
 
 export const InicioSesion = () => {

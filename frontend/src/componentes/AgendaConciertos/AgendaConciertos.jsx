@@ -92,12 +92,9 @@ export const AgendaConciertos = () => {
 
     return (
         <>
-            <h2 className={styles.tit_agenda}>Próximos conciertos</h2>
+            <h2 className={styles.titulo}>Próximos conciertos</h2>
 
-            <div
-            // ref={mountRef}
-            // style={{ position: "relative", width: "100%", height: "40vh" }}
-            >
+            <div>
                 <div className={`container mt-5 ${styles.fondo}`}>
 
                     <div className={styles.tablaResponsiva}>

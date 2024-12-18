@@ -20,7 +20,7 @@ export const Home = () => {
                 >
                 </Jumbotron>
 
-                <div className="d-flex justify-content-center align-items-center text-center">
+                <div className="d-flex justify-content-center align-items-center text-center mt-3">
                     <iframe
                         className={styles.spotify_iframe}
                         style={{ borderRadius: "12px" }}

@@ -9,11 +9,12 @@
   font-style: normal;
 }
 
-.titulocol {
+.titulo {
   font-family: "Trance";
-  font-size: 40px;
+  font-size: 80px;
   color: white;
-  margin-bottom: 15px;
+  margin-top: 3%;
+  margin-bottom: 3%;
 }
 
 .quienes_somos {
@@ -77,9 +78,10 @@
     margin: 0 15px;
   }
 
-  .titulocol {
+  .titulo {
     font-size: 30px;
-    margin-bottom: 15px;
+    margin-bottom: 3%;
+    margin-top: 3%;
   }
 
   .que_haremos ul li,

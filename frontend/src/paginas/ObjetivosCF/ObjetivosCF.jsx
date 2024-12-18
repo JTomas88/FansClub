@@ -21,7 +21,7 @@ export const ObjetivosCF = () => {
 
             <div className="container">
                 <div className="row">
-                    <div className={`text-center ${styles.titulocol}`}>
+                    <div className={`text-center ${styles.titulo}`}>
                         QUIENES SOMOS
                     </div>
                     <div className={styles.quienes_somos}>
@@ -38,7 +38,7 @@ export const ObjetivosCF = () => {
                 </div>
                 <div className="row">
                     <div className={`col-6 ${styles.columna}`}>
-                        <div className={`text-center ${styles.titulocol}`}>
+                        <div className={`text-center ${styles.titulo}`}>
                             ¿QUE HAREMOS?
                         </div>
                         <div className={styles.que_haremos}>
@@ -54,7 +54,7 @@ export const ObjetivosCF = () => {
                     </div>
 
                     <div className={`col-6 ${styles.columna}`}>
-                        <div className={`text-center ${styles.titulocol}`}>
+                        <div className={`text-center ${styles.titulo}`}>
                             ENTRE TODOS
                         </div>
                         <div className={styles.entre_todos}>

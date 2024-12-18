@@ -41,13 +41,13 @@ export const Entrevistas = () => {
             </div >
 
             {/* Contenedor de entrevistas */}
-            <div className={`container d-flex flex-column align-items-start ${styles.tarjeta}`} style={{ color: "black" }}>
+            <div className="container d-flex flex-column align-items-start" style={{ color: "black" }}>
                 {store.entrevistas && store.entrevistas.length > 0 ? (
                     store.entrevistas.map((entrevista, index) => (
                         <div
                             key={index}
-                            className={`${styles.contenedor} p-4 mb-5`}
-                            style={{ width: "80%", backgroundColor: "#f9f9f9", borderRadius: "10px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+                            className="p-5 mb-5"
+                            style={{ width: "100%", backgroundColor: "#f9f9f9", borderRadius: "10px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
                         >
                             {/* Fila 1: Fecha */}
                             <div className="row mb-3">
