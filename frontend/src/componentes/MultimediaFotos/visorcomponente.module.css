@@ -1,5 +1,6 @@
 .carousel_image {
   height: 500px;
+  max-height: 80vh;
   width: auto; /* Cambiado de w-40 a width auto */
   max-width: 100%; /* Esto asegura que la imagen no desborde el contenedor */
   object-fit: cover; /* Mantiene la proporción y recorta si es necesario */
@@ -23,7 +24,7 @@
   margin: 0 auto;
   position: relative;
   z-index: 10;
-  min-height: 600px;
+  height: 60vh;
 }
 
 @media (max-width: 768px) {
@@ -37,5 +38,9 @@
 
   .carousel_image {
     max-height: 300px;
+  }
+
+  .indicadores {
+    top: 300px !important;
   }
 }

@@ -90,7 +90,7 @@ export const Entrevistas = () => {
                                                             src={imagenesSeparadas[0]}
                                                             className="img-fluid mb-3"
                                                             style={{
-                                                                maxHeight: "500px",
+                                                                maxHeight: "300px",
                                                                 objectFit: "cover",
                                                                 borderRadius: "10px",
                                                                 boxShadow: "15px 15px 10px rgba(0, 0, 0, 0.5)"
@@ -102,7 +102,7 @@ export const Entrevistas = () => {
                                             );
                                         } else {
                                             const cuerpo = entrevista.entCuerpoEntrevista;
-                                            const parrafos = cuerpo.split(/\r?\n/)
+                                            const parrafos = cuerpo.split("$")
                                             const totalImagenes = imagenesSeparadas.length;
                                             const totalParrafos = parrafos.length;
                                             const imagenesPorParrafo = Math.ceil(totalParrafos / totalImagenes);
@@ -117,22 +117,25 @@ export const Entrevistas = () => {
                                                             return (
                                                                 <div key={index} className="col-md-12 mb-1" style={{ display: 'flex', flexDirection: 'column' }}>
                                                                     {/* Párrafo con texto */}
-                                                                    <p style={{ textAlign: 'justify' }}>{parrafo}</p>
+                                                                    <p style={{ textAlign: 'justify' }}>{`\n${parrafo.trim()}\n`}</p>
 
                                                                     {/* Mostrar imagen solo si se debe mostrar */}
                                                                     {mostrarImagen && imagenIndex < totalImagenes && (
-                                                                        <img
-                                                                            alt={`imagen-${imagenIndex}`}
-                                                                            src={imagenesSeparadas[imagenIndex]}
-                                                                            className="img-fluid"
-                                                                            style={{
-                                                                                width: "48%",
-                                                                                height: "auto",
-                                                                                objectFit: "cover",
-                                                                                borderRadius: "10px",
-                                                                                boxShadow: "15px 15px 10px rgba(0, 0, 0, 0.5)"
-                                                                            }}
-                                                                        />
+                                                                        <div className="d-flex justify-content-center">
+                                                                            <img
+                                                                                alt={`imagen-${imagenIndex}`}
+                                                                                src={imagenesSeparadas[imagenIndex]}
+                                                                                className="img-fluid"
+                                                                                style={{
+                                                                                    width: "30%",
+                                                                                    height: "auto",
+                                                                                    objectFit: "cover",
+                                                                                    borderRadius: "10px",
+                                                                                    boxShadow: "15px 15px 10px rgba(0, 0, 0, 0.5)"
+                                                                                }}
+                                                                            />
+                                                                        </div>
+
                                                                     )}
 
                                                                     {/* Asegurarse de incrementar el índice de la imagen cuando se haya mostrado una */}

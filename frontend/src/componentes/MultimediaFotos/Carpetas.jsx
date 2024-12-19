@@ -23,7 +23,7 @@ export const Carpetas = ({ setCarpetaSeleccionada }) => {
 
     return (
         <div>
-            <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", height: '6vh' }}>
                 {Array.isArray(store.carpetasFotos) && store.carpetasFotos.length > 0 ? (
                     store.carpetasFotos.map((carpeta, index) => (
                         <div

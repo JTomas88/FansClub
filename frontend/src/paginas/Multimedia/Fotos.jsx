@@ -36,7 +36,7 @@ export const Fotos = () => {
             <div>
                 <Jumbotron imagenFondo={{ backgroundImage: `url(${Jumbo_fotos})`, backgroundPosition: 'center 30%' }} subtitulo={"¿Cómo has podido destrozar todo lo que vivimos?"} referencia={'foto'} ></Jumbotron>
             </div>
-            <div className="container justify-content-center align-items-center text-center" style={{ height: '100vh' }}>
+            <div className={`container justify-content-center align-items-center text-center ${styles.control_navbar}`}>
                 <div className={`${styles.titulo}`}>
                     <h1 className={`${styles.titulo}`}>FOTOS</h1>
                 </div>
@@ -48,7 +48,7 @@ export const Fotos = () => {
                 </div>
 
                 {/* Pasamos la carpeta seleccionada a VisorFotos */}
-                <div className="mb-5">
+                <div className="mb-5" style={{ height: '30vh' }}>
                     <VisorComponente carpetaSeleccionada={carpetaSeleccionada} />
                 </div>
             </div>

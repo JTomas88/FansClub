@@ -265,8 +265,10 @@ export const GestionEntrevistas = () => {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="cuerpo" className="form-label">Entrevista</label>
+                                    <p style={{ fontSize: '15px' }}>Separar el texto con simbolo $ para control de párrafos</p>
                                     <textarea type="text" className="form-control" id="cuerpo" value={cuerpo} onChange={(e) => setCuerpo(e.target.value)} rows={10} style={{ width: '100%' }} />
                                 </div>
+
                                 <div className="mb-3">
                                     <label htmlFor="fotos" className="form-label">Fotos</label>
                                     <input className="form-control" type="file" id="fotos" multiple onChange={manejarArchivos} ref={fileInputRef} />

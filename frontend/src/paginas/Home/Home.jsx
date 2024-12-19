@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
 import imgJumbo from "../../assets/imagenes_jumbotron/JumboHome.png"
 import { SliderHome } from "../../componentes/Slider/SliderHome";
@@ -7,6 +7,16 @@ import { AgendaConciertos } from "../../componentes/AgendaConciertos/AgendaConci
 import styles from "./home.module.css"
 
 export const Home = () => {
+    const [iframeLoaded, setIframeLoaded] = useState(false);
+
+    useEffect(() => {
+        // Asegúrate de que esto solo se ejecute una vez al montar el componente
+        if (!iframeLoaded) {
+            setIframeLoaded(true);
+        }
+    }, []);
+
+
     return (
         <div className="bg-color mb-3">
             <div>
@@ -20,19 +30,22 @@ export const Home = () => {
                 >
                 </Jumbotron>
 
-                <div className="d-flex justify-content-center align-items-center text-center mt-3">
-                    <iframe
-                        className={styles.spotify_iframe}
-                        style={{ borderRadius: "12px" }}
-                        src="https://open.spotify.com/embed/artist/4PSNWFX3rYscMdKRp59uYA?utm_source=generator&theme=0&autoplay=1"
-                        width="30%"
-                        height="100"
-                        frameBorder="0"
-                        allowFullScreen
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                        loading="lazy"
-                    ></iframe>
-                </div>
+                {iframeLoaded && (
+                    <div className="d-flex justify-content-center align-items-center text-center mt-3">
+                        <iframe
+                            className={styles.spotify_iframe}
+                            style={{ borderRadius: "12px" }}
+                            src="https://open.spotify.com/embed/artist/4PSNWFX3rYscMdKRp59uYA?utm_source=generator&theme=0&autoplay=1"
+                            width="30%"
+                            height="100"
+                            frameBorder="0"
+                            allowFullScreen
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            loading="lazy"
+                            title="Spotify Artist"
+                        ></iframe>
+                    </div>
+                )}
 
 
                 <div className="mt-3">

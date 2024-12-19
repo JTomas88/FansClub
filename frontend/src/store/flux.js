@@ -303,8 +303,12 @@ const getState = ({ getStore, getActions, setStore }) => {
             logOut: () => {
                 const store = getStore();
 
-                localStorage.clear();
+                // localStorage.clear();
                 localStorage.removeItem("userData");
+                localStorage.removeItem("sorteos");
+                localStorage.removeItem("userGanador");
+                localStorage.removeItem("splashShown");
+
                 setStore({
                     userData: null
                 })

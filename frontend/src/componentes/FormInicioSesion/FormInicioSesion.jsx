@@ -9,6 +9,8 @@ export const FormInicioSesion = () => {
     const [error, setError] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [checkActivo, setCheckActivo] = useState(false)
+
 
     useEffect(() => {
         actions.obtenerTodosLosUsuarios();
@@ -47,6 +49,33 @@ export const FormInicioSesion = () => {
 
     }
 
+    useEffect(() => {
+        const emailGuardado = JSON.parse(localStorage.getItem("email"));
+        const passwordGuardada = JSON.parse(localStorage.getItem("password"));
+
+        if (emailGuardado && passwordGuardada) {
+            setEmail(emailGuardado);
+            setPassword(passwordGuardada)
+            setCheckActivo(true)
+        }
+    }, [])
+
+    const clickRecordar = async (evento) => {
+
+        if (!checkActivo) {
+            localStorage.setItem("email", JSON.stringify(email));
+            localStorage.setItem("password", JSON.stringify(password));
+        } else {
+            localStorage.removeItem("email");
+            localStorage.removeItem("password");
+        }
+    }
+
+    const handleCheckboxChange = () => {
+        setCheckActivo(!checkActivo);
+        clickRecordar();
+    }
+
 
 
 
@@ -63,6 +92,7 @@ export const FormInicioSesion = () => {
                             className="form-control"
                             placeholder="Introduce tu correo electrónico"
                             onChange={(e) => setEmail(e.target.value)} value={email}
+
                             id="inputEmail" />
                     </div>
 
@@ -76,7 +106,8 @@ export const FormInicioSesion = () => {
                     </div>
 
                     <div className="mb-3 form-check text-start">
-                        <input type="checkbox" className="form-check-input " id="exampleCheck1" />
+                        <input type="checkbox" className="form-check-input " id="exampleCheck1" checked={checkActivo} onClick={handleCheckboxChange}
+                        />
                         <label className="form-check-label text-white " htmlFor="exampleCheck1">Recordar mis datos</label>
                     </div>
                     <button type="submit" className="btn btn-primary">Enviar</button>

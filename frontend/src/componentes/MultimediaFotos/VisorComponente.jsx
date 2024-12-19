@@ -15,7 +15,7 @@ export const VisorComponente = ({ carpetaSeleccionada }) => {
             if (carouselElement) {
                 carouselElement.scrollIntoView({
                     behavior: "smooth",
-                    block: "start"
+                    block: "nearest"
                 });
             }
         }, 100);
@@ -55,7 +55,7 @@ export const VisorComponente = ({ carpetaSeleccionada }) => {
     }, [carpetaSeleccionada, actions]);
 
     return (
-        <div onClick={handleOutsideClick} style={{ position: "relative" }}>
+        <div onClick={handleOutsideClick} style={{ position: "relative", top: '150px' }}>
             {fotos.length <= 0 && carpetaVacia ? (
                 <p style={{ color: "red" }}>{carpetaVacia}</p>
             ) : (
@@ -68,7 +68,7 @@ export const VisorComponente = ({ carpetaSeleccionada }) => {
 
                     >
                         {/* Indicadores */}
-                        <div className="carousel-indicators">
+                        <div className={`carousel-indicators ${styles.indicadores}`} style={{ top: '500px' }}>
                             {fotos.map((_, index) => (
                                 <button
                                     key={index}

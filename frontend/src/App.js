@@ -24,12 +24,18 @@ function App() {
   const [showSplash, setShowSplash] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem("splashShown")) {
+    // Verifica si el splash ya ha sido mostrado
+    const splashShown = localStorage.getItem("splashShown");
+
+    // Si no se ha mostrado el splash, muestra el componente
+    if (!splashShown) {
       setShowSplash(true);
       const timer = setTimeout(() => {
         setShowSplash(false);
-        localStorage.setItem("splashShown", "true");
-      }, 8000);
+        localStorage.setItem("splashShown", JSON.stringify(true));  // Marca que el splash ha sido mostrado
+      }, 8000);  // Tiempo de duración del splash
+
+      // Limpia el temporizador si el componente se desmonta antes de que termine
       return () => clearTimeout(timer);
     }
   }, []);
