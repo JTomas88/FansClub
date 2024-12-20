@@ -74,7 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                             error: null
                         });
                         console.log(("Datos del usuario recogidos:", datosRecogidos));
-                        window.location.href = '/completar-registro'; // Asumiendo que esta es la ruta de la página de "completar registro"
+                        //window.location.href = '/completar-registro';  Asumiendo que esta es la ruta de la página de "completar registro"
                     } else {
                         // Si no se obtiene el access_token, entonces hubo un error
                         setStore({

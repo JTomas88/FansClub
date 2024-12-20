@@ -29,6 +29,7 @@ export const FormRegistroInicial = () => {
 
         })
         await actions.crear_usuario(email, username, password);
+        navigate('/completar-registro')
 
     }
 
