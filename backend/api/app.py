@@ -61,6 +61,11 @@ def sitemap():
 setup_admin(app)
 
 
+@app.route('/<path:path>', methods=['GET'])
+def catch_all(path):
+    return app.send_static_file('index.html')
+
+
 
 ## ---------- >> USUARIOS, ACCESO Y CREACIÓN DE TOKENS << ------------- ##
 
