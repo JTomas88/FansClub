@@ -16,6 +16,7 @@ import cloudinary
 import cloudinary.api
 import cloudinary.uploader
 import json
+import secrets
 
 # Cargar el archivo .env
 load_dotenv()
@@ -29,6 +30,8 @@ cloudinary.config(
 )
 
 app = Flask(__name__)
+
+print(secrets.token_hex(32))
 
 
 # Configura la URI de la base de datos (en este caso SQLite)
