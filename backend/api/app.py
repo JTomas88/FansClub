@@ -35,7 +35,7 @@ print(secrets.token_hex(32))
 
 
 # Configura la URI de la base de datos (en este caso SQLite)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'  # La base de datos estará en un archivo llamado 'data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')  # La base de datos estará en un archivo llamado 'data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Desactivar las notificaciones de modificaciones de objetos
 
 # Inicializa SQLAlchemy con la app de Flask
