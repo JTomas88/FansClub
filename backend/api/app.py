@@ -29,7 +29,9 @@ cloudinary.config(
     cloudinary_url=os.getenv('CLOUDINARY_URL')
 )
 
-app = Flask(__name__)
+# app = Flask(__name__)
+app = Flask(__name__, static_folder='build', static_url_path='/')
+
 
 print(secrets.token_hex(32))
 
