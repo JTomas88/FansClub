@@ -44,7 +44,7 @@ db.init_app(app)
 migrate = Migrate(app, db)
 
 # CORS(app)
-CORS(app, resources={r"/*": {"origins": "https://fansclub-v-2.onrender.com/"}}, supports_credentials=True)
+CORS(app, resources={r"/*": {"origins": "https://fansclub-v-2.onrender.com"}}, supports_credentials=True)
 
 
 jwt = JWTManager(app)

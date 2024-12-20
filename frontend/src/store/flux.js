@@ -53,7 +53,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                             usUsername: userName,
                             usPassword: password
                         }),
-                        headers: { 'Content-Type': 'application/json' }
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: "include"
                     });
                     const data = await respuesta.json();
 
