@@ -83,7 +83,7 @@ export const VisorComponente = ({ carpetaSeleccionada }) => {
                         </div>
 
                         {/* Contenedor de imágenes */}
-                        <div className={`carousel-inner ${styles.carruinner}`}>
+                        <div className={`carousel-inner ${styles.carruinner}`} >
                             {fotos.map((foto, index) => (
                                 <div
                                     key={index}

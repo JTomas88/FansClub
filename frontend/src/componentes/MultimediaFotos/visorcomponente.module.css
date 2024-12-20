@@ -36,11 +36,25 @@
     max-height: 300px;
   }
 
-  .carousel_image {
-    max-height: 300px;
-  }
+  /* .carousel_image {
+    height: 500px;
+    margin: 0 auto;
+    max-height: 80vh;
+    max-width: 100%;
+    object-fit: cover;
+    width: auto;
+    position: absolute;
+    top: 219px;
+  } */
 
-  .indicadores {
-    top: 300px !important;
+  .visorcomponente_carruinner {
+    height: 600px;
+    position: relative;
+    width: 100%;
+    margin-top: 45%;
   }
+}
+
+.indicadores {
+  top: 500px !important;
 }

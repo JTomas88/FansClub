@@ -1,7 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Grape+Nuts&display=swap");
-
+@font-face {
+  font-family: "NavBarFont";
+  src: url("../../assets/JMH\ Typewriter.otf");
+}
 .login_signup {
-  font-family: "Grape", cursive;
+  font-family: "NavBarFont";
   display: flex;
   gap: 15px;
   font-size: 18px;
@@ -20,11 +22,6 @@
 
 .login_signup button:active {
   transform: scale(0.95);
-}
-
-@font-face {
-  font-family: "NavBarFont";
-  src: url("../../assets/JMH\ Typewriter.otf");
 }
 
 .enlaces {
@@ -61,4 +58,10 @@
   color: #8f00ff; /* Color morado cuando está enfocado o activo */
   outline: none;
   box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .login_signup {
+    font-family: "NavBarFont";
+  }
 }
