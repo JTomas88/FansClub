@@ -795,4 +795,6 @@ def mostrarImagenesCarpeta(nombreCarpeta):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Obtener el puerto desde la variable de entorno (Render lo asignará automáticamente)
+    port = int(os.environ.get("PORT", 5000))  # Usamos 5000 por defecto si no está configurado
+    app.run(host='0.0.0.0', port=port, debug=True)
