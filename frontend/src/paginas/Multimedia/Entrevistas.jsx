@@ -96,7 +96,8 @@ export const Entrevistas = () => {
                                                                 maxHeight: "300px",
                                                                 objectFit: "cover",
                                                                 borderRadius: "10px",
-                                                                boxShadow: "15px 15px 10px rgba(0, 0, 0, 0.5)"
+                                                                boxShadow: "15px 15px 10px rgba(0, 0, 0, 0.5)",
+                                                                marginBottom: "2%"
                                                             }}
                                                         />
                                                     </div>
