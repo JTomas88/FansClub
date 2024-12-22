@@ -370,7 +370,7 @@ export const RegistroCompleto = () => {
                         <div className="align-content-center d-flex justify-content-center">
 
                             {validarPasswordNueva ? (
-                                <button type="submit" className="btn btn-outline-light" >Cambiar contraseña</button>
+                                <button type="submit" className="btn botones" >Cambiar contraseña</button>
                             ) : (
                                 <button type="submit" className="btn btn-outline-light " disabled >Cambiar contraseña</button>
 
