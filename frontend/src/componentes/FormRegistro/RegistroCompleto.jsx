@@ -243,7 +243,6 @@ export const RegistroCompleto = () => {
                                 className="form-label fs-5 text-white">Email</label>
                             <input type="email"
                                 className="form-control"
-                                disabled
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 id="email" />
