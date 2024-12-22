@@ -12,7 +12,7 @@ class RolUsuarioEnum(Enum):
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
     usId = db.Column(db.Integer, primary_key=True)
-    usEmail = db.Column(db.String(120), unique=True, nullable=False)
+    usEmail = db.Column(db.String(120), nullable=False)
     usPassword = db.Column(db.String(250), nullable=False)
     usUsername = db.Column(db.String(120), nullable=False)
     usNombre = db.Column(db.String(250))
