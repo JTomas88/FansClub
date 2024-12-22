@@ -151,11 +151,13 @@ def editar_usuario(usId):
     if not data:
         return jsonify({"error": "sin datos"}), 400
     
-    if 'usEmail' in data:
-        if Usuario.query.filter_by(usEmail=data['usEmail']).first() and data['usEmail'] != usuario.usEmail:
-            return jsonify({"Error": "el correo electrónico al que se intenta modificar ya está en uso"}), 400
+    # if 'usEmail' in data:
+    #     if Usuario.query.filter_by(usEmail=data['usEmail']).first() and data['usEmail'] != usuario.usEmail:
+    #         return jsonify({"Error": "el correo electrónico al que se intenta modificar ya está en uso"}), 400
     
     try:
+        if 'usEmail' in data:
+            usuario.usEmail = data['usEmail']
         if 'usNombre' in data:
             usuario.usNombre = data['usNombre']     
         if 'usApellidos' in data:

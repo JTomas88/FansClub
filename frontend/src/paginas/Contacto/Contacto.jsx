@@ -30,7 +30,7 @@ export const Contacto = () => {
 
     //Cargamos los datos del usuario si ya está registrado, si no se muestran los campos en blanco
     useEffect(() => {
-        if (datoUsuario.id) {
+        if (datoUsuario && datoUsuario?.id) {
             setNombre(datoUsuario.nombre || '');
             setEmail(datoUsuario.email || '');
         }
