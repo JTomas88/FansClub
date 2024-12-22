@@ -22,6 +22,12 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 
+ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
+static_file_dir = os.path.join(os.path.dirname(
+    os.path.realpath(__file__)), '../public/')
+
+
+
 # Cargar el archivo .env
 load_dotenv()
 
@@ -59,26 +65,27 @@ CORS(app, resources={r"/*": {"origins": ["https://fansclub-v-2.onrender.com", "h
 jwt = JWTManager(app)
 
 
-@app.route('/')
-def serve():
-    return send_from_directory(app.static_folder, 'index.html')
+
 
 
 @app.route('/')
 def sitemap():
-    return generate_sitemap(app)
+    if ENV == "development":
+        return generate_sitemap(app)
+    return send_from_directory(static_file_dir, 'index.html')
 
 # Configura el Admin
 setup_admin(app)
 
 
 
-@app.route('/<path:path>')
-def static_proxy(path):
-    try:
-        return send_from_directory(app.static_folder, path)
-    except:
-        return send_from_directory(app.static_folder, 'index.html')
+@app.route('/<path:path>', methods=['GET'])
+def serve_any_other_file(path):
+    if not os.path.isfile(os.path.join(static_file_dir, path)):
+        path = 'index.html'
+    response = send_from_directory(static_file_dir, path)
+    response.cache_control.max_age = 0  # avoid cache memory
+    return response
 
 
 
