@@ -59,6 +59,10 @@ CORS(app, resources={r"/*": {"origins": ["https://fansclub-v-2.onrender.com", "h
 jwt = JWTManager(app)
 
 
+@app.route('/')
+def serve():
+    return send_from_directory(app.static_folder, 'index.html')
+
 
 @app.route('/')
 def sitemap():
@@ -68,9 +72,13 @@ def sitemap():
 setup_admin(app)
 
 
-@app.route('/<path:path>', methods=['GET'])
-def catch_all(path):
-    return app.send_static_file('index.html')
+
+@app.route('/<path:path>')
+def static_proxy(path):
+    try:
+        return send_from_directory(app.static_folder, path)
+    except:
+        return send_from_directory(app.static_folder, 'index.html')
 
 
 
