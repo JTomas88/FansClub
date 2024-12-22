@@ -308,7 +308,7 @@ export const RegistroCompleto = () => {
 
                         <div className="d-flex justify-content-center mt-5">
                             {hasChanges ? (
-                                <button type="submit" className="btn btn-outline-light" >Guardar datos</button>
+                                <button type="submit" className="btn botones" >Guardar datos</button>
                             ) : (
                                 <button type="submit" className="btn btn-outline-light" disabled >Guardar datos</button>
 
