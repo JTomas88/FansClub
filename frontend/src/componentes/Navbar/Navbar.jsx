@@ -143,14 +143,18 @@ export const Navbar = () => {
                             </ul>
                         </li>
                     ) : (
-                        <div className={`${styles.login_signup}`}>
-                            <Link to="/inicioSesion" >
-                                <button>INICIA SESIÓN</button>
-                            </Link>
+                        <div className={`${styles.login_signup}`} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+                            <div className="row">
+                                <Link to="/inicioSesion" >
+                                    <button type="button" className="btn" style={{ width: '130px', border: '1px solid black' }}>ENTRAR</button>
+                                </Link>
+                            </div>
 
-                            <Link to="/registro">
-                                <button>REGÍSTRATE</button>
-                            </Link>
+                            <div className="row">
+                                <Link to="/registro">
+                                    <button type="button" className="btn" style={{ width: '130px', border: '1px solid black' }}>REGÍSTRATE</button>
+                                </Link>
+                            </div>
                         </div>
                     )}
                 </div>
