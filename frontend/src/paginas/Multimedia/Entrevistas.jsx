@@ -10,6 +10,7 @@ export const Entrevistas = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
     const [datoUsuario, setDatoUsuario] = useState('')
+    const [ocultar, setOcultar] = useState(false);
 
 
     useEffect(() => {
@@ -29,6 +30,8 @@ export const Entrevistas = () => {
             navigate('/');
         }
     }, []);
+
+
 
 
     return (
@@ -139,7 +142,13 @@ export const Entrevistas = () => {
                                                                     )}
 
                                                                     {/* Asegurarse de incrementar el índice de la imagen cuando se haya mostrado una */}
-                                                                    {mostrarImagen && imagenIndex++}
+                                                                    {ocultar ? (
+                                                                        <div>
+                                                                            {mostrarImagen && imagenIndex++}
+                                                                        </div>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )}
                                                                 </div>
                                                             );
                                                         })}
