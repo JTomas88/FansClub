@@ -13,6 +13,29 @@ export const Contacto = () => {
     const [asunto, setAsunto] = useState('')
     const [mensaje, setMensaje] = useState('')
     const [aceptado, setAceptado] = useState(false)
+    const [datoUsuario, setDatoUsuario] = useState('')
+
+
+    useEffect(() => {
+        setDatoUsuario(JSON.parse(localStorage.getItem('userData')))
+    }, [store.userData])
+
+    useEffect(() => {
+        if (datoUsuario.id) {
+            actions.obtenerUsuarioPorId(datoUsuario.id)
+            setEmail(datoUsuario.email)
+        }
+    }, [datoUsuario?.id, datoUsuario?.token]);
+
+
+    //Cargamos los datos del usuario si ya está registrado, si no se muestran los campos en blanco
+    useEffect(() => {
+        if (datoUsuario.id) {
+            setNombre(datoUsuario.nombre || '');
+            setEmail(datoUsuario.email || '');
+        }
+    }, [datoUsuario]);
+
 
 
     const resetForm = () => {
@@ -49,6 +72,8 @@ export const Contacto = () => {
         }
 
     }
+
+
 
     return (
         <div className="bg-color mb-3">
