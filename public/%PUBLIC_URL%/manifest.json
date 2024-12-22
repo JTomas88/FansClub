@@ -1,0 +1,25 @@
+{
+  "short_name": "Sienna FansClub",
+  "name": "Sienna FansClub",
+  "icons": [
+    {
+      "src": "180x180-ios.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "192.192-android.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "512x512-pwa.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "https://fansclub-v-2.onrender.com",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "theme_color": "#000000"
+}
