@@ -77,13 +77,15 @@ def sitemap():
 
 
 
-@app.route('/<path:path>', methods=['GET'])
-def serve_any_other_file(path):
-    if not os.path.isfile(os.path.join(static_file_dir, path)):
-        path = 'index.html'
-    response = send_from_directory(static_file_dir, path)
-    response.cache_control.max_age = 0  # avoid cache memory
-    return response
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve_frontend(path):
+    if path and not path.startswith("api") and not path.endswith((".jsx", ".css", ".json", ".ico", ".png")):
+        return send_from_directory(app.static_folder, "index.html")
+    else:
+        return send_from_directory(app.static_folder, path)
+
+
 
 
 
