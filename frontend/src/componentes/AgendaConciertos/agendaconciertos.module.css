@@ -49,9 +49,6 @@ td {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .tit_agenda {
-    font-size: 50px;
-  }
   th,
   td {
     padding: 8px;

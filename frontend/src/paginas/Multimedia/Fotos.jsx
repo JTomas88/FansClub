@@ -37,10 +37,10 @@ export const Fotos = () => {
                 <Jumbotron imagenFondo={{ backgroundImage: `url(${Jumbo_fotos})`, backgroundPosition: 'center 30%' }} subtitulo={"¿Cómo has podido destrozar todo lo que vivimos?"} referencia={'foto'} ></Jumbotron>
             </div>
             <div className={`container justify-content-center align-items-center text-center ${styles.control_navbar}`}>
-                <div className={`${styles.titulo}`}>
+                <div className={`titulo_foto ${styles.titulo}`}>
                     <h1 className={`${styles.titulo}`}>FOTOS</h1>
                 </div>
-                <p className="text-center">Selecciona una carpeta para ver las fotos</p>
+                <p className="text-center" style={{ fontSize: '15px' }}>Selecciona una carpeta para ver las fotos</p>
 
                 {/* Pasamos la función setCarpetaSeleccionada a Carpetas para actualizar el estado */}
                 <div>
@@ -48,8 +48,8 @@ export const Fotos = () => {
                 </div>
 
                 {/* Pasamos la carpeta seleccionada a VisorFotos */}
-                <div className="mb-5" style={{ height: '30vh' }}>
-                    <VisorComponente carpetaSeleccionada={carpetaSeleccionada} />
+                <div className="mb-5">
+                    <VisorComponente carpetaSeleccionada={carpetaSeleccionada} style={{ height: '100vh' }} />
                 </div>
             </div>
         </>

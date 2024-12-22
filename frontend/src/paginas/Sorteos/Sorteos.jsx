@@ -206,16 +206,53 @@ export const Sorteos = () => {
         subtitulo={"Tal vez sólo hay sombras y formas"}
         referencia={"foto"}
       ></Jumbotron>
+
       <div className="container justify-content-center align-items-center text-center">
         <div className={`${styles.titulo}`}>
           <h1 className={`${styles.titulo}`}>SORTEOS</h1>
         </div>
       </div>
-      <div className={styles.advertencia}>
+      <div className={styles.advertencia} >
         <p style={{ backgroundColor: 'orange', display: 'flex', alignItems: 'center', padding: '1%', borderRadius: '10px' }}>
           Sólo es posible participar si los datos en "Mi perfil" están completos
         </p>
       </div>
+
+      <div className="d-flex justify-content-center mb-3">
+        <button type="button" className="btn botones btn-sm d-flex" data-bs-toggle="modal" data-bs-target="#basesSorteos">
+          Bases de sorteos
+        </button>
+      </div >
+
+
+
+
+      {/* Modal bases sorteos */}
+      <div className="modal fade" id="basesSorteos" tabindex="-1" aria-labelledby="basesSorteosLabel" aria-hidden="true" style={{ color: 'black' }}>
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="basesSorteosLabel">Bases de los sorteos</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <ul>
+                <li style={{ listStyleType: 'disc', textAlign: 'justify' }}> Para participar en los sorteos deben estar todos los datos del perfil completados </li>
+                <li style={{ listStyleType: 'disc', textAlign: 'justify' }}> El sorteo se realizará a las 48 horas de la fecha de finalización. </li>
+                <li style={{ listStyleType: 'disc', textAlign: 'justify' }}> El resultado del sorteo se realizará de forma aleatoria entre los usuarios que hayan participado. </li>
+                <li style={{ listStyleType: 'disc', textAlign: 'justify' }}> Se contactará con el ganador/a mediante correo electrónico (importante revisar spam) para confirmar los datos</li>
+                <li style={{ listStyleType: 'disc', textAlign: 'justify' }}> En el caso de no obtener respuesta se realizará un segundo sorteo entre los participantes, con el mismo procedimiento de contacto </li>
+                <li style={{ listStyleType: 'disc', textAlign: 'justify' }}>Al participar en un sorteo se dan por conocidas y aceptadas estas bases</li>
+              </ul>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div >
+
+
       <div className="d-flex d-flex justify-content-center">
         <p>Filtrar sorteos por: </p>
       </div>
@@ -350,18 +387,21 @@ export const Sorteos = () => {
                   </div>
                 </div>
                 {esActivo && (
-                  <button
-                    className={`btn ${participaciones[sorteo.sorId]
-                      ? `btn-secondary ${styles.boton_inactivo}`
-                      : "btn-primary"
-                      } ${styles.flotante}`}
-                    onClick={() => participarEnSorteo(sorteo.sorId)}
-                    disabled={participaciones[sorteo.sorId]} // Deshabilitar si ya participó
-                  >
-                    {participaciones[sorteo.sorId]
-                      ? "Estás participando en este sorteo"
-                      : "Participar"}
-                  </button>
+                  <div className="d-flex justify-content-center">
+                    <button
+                      className={`btn ${participaciones[sorteo.sorId]
+                        ? `btn-secondary ${styles.boton_inactivo}`
+                        : "btn-primary"
+                        } ${styles.flotante}`}
+                      onClick={() => participarEnSorteo(sorteo.sorId)}
+                      disabled={participaciones[sorteo.sorId]} // Deshabilitar si ya participó
+                    >
+                      {participaciones[sorteo.sorId]
+                        ? "Estás participando en este sorteo"
+                        : "Participar"}
+                    </button>
+                  </div>
+
                 )}
                 {proximos && (
                   <button

@@ -80,12 +80,12 @@ export const FormInicioSesion = () => {
 
 
     return (
-        <div className="container mb-5 mt-5" style={{ height: "50vh" }}>
+        <div className="container mb-5 mt-5" style={{ height: "auto" }}>
             <h3 className="justify-text-center">FORMULARIO DE INICIO DE SESIÓN</h3>
             <div className={`${styles.boxFormulario}`}>
 
                 <form onSubmit={(event) => login(event, email, password)} >
-                    {error && <div className="alert alert-danger" role="alert">{error}</div>}
+                    {error && <div className="alert alert-danger" style={{ fontSize: '16px' }} role="alert">{error}</div>}
                     <div className="mb-3">
                         <label htmlFor="inputEmail" className="form-label text-white">Correo Electronico</label>
                         <input type="email"
@@ -110,7 +110,7 @@ export const FormInicioSesion = () => {
                         />
                         <label className="form-check-label text-white " htmlFor="exampleCheck1">Recordar mis datos</label>
                     </div>
-                    <button type="submit" className="btn btn-primary">Enviar</button>
+                    <button type="submit" className="btn botones">Enviar</button>
                 </form>
             </div>
         </div>

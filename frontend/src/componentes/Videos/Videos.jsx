@@ -35,7 +35,7 @@ export const Videos = () => {
     return (
         <div className="container text-white mt-5">
 
-            <div className={`${styles.titulo} justify-content-center align-items-center d-flex mb-2`} >
+            <div className={`titulo_movil ${styles.titulo} justify-content-center align-items-center d-flex mb-2`} >
                 TRANCE VIDEOS
             </div>
 

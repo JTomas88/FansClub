@@ -32,6 +32,14 @@ export const Navbar = () => {
         navigate("/registro")
     }
 
+    // Función para contraer el menú
+    const closeNavbar = () => {
+        const navbar = document.getElementById("navbarSupportedContent");
+        if (navbar && navbar.classList.contains("show")) {
+            navbar.classList.remove("show");
+        }
+    };
+
     return (
         <nav className={`navbar navbar-expand-lg bg-body-tertiary ${styles.enlaces}`} style={{ fontSize: "26px" }}>
             <div className="container-fluid">
@@ -44,10 +52,10 @@ export const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item" style={{ fontSize: "18px" }}>
-                            <Link className="nav-link" to="/quienessienna">Quién es Sienna</Link>
+                            <Link className="nav-link" to="/quienessienna" onClick={closeNavbar}>Quién es Sienna</Link>
                         </li>
                         <li className="nav-item" style={{ fontSize: "18px" }}>
-                            <Link className="nav-link" to="/objetivoscf">Objetivos CF</Link>
+                            <Link className="nav-link" to="/objetivoscf" onClick={closeNavbar}>Objetivos CF</Link>
                         </li>
 
 
@@ -59,12 +67,12 @@ export const Navbar = () => {
                                 <ul className="dropdown-menu">
 
                                     <li>
-                                        <Link to="/galeriasfotos" className="dropdown-item" style={{ fontSize: "18px" }}>Fotos</Link>
+                                        <Link to="/galeriasfotos" className="dropdown-item" style={{ fontSize: "18px" }} onClick={closeNavbar}>Fotos</Link>
                                     </li>
 
 
                                     <li>
-                                        <Link to="/entrevistas" className="dropdown-item" style={{ fontSize: "18px" }}>Entrevistas</Link>
+                                        <Link to="/entrevistas" className="dropdown-item" style={{ fontSize: "18px" }} onClick={closeNavbar}>Entrevistas</Link>
                                     </li>
                                 </ul>
                             </li>
@@ -77,10 +85,10 @@ export const Navbar = () => {
                                     <ul className="dropdown-menu">
 
                                         <li>
-                                            <Link to="" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#advertenciaLogin" style={{ fontSize: "18px" }}>Fotos</Link>
+                                            <Link to="" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#advertenciaLogin" style={{ fontSize: "18px" }} onClick={closeNavbar}>Fotos</Link>
                                         </li>
                                         <li>
-                                            <Link to="" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#advertenciaLogin" style={{ fontSize: "18px" }}>Entrevistas</Link>
+                                            <Link to="" className="dropdown-item" data-bs-toggle="modal" data-bs-target="#advertenciaLogin" style={{ fontSize: "18px" }} onClick={closeNavbar}>Entrevistas</Link>
                                         </li>
                                     </ul>
                                 </li>
@@ -91,17 +99,17 @@ export const Navbar = () => {
 
                         {datoUsuario?.token ? (
                             <li className="nav-item" style={{ fontSize: "18px" }}>
-                                <Link className="nav-link" to="/sorteos">Sorteos</Link>
+                                <Link className="nav-link" to="/sorteos" onClick={closeNavbar}>Sorteos</Link>
                             </li>
                         ) : (
                             <li className="nav-item" style={{ fontSize: "18px" }}>
-                                <Link className="nav-link" data-bs-toggle="modal" data-bs-target="#advertenciaLogin" to="">Sorteos</Link>
+                                <Link className="nav-link" data-bs-toggle="modal" data-bs-target="#advertenciaLogin" onClick={closeNavbar} to="">Sorteos</Link>
                             </li>
                         )}
 
 
                         <li className="nav-item" style={{ fontSize: "18px" }}>
-                            <Link className="nav-link" to="/links">Links de interés</Link>
+                            <Link className="nav-link" to="/links" onClick={closeNavbar}>Links de interés</Link>
                         </li>
 
 

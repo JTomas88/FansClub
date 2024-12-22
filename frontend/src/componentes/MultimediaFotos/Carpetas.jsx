@@ -41,12 +41,12 @@ export const Carpetas = ({ setCarpetaSeleccionada }) => {
 
 
                         >
-                            <GiMicrophone size={50} color="white" />
+                            <GiMicrophone size={35} color="white" />
                             <p style={{ fontSize: '15px' }}>{carpeta.name}</p>
                         </div>
                     ))
                 ) : (
-                    <p>No hay carpetas creadas.</p>
+                    <p style={{ fontSize: '15px' }}>No hay carpetas creadas.</p>
                 )}
             </div>
         </div>

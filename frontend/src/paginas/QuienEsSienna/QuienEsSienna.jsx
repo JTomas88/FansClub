@@ -23,7 +23,7 @@ export const QuienEsSienna = () => {
       </div>
 
       <div>
-        <div className={`${styles.titulo}`}>
+        <div className={`titulo_movil ${styles.titulo}`}>
           {" "}
           UNA CARRERA IMPARABLE !
         </div>

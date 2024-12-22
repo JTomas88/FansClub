@@ -100,7 +100,7 @@ export const VisorComponente = ({ carpetaSeleccionada }) => {
 
                         {/* Controles del carrusel */}
                         <button
-                            className="carousel-control-prev"
+                            className={`carousel-control-prev ${styles.carousel_control_prev}`}
                             type="button"
                             data-bs-target="#carrouselFotos"
                             data-bs-slide="prev"
@@ -109,7 +109,7 @@ export const VisorComponente = ({ carpetaSeleccionada }) => {
                             <span className="visually-hidden">Previous</span>
                         </button>
                         <button
-                            className="carousel-control-next"
+                            className={`carousel-control-next ${styles.carousel_control_next}`}
                             type="button"
                             data-bs-target="#carrouselFotos"
                             data-bs-slide="next"

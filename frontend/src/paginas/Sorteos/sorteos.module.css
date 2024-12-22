@@ -27,13 +27,13 @@
 .flotante {
   position: absolute;
   bottom: 10px;
-  right: 430px;
-  background-color: #007bff;
+  right: 42%;
+  background: linear-gradient(to right, #800080, #8f00ff);
   color: #fff;
   border: none;
   border-radius: 18px;
   width: 152px;
-  font-size: 18px;
+  font-size: 16px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
@@ -100,9 +100,9 @@
   display: flex;
   align-content: center;
   justify-content: center;
-  margin-bottom: 3%;
   color: black;
-  height: 90px;
+  height: 80px;
+  font-size: 15px;
 }
 
 @media (max-width: 768px) {

@@ -19,6 +19,7 @@ import { GestionSorteos } from "./paginas/Admin/GestionSorteos.jsx";
 import { Sorteos } from "./paginas/Sorteos/Sorteos.jsx";
 import { Entrada } from "./paginas/Entrada/Entrada.jsx";
 import { Links } from "./paginas/Links/Links.jsx";
+import { Contacto } from "./paginas/Contacto/Contacto.jsx";
 
 function App() {
   const [showSplash, setShowSplash] = useState(false);
@@ -62,6 +63,8 @@ function App() {
               <Route path="/galeriasfotos" element={<Fotos />} />
               <Route path="/entrevistas" element={<Entrevistas />} />
               <Route path="/sorteos" element={<Sorteos />} />
+              <Route path="/contacto" element={<Contacto />} />
+
               <Route
                 element={
                   <h1

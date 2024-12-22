@@ -3,7 +3,8 @@ import { parse, format } from 'date-fns';
 const getState = ({ getStore, getActions, setStore }) => {
     return {
         store: {
-            backendUrl: 'https://fans-club.onrender.com', // URL del backend
+            backendUrl: 'https://fans-club.onrender.com',
+            // backendUrl: 'http://127.0.0.1:5000',
 
             error: null,
 
@@ -976,6 +977,34 @@ const getState = ({ getStore, getActions, setStore }) => {
                     return null;
                 }
             },
+
+
+
+            // -------------------------------------- >> ENVÍO DE CORREO DESDE CONTACTO<< ----------------------------------- //
+
+            send_email: async (nombre, email, asunto, mensaje) => {
+                const store = getStore();
+                try {
+                    const respuesta = await fetch(
+                        `${store.backendUrl}/send-email`,
+                        {
+                            method: "POST",
+                            body: JSON.stringify({ nombre: nombre, email: email, asunto: asunto, mensaje: mensaje }),
+                            headers: { "Content-Type": "application/json" },
+                        }
+                    );
+                    if (respuesta.ok) {
+                        console.log("Mensaje enviado con exito");
+
+                    } else {
+                        console.log('Problema al enviar el mensaje');
+                    }
+                } catch (error) {
+                    console.error('Error al enviar el mensaje del usuario: ', error)
+                }
+
+            }
+
 
 
 

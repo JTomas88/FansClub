@@ -92,7 +92,7 @@ export const AgendaConciertos = () => {
 
     return (
         <>
-            <h2 className={styles.titulo}>Próximos conciertos</h2>
+            <h2 className={`titulo_movil ${styles.titulo}`}>Próximos conciertos</h2>
 
             <div>
                 <div className={`container mt-5 ${styles.fondo}`}>

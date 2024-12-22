@@ -35,8 +35,8 @@ export const Links = () => {
             </div>
             <div className="row mt-3">
               <div className="col d-flex flex-column align-items-center">
-                <a href="https://www.siennaoficial.com" target="_blank">
-                  <TbTriangleInverted fontSize={"35"} />
+                <a href="https://www.siennaoficial.com" target="_blank" >
+                  <TbTriangleInverted fontSize={"35"} color="#8f00ff" />
                 </a>
                 <p>Web Oficial</p>
               </div>
@@ -47,7 +47,7 @@ export const Links = () => {
                   href="https://www.instagram.com/siennamusica/"
                   target="_blank"
                 >
-                  <FaInstagram fontSize={"30"} />
+                  <FaInstagram fontSize={"30"} color="#8f00ff" />
                 </a>
                 <p>Instagram</p>
               </div>
@@ -56,7 +56,7 @@ export const Links = () => {
                   href="https://www.tiktok.com/@sienna.musica"
                   target="_blank"
                 >
-                  <FaTiktok fontSize={"30"} />
+                  <FaTiktok fontSize={"30"} color="#8f00ff" />
                 </a>
                 <p>TikTok</p>
               </div>
@@ -65,7 +65,7 @@ export const Links = () => {
             <div className="row">
               <div className="col d-flex flex-column align-items-center">
                 <a href="https://twitter.com/siennamusica" target="_blank">
-                  <FaXTwitter fontSize={"30"} />
+                  <FaXTwitter fontSize={"30"} color="#8f00ff" />
                 </a>
                 <p>Twitter / X</p>
               </div>
@@ -74,7 +74,7 @@ export const Links = () => {
                   href="https://www.facebook.com/siennamusica"
                   target="_blank"
                 >
-                  <FaFacebook fontSize={"30"} />
+                  <FaFacebook fontSize={"30"} color="#8f00ff" />
                 </a>
                 <p>Facebook</p>
               </div>
@@ -83,7 +83,7 @@ export const Links = () => {
             <div className="row">
               <div className="col d-flex flex-column align-items-center">
                 <a href="https://youtube.com/@siennamusica" target="_blank">
-                  <FaYoutube fontSize={"30"} />
+                  <FaYoutube fontSize={"30"} color="#8f00ff" />
                 </a>
                 <p>Youtube</p>
               </div>
@@ -92,7 +92,7 @@ export const Links = () => {
                   href="https://open.spotify.com/intl-es/artist/4PSNWFX3rYscMdKRp59uYA?si=hZEyrlKYQcGZN6wTPZaoFg"
                   target="_blank"
                 >
-                  <FaSpotify fontSize={"30"} />
+                  <FaSpotify fontSize={"30"} color="#8f00ff" />
                 </a>
                 <p>Spotify</p>
               </div>
@@ -108,7 +108,7 @@ export const Links = () => {
               <div className="row mt-3">
                 <div className="col d-flex flex-column align-items-center">
                   <a href="https://t.me/+meErawrgpUtmNmI8" target="_blank">
-                    <FaTelegram fontSize={"30"} />
+                    <FaTelegram fontSize={"30"} color="#8f00ff" />
                   </a>
                   <p>Grupo de Telegram SiennaCharts</p>
                 </div>
@@ -119,7 +119,7 @@ export const Links = () => {
                     href="https://www.instagram.com/siennacharts/"
                     target="_blank"
                   >
-                    <FaInstagram fontSize={"30"} />
+                    <FaInstagram fontSize={"30"} color="#8f00ff" />
                   </a>
                   <p>Instagram Team Sienna</p>
                 </div>
@@ -131,7 +131,7 @@ export const Links = () => {
                     href="https://www.tiktok.com/@sienna.charts"
                     target="_blank"
                   >
-                    <FaTiktok fontSize={"30"} />
+                    <FaTiktok fontSize={"30"} color="#8f00ff" />
                   </a>
                   <p>TikTok Sienna.Charts</p>
                 </div>

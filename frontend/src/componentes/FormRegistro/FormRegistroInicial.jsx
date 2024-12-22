@@ -41,7 +41,7 @@ export const FormRegistroInicial = () => {
             <div className={`${styles.boxFormulario}`}>
 
                 <form onSubmit={(event) => registro(event, email, username, password)} >
-                    {error && <div className="alert alert-danger" role="alert">{error}</div>}
+                    {error && <div className="alert alert-danger" style={{ fontSize: '16px' }} role="alert">{error}</div>}
                     <div className="mb-3">
                         <label htmlFor="inputEmail" className="form-label text-white">Correo Electronico</label>
                         <input type="email"
@@ -76,7 +76,7 @@ export const FormRegistroInicial = () => {
                         <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                         <label className="form-check-label text-white" htmlFor="exampleCheck1">Recordar mis datos</label>
                     </div>
-                    <button type="submit" className="btn btn-light">Enviar</button>
+                    <button type="submit" className="btn botones">Enviar</button>
                     <p className="text-secondary fst-italic pt-2">¿Ya tienes una cuenta?<Link to="/inicioSesion"><button className="btn text-primary fw-bold">¡Inicia sesión!</button></Link></p>
                 </form>
             </div>

@@ -1,22 +1,22 @@
 .carousel_image {
   height: 500px;
   max-height: 80vh;
-  width: auto; /* Cambiado de w-40 a width auto */
-  max-width: 100%; /* Esto asegura que la imagen no desborde el contenedor */
-  object-fit: cover; /* Mantiene la proporción y recorta si es necesario */
-  margin: 0 auto; /* Centra la imagen horizontalmente */
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 0 auto;
 }
 
 .carousel_item {
-  display: flex; /* Usamos flex para alinear el contenido */
-  justify-content: center; /* Centra horizontalmente las imágenes */
-  align-items: center; /* Centra verticalmente las imágenes */
-  height: 300px; /* Mantén la altura uniforme */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
 }
 
 .carruinner {
-  position: relative; /* Asegura que los elementos hijos (carousel-item) tengan un posicionamiento relativo */
-  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  position: relative;
+  width: 100%;
   height: 600px;
 }
 
@@ -27,6 +27,10 @@
   height: 60vh;
 }
 
+.indicadores {
+  top: 500px !important;
+}
+
 @media (max-width: 768px) {
   .carrousel_movil {
     margin: 0px auto;
@@ -34,18 +38,8 @@
     z-index: 10;
     min-height: 10px;
     max-height: 300px;
+    margin-top: 45%;
   }
-
-  /* .carousel_image {
-    height: 500px;
-    margin: 0 auto;
-    max-height: 80vh;
-    max-width: 100%;
-    object-fit: cover;
-    width: auto;
-    position: absolute;
-    top: 219px;
-  } */
 
   .visorcomponente_carruinner {
     height: 600px;
@@ -53,8 +47,9 @@
     width: 100%;
     margin-top: 45%;
   }
-}
 
-.indicadores {
-  top: 500px !important;
+  .carousel_control_next,
+  .carousel_control_prev {
+    top: 50%;
+  }
 }

@@ -17,6 +17,10 @@ import cloudinary.api
 import cloudinary.uploader
 import json
 import secrets
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 
 # Cargar el archivo .env
 load_dotenv()
@@ -47,7 +51,8 @@ migrate = Migrate(app, db)
 
 # CORS(app)
 # CORS(app, resources={r"/*": {"origins": "https://fansclub-v-2.onrender.com"}}, supports_credentials=True)
-CORS(app, resources={r"/*": {"origins": "https://fansclub-v-2.onrender.com", "supports_credentials": True}})
+CORS(app, resources={r"/*": {"origins": ["https://fansclub-v-2.onrender.com", "http://localhost:3000"], "supports_credentials": True}})
+
 
 
 
@@ -788,6 +793,45 @@ def mostrarImagenesCarpeta(nombreCarpeta):
     except cloudinary.exceptions.Error as e:
         print (f"Error al obtener el contenido de la carpeta: {e}")
         return None
+    
+    
+## -------------------------------------- >> ENVÍO FORMULARIO DE CONTACTO<< ----------------------------------- ##
+
+
+@app.route('/send-email', methods=['POST'])
+def send_email():
+    data = request.get_json()
+    nombre = data.get('nombre')
+    print('Nombre ', nombre)
+    email = data.get('email')
+    asunto = data.get('asunto')
+    mensaje = data.get('mensaje')
+    print('email ', email)
+
+    # Configuración del servidor de correo
+    SMTP_SERVER = "smtp.gmail.com"
+    SMTP_PORT = 587
+    EMAIL_USER =  os.getenv("SENDER_EMAIL")
+    EMAIL_PASS =  os.getenv("SENDER_PASSWORD")
+    try:
+            # Crea el mensaje de correo
+            msg = MIMEMultipart()
+            msg["From"] = EMAIL_USER
+            msg["To"] = EMAIL_USER
+            msg["Subject"] = f"{asunto} - {nombre}"
+            body = f"De: {nombre}\nCorreo: {email}\n\n{mensaje}"
+            msg.attach(MIMEText(body, "plain"))
+
+            # Conecta al servidor SMTP y envía el correo
+            server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+            server.starttls()
+            server.login(EMAIL_USER, EMAIL_PASS)
+            server.sendmail(EMAIL_USER, EMAIL_USER, msg.as_string())
+            server.quit()
+
+            return jsonify({"message": "Correo enviado con éxito"}), 200
+    except Exception as e:
+            return jsonify({"error": str(e)}), 500
 
 
 

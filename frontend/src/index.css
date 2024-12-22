@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "Trance";
+  src: url("../src/assets/whoaskssatan.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -15,6 +22,11 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.botones {
+  background: linear-gradient(to right, #800080, #8f00ff);
+  color: white;
 }
 
 App-content {
@@ -39,4 +51,11 @@ footer {
 }
 .footer-content {
   margin-top: auto; /* Empuja el footer hacia abajo */
+}
+
+@media (max-width: 768px) {
+  .titulo_movil {
+    font-size: 36px !important;
+    color: white !important;
+  }
 }
