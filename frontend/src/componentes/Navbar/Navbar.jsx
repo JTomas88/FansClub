@@ -112,6 +112,10 @@ export const Navbar = () => {
                             <Link className="nav-link" to="/links" onClick={closeNavbar}>Links de interés</Link>
                         </li>
 
+                        <li className="nav-item" style={{ fontSize: "18px" }}>
+                            <Link className="nav-link" to="/contacto" onClick={closeNavbar}>Contacto</Link>
+                        </li>
+
 
 
                         {datoUsuario?.rol === 'admin' ? (
