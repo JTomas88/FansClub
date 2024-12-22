@@ -65,17 +65,15 @@ CORS(app, resources={r"/*": {"origins": ["https://fansclub-v-2.onrender.com", "h
 jwt = JWTManager(app)
 
 
-
+setup_admin(app)
 
 
 @app.route('/')
 def sitemap():
-    if ENV == "development":
-        return generate_sitemap(app)
-    return send_from_directory(static_file_dir, 'index.html')
+    return generate_sitemap(app)
 
-# Configura el Admin
-setup_admin(app)
+
+
 
 
 
