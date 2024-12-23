@@ -223,15 +223,15 @@
     position: relative;
     text-align: center;
     transition: all 0.3s ease;
-    width: 60%;
+    width: 75%;
   }
 
   .impares {
     -webkit-backdrop-filter: blur(0.5px);
     backdrop-filter: blur(0.5px);
-    margin-left: 71%;
+    margin-left: 26%;
     transform-origin: right;
-    width: 60%;
+    width: 75%;
   }
 
   .arrow_left {
@@ -244,7 +244,7 @@
     transform: scaleX(1);
     transition: all 0.3s ease;
     width: 91%;
-    left: -219px;
+    left: -111px;
   }
 
   .arrow_right {
