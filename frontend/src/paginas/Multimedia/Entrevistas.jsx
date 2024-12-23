@@ -144,13 +144,9 @@ export const Entrevistas = () => {
                                                                     )}
 
                                                                     {/* Asegurarse de incrementar el índice de la imagen cuando se haya mostrado una */}
-                                                                    {ocultar ? (
-                                                                        <div>
-                                                                            {mostrarImagen && imagenIndex++}
-                                                                        </div>
-                                                                    ) : (
-                                                                        <></>
-                                                                    )}
+
+                                                                    {imagenIndex++ && null}
+
                                                                 </div>
                                                             );
                                                         })}
