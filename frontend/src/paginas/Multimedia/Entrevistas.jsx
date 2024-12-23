@@ -124,7 +124,7 @@ export const Entrevistas = () => {
                                                                     <p style={{ textAlign: 'justify' }}>{`\n${parrafo.trim()}\n`}</p>
 
                                                                     {/* Mostrar imagen solo si se debe mostrar */}
-                                                                    {mostrarImagen && imagenIndex < totalImagenes && (
+                                                                    {mostrarImagen && (
                                                                         <div className="d-flex justify-content-center">
                                                                             <img
                                                                                 alt={`imagen-${imagenIndex}`}
@@ -145,7 +145,7 @@ export const Entrevistas = () => {
 
                                                                     {/* Asegurarse de incrementar el índice de la imagen cuando se haya mostrado una */}
 
-                                                                    {mostrarImagen && imagenIndex++}
+                                                                    {mostrarImagen && (imagenIndex += 1)}
 
                                                                 </div>
                                                             );
