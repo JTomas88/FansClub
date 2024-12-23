@@ -175,3 +175,30 @@
     left: 54.5%;
   }
 }
+
+@media (max-width: 1024px) {
+  .expanded_right {
+    height: 500px;
+    transform: scaleX(1);
+    transition: all 0.3s ease;
+    width: 59%;
+  }
+
+  .expanded_left {
+    width: 59%;
+    height: 500px;
+    transition: all 0.3s ease;
+    transform: scaleX(1);
+    margin-left: 50%;
+  }
+
+  .arrow_left {
+    border-right: 10px solid #a639e680;
+    left: 597.5px;
+  }
+
+  .arrow_right {
+    border-left: 10px solid #a639e680;
+    right: 675px;
+  }
+}
