@@ -223,13 +223,12 @@
     position: relative;
     text-align: center;
     transition: all 0.3s ease;
-    width: 50%;
   }
 
   .impares {
     -webkit-backdrop-filter: blur(0.5px);
     backdrop-filter: blur(0.5px);
-    margin-left: 50%;
+    margin-left: 71%;
     transform-origin: right;
   }
 
@@ -243,7 +242,7 @@
     transform: scaleX(1);
     transition: all 0.3s ease;
     width: 91%;
-    left: -148px;
+    left: -219px;
   }
 
   .arrow_right {
