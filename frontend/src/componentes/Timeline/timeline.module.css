@@ -236,7 +236,7 @@
 
   .arrow_left {
     border-right: 10px solid #a639e680;
-    left: 417.9px;
+    left: 503.9px;
   }
 
   .expanded_left {
@@ -244,11 +244,11 @@
     transform: scaleX(1);
     transition: all 0.3s ease;
     width: 91%;
-    left: -111px;
+    left: -76px;
   }
 
   .arrow_right {
     border-left: 10px solid #a639e680;
-    right: 414.6px;
+    right: 503.6px;
   }
 }
