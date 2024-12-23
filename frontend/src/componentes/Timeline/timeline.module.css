@@ -209,23 +209,23 @@
     height: 500px;
     transform: scaleX(1);
     transition: all 0.3s ease;
-    width: 73%;
+    width: 91%;
   }
   .arrow_left {
     border-right: 10px solid #a639e680;
-    left: 503.9px;
+    left: 417.9px;
   }
 
   .expanded_left {
     height: 500px;
     transform: scaleX(1);
     transition: all 0.3s ease;
-    width: 72%;
-    left: -99px;
+    width: 91%;
+    left: -142px;
   }
 
   .arrow_right {
     border-left: 10px solid #a639e680;
-    right: 505px;
+    right: 413px;
   }
 }
