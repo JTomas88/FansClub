@@ -223,6 +223,7 @@
     position: relative;
     text-align: center;
     transition: all 0.3s ease;
+    width: 60%;
   }
 
   .impares {
@@ -230,6 +231,7 @@
     backdrop-filter: blur(0.5px);
     margin-left: 71%;
     transform-origin: right;
+    width: 60%;
   }
 
   .arrow_left {
