@@ -176,7 +176,7 @@
   }
 }
 
-@media (max-width: 1036px) {
+@media (max-width: 1366px) {
   .expanded_right {
     height: 500px;
     transform: scaleX(1);
