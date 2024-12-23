@@ -145,7 +145,7 @@ export const Entrevistas = () => {
 
                                                                     {/* Asegurarse de incrementar el índice de la imagen cuando se haya mostrado una */}
 
-                                                                    {(() => { imagenIndex++; return null; })()}
+                                                                    {mostrarImagen && imagenIndex++}
 
                                                                 </div>
                                                             );
