@@ -11,8 +11,8 @@ export const ModalProteccionDatos = () => {
                 <div className="modal-body">
                     <p className="text-dark" style={{ textAlign: 'justify', fontSize: '13px' }}>
 
-                        Esta política de privacidad se aplica al sitio web de [Nombre de la empresa], en
-                        adelante "[Nombre de la empresa]". Nos comprometemos a proteger su privacidad y
+                        Esta política de privacidad se aplica al sitio web de "Sienna Fans Club", en
+                        adelante "Sienna FC". Nos comprometemos a proteger su privacidad y
                         los datos personales que nos proporcione. Para cualquier pregunta o solicitud
                         relacionada con sus datos, puede contactarnos a través de: <br></br><br></br>
 
