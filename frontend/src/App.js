@@ -42,6 +42,7 @@ function App() {
   }, []);
 
   return (
+
     <BrowserRouter>
       {showSplash ? (
         <Entrada />

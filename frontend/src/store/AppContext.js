@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"; // Importamos useContext
+import React, { useState } from "react"; // Importamos useContext
 import getState from "./flux.js";  // Importamos el archivo flux.js
 
 // Creamos el contexto de la aplicación

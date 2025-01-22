@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.13.5",
     "@mui/lab": "^6.0.0-beta.18",
     "@mui/material": "^6.1.10",
+    "@raulcanodev/react-github-dots": "^1.1.55",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
