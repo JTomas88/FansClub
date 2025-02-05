@@ -23,12 +23,11 @@ export const FormInicioSesion = () => {
             setError("Por favor, complete todos los datos requeridos");
             return;
         }
-        console.log('lista usuarios: ', store.usuarios);
+
 
 
         try {
             const datoUsuario = await actions.login(email, password);
-            console.log('datoUsuario: ', datoUsuario)
             setError('')
 
             if (datoUsuario.rol && datoUsuario.email === email) {
