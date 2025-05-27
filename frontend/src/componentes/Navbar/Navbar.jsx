@@ -127,7 +127,7 @@ export const Navbar = () => {
                     </ul>
 
 
-                    {datoUsuario?.token ? (
+                    {/*{datoUsuario?.token ? (
                         <li className="dropdown" style={{ color: "black", listStyle: 'none' }}>
                             <button type="button" className={`${styles.font_name} btn dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
                                 {datoUsuario.username}
@@ -159,7 +159,7 @@ export const Navbar = () => {
                                 </div>
                             </div>
                         )
-                    }
+                    */}
                 </div>
             </div>
 
