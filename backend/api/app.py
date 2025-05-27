@@ -1,16 +1,20 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 from flask import Flask, jsonify, Response,  request, send_from_directory
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token
-from api.utils import generate_sitemap, APIException
-from api.models import db, Usuario, Sorteo, Evento, Entrevista
-from dotenv import load_dotenv
+from .utils import generate_sitemap, APIException
+from .models import db, Usuario, Sorteo, Evento, Entrevista
+
 from datetime import datetime
-from api.admin import setup_admin
+from .admin import setup_admin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager, create_access_token
-import os
+
 import requests
 import cloudinary
 import cloudinary.api
@@ -22,14 +26,21 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 
+
+# app = Flask(__name__)
+app = Flask(__name__, static_folder='build', static_url_path='/')
+print("DATABASE_URL:", os.getenv('DATABASE_URL'))
+
+
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 
 
+# Configura la URI de la base de datos (en este caso SQLite)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')  # La base de datos estará en un archivo llamado 'data.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Desactivar las notificaciones de modificaciones de objetos
 
-# Cargar el archivo .env
-load_dotenv()
 
 # Acceder a la variable de entorno 'GOOGLE_API_KEY'
 googleapykey=os.getenv('GOOGLE_API_KEY')
@@ -39,24 +50,19 @@ cloudinary.config(
     cloudinary_url=os.getenv('CLOUDINARY_URL')
 )
 
-# app = Flask(__name__)
-app = Flask(__name__, static_folder='build', static_url_path='/')
+
 
 
 print(secrets.token_hex(32))
 
 
-# Configura la URI de la base de datos (en este caso SQLite)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')  # La base de datos estará en un archivo llamado 'data.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Desactivar las notificaciones de modificaciones de objetos
+
 
 # Inicializa SQLAlchemy con la app de Flask
 db.init_app(app)
 
 migrate = Migrate(app, db)
 
-# CORS(app)
-# CORS(app, resources={r"/*": {"origins": "https://fansclub-v-2.onrender.com"}}, supports_credentials=True)
 CORS(app, resources={r"/*": {"origins": ["https://fansclub-v-2.onrender.com", "http://localhost:3000"], "supports_credentials": True}})
 
 

@@ -44,8 +44,13 @@ export const Footer = () => {
                         <div className="modal fade" id="modalUsoCookies" tabIndex="-1" aria-labelledby="modalUsoCookiesLabel" aria-hidden="true">
                             <ModalUsoCookies />
                         </div>
+                        <button className="btn">
+                            <Link className="nav-link" to="./inicioSesion">Admin</Link>
+                        </button>
                     </div>
+
                 </div>
+
             </div>
         </div>
     )

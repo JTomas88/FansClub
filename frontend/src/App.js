@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navbar } from "./componentes/Navbar/Navbar.jsx";
 import { Home } from "./paginas/Home/Home.jsx";
 import { Registro } from "./paginas/Registro/Registro.jsx";
@@ -21,93 +21,72 @@ import { Entrada } from "./paginas/Entrada/Entrada.jsx";
 import { Links } from "./paginas/Links/Links.jsx";
 import { Contacto } from "./paginas/Contacto/Contacto.jsx";
 
+function AppContent() {
+  const location = useLocation();
+  const hideLayout = location.pathname === "/inicioSesion";
+
+  return (
+    <>
+      {!hideLayout && <Navbar />}
+      <div className="App-content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/registro" element={<Registro />} />
+          <Route path="/completar-registro" element={<RegistroCompleto />} />
+          <Route path="/inicioSesion" element={<InicioSesion />} />
+          <Route path="/quienessienna" element={<QuienEsSienna />} />
+          <Route path="/objetivoscf" element={<ObjetivosCF />} />
+          <Route path="/links" element={<Links />} />
+          <Route path="/contacto" element={<Contacto />} />
+
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/agenda" element={<Agenda />} />
+          <Route path="/admin/gestionusuarios" element={<GestionUsuarios />} />
+          <Route path="/admin/gestiongalerias" element={<GestionGalerias />} />
+          <Route path="/admin/gestionentrevistas" element={<GestionEntrevistas />} />
+          <Route path="/admin/gestionsorteos" element={<GestionSorteos />} />
+
+          <Route
+            path="*"
+            element={
+              <h1
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                  margin: 0,
+                }}
+              >
+                Página no encontrada
+              </h1>
+            }
+          />
+        </Routes>
+      </div>
+      {!hideLayout && <Footer />}
+    </>
+  );
+}
+
 function App() {
   const [showSplash, setShowSplash] = useState(false);
 
   useEffect(() => {
-    // Verifica si el splash ya ha sido mostrado
     const splashShown = localStorage.getItem("splashShown");
-
-    // Si no se ha mostrado el splash, muestra el componente
     if (!splashShown) {
       setShowSplash(true);
       const timer = setTimeout(() => {
         setShowSplash(false);
-        localStorage.setItem("splashShown", JSON.stringify(true));  // Marca que el splash ha sido mostrado
-      }, 8000);  // Tiempo de duración del splash
-
-      // Limpia el temporizador si el componente se desmonta antes de que termine
+        localStorage.setItem("splashShown", JSON.stringify(true));
+      }, 8000);
       return () => clearTimeout(timer);
     }
   }, []);
 
   return (
-
     <BrowserRouter>
-      {showSplash ? (
-        <Entrada />
-      ) : (
-        <>
-          <Navbar />
-          <div className="App-content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/registro" element={<Registro />} />
-              <Route
-                path="/completar-registro"
-                element={<RegistroCompleto />}
-              />
-              <Route path="/inicioSesion" element={<InicioSesion />} />
-              <Route path="/quienessienna" element={<QuienEsSienna />} />
-              <Route path="/objetivoscf" element={<ObjetivosCF />} />
-              <Route path="/links" element={<Links />} />
-              <Route path="/galeriasfotos" element={<Fotos />} />
-              <Route path="/entrevistas" element={<Entrevistas />} />
-              <Route path="/sorteos" element={<Sorteos />} />
-              <Route path="/contacto" element={<Contacto />} />
-
-              <Route
-                element={
-                  <h1
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "100vh",
-                      margin: 0,
-                    }}
-                  >
-                    Página no encontrada
-                  </h1>
-                }
-                path="*"
-              />
-
-              {/* Rutas para administrador */}
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/admin/agenda" element={<Agenda />} />
-              <Route
-                path="/admin/gestionusuarios"
-                element={<GestionUsuarios />}
-              />
-              <Route
-                path="/admin/gestiongalerias"
-                element={<GestionGalerias />}
-              />
-              <Route
-                path="/admin/gestionentrevistas"
-                element={<GestionEntrevistas />}
-              />
-              <Route
-                path="/admin/gestionsorteos"
-                element={<GestionSorteos />}
-              />
-            </Routes>
-
-          </div>
-          <Footer />
-        </>
-      )}
+      {showSplash ? <Entrada /> : <AppContent />}
     </BrowserRouter>
   );
 }

@@ -1,7 +1,7 @@
 
 import os
 from flask_admin import Admin
-from api.models import db, Usuario, Evento, Entrevista, Sorteo
+from .models import db, Usuario, Evento, Entrevista, Sorteo
 from flask_admin.contrib.sqla import ModelView
 
 # Función que devuelve la lista de participantes

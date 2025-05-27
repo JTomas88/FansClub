@@ -59,7 +59,7 @@ export const Navbar = () => {
                         </li>
 
 
-                        {datoUsuario?.token ? (
+                        {/*{datoUsuario?.token ? (
                             <li className="nav-item dropdown" style={{ fontSize: "18px" }}>
                                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Multimedia
@@ -95,9 +95,10 @@ export const Navbar = () => {
 
 
                             </>
-                        )}
+                        )}*/}
 
-                        {datoUsuario?.token ? (
+
+                        {/*{datoUsuario?.token ? (
                             <li className="nav-item" style={{ fontSize: "18px" }}>
                                 <Link className="nav-link" to="/sorteos" onClick={closeNavbar}>Sorteos</Link>
                             </li>
@@ -105,7 +106,7 @@ export const Navbar = () => {
                             <li className="nav-item" style={{ fontSize: "18px" }}>
                                 <Link className="nav-link" data-bs-toggle="modal" data-bs-target="#advertenciaLogin" onClick={closeNavbar} to="">Sorteos</Link>
                             </li>
-                        )}
+                        )}*/}
 
 
                         <li className="nav-item" style={{ fontSize: "18px" }}>
@@ -126,7 +127,7 @@ export const Navbar = () => {
                     </ul>
 
 
-                    {datoUsuario?.token ? (
+                    {/*} {datoUsuario?.token ? (
                         <li className="dropdown" style={{ color: "black", listStyle: 'none' }}>
                             <button type="button" className={`${styles.font_name} btn dropdown-toggle fs-5`} data-bs-toggle="dropdown" aria-expanded="false">
                                 {datoUsuario.username}
@@ -142,21 +143,23 @@ export const Navbar = () => {
 
                             </ul>
                         </li>
-                    ) : (
-                        <div className={`${styles.login_signup}`} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
-                            <div className="row">
-                                <Link to="/inicioSesion" >
-                                    <button type="button" className="btn" style={{ width: '130px', border: '1px solid black' }}>ENTRAR</button>
-                                </Link>
-                            </div>
+                    )
+                        : (
+                            <div className={`${styles.login_signup}`} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+                                <div className="row">
+                                    <Link to="/inicioSesion" >
+                                        <button type="button" className="btn" style={{ width: '130px', border: '1px solid black' }}>ENTRAR</button>
+                                    </Link>
+                                </div>
 
-                            <div className="row">
-                                <Link to="/registro">
-                                    <button type="button" className="btn" style={{ width: '130px', border: '1px solid black' }}>REGÍSTRATE</button>
-                                </Link>
+                                <div className="row">
+                                    <Link to="/registro">
+                                        <button type="button" className="btn" style={{ width: '130px', border: '1px solid black' }}>REGÍSTRATE</button>
+                                    </Link>
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )
+                    }*/}
                 </div>
             </div>
 
