@@ -65,7 +65,8 @@ migrate = Migrate(app, db)
 
 # CORS(app, resources={r"/*": {"origins": ["https://fansclub-v-2.onrender.com", "http://localhost:3000"], "supports_credentials": True}})
 
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000", "supports_credentials": True}})
+# CORS(app, resources={r"/*": {"origins": "http://localhost:3000", "supports_credentials": True}})
+CORS(app, resources={r"/*": {"origins": ["https://fans-club-hoxt2v705-jtomas-projects.vercel.app", "http://localhost:3000"]}}, supports_credentials=True)
 
 
 
