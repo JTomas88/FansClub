@@ -27,9 +27,14 @@ from email.mime.multipart import MIMEMultipart
 
 
 
+
 # app = Flask(__name__)
 app = Flask(__name__, static_folder='build', static_url_path='/')
 print("DATABASE_URL:", os.getenv('DATABASE_URL'))
+
+# CORS(app, resources={r"/*": {"origins": ["https://fansclub-v-2.onrender.com", "http://localhost:3000"], "supports_credentials": True}})
+# CORS(app, resources={r"/*": {"origins": "http://localhost:3000", "supports_credentials": True}})
+CORS(app, resources={r"/*": {"origins": ["https://fans-club-git-master-jtomas-projects.vercel.app", "http://localhost:3000"]}}, supports_credentials=True)
 
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -63,10 +68,7 @@ db.init_app(app)
 
 migrate = Migrate(app, db)
 
-# CORS(app, resources={r"/*": {"origins": ["https://fansclub-v-2.onrender.com", "http://localhost:3000"], "supports_credentials": True}})
 
-# CORS(app, resources={r"/*": {"origins": "http://localhost:3000", "supports_credentials": True}})
-CORS(app, resources={r"/*": {"origins": ["https://fans-club-git-master-jtomas-projects.vercel.app", "http://localhost:3000"]}}, supports_credentials=True)
 
 
 
