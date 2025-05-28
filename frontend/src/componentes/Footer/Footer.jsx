@@ -48,6 +48,12 @@ export const Footer = () => {
                             <Link className="nav-link" to="./inicioSesion">Admin</Link>
                         </button>
                     </div>
+                    <div className="row">
+                        <div className="col text-dark fs-6">
+                            Diseñado y construido por <a href="https://www.linkedin.com/in/jtomas88/" target="_blank" rel="noopener noreferrer" className="fw-bold">JTomas</a>
+                        </div>
+                    </div>
+
 
                 </div>
 
