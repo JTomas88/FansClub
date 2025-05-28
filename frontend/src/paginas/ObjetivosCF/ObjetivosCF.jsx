@@ -30,7 +30,7 @@ export const ObjetivosCF = () => {
                             No solo somos fans de sus canciones, de sus letras que expresan y las melodías que no podemos dejar de tararear, sino también de una forma de ser y de trabajar. <br />
                             Su persistencia y buen hacer en su profesión le están llevando a tener una carrera musical ascendente, calculando la mezcla exacta entre experimentar y no perder calidad musical.<br></br>
                             Por eso nació este espacio, para tener un punto común donde poder estar al tanto de su carrera musical y poder formar un núcleo duro de apoyo. <br /><br />
-                            Tom y Dani
+
                         </p>
                     </div>
 
