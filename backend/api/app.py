@@ -34,7 +34,11 @@ print("DATABASE_URL:", os.getenv('DATABASE_URL'))
 
 # CORS(app, resources={r"/*": {"origins": ["https://fansclub-v-2.onrender.com", "http://localhost:3000"], "supports_credentials": True}})
 # CORS(app, resources={r"/*": {"origins": "http://localhost:3000", "supports_credentials": True}})
-CORS(app, resources={r"/*": {"origins": ["https://fans-club.vercel.app", "http://localhost:3000"]}}, supports_credentials=True)
+# CORS(app, resources={r"/*": {"origins": ["https://fans-club.vercel.app", "http://localhost:3000"]}}, supports_credentials=True)
+CORS(app, supports_credentials=True)
+
+
+
 
 
 @app.after_request
@@ -62,21 +66,12 @@ cloudinary.config(
 )
 
 
-
-
 print(secrets.token_hex(32))
-
-
-
 
 # Inicializa SQLAlchemy con la app de Flask
 db.init_app(app)
 
 migrate = Migrate(app, db)
-
-
-
-
 
 jwt = JWTManager(app)
 
@@ -87,10 +82,6 @@ setup_admin(app)
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
-
-
-
-
 
 
 @app.route("/", defaults={"path": ""})
