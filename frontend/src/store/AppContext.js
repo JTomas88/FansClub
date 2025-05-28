@@ -1,5 +1,5 @@
-import React, { useState } from "react"; // Importamos useContext
-import getState from "./flux.js";  // Importamos el archivo flux.js
+import React, { useState } from "react";
+import getState from "./flux.js";
 
 // Creamos el contexto de la aplicación
 export const Context = React.createContext(null);
@@ -14,13 +14,13 @@ const injectContext = (PassedComponent) => {
                 getActions: () => state.actions,
                 setStore: (updatedStore) =>
                     setState({
-                        store: { ...state.store, ...updatedStore },  // Actualizamos el estado
-                        actions: { ...state.actions },  // Conservamos las acciones
+                        store: { ...state.store, ...updatedStore },
+                        actions: { ...state.actions },
                     }),
             })
         );
 
-        // Extraemos store y actions desde el contexto
+
         const { store, actions } = state;
 
 
@@ -35,4 +35,4 @@ const injectContext = (PassedComponent) => {
     return StoreWrapper;
 };
 
-export default injectContext;  // Exportamos la función para inyectar el contexto
+export default injectContext;  

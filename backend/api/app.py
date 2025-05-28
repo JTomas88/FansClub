@@ -37,6 +37,12 @@ print("DATABASE_URL:", os.getenv('DATABASE_URL'))
 CORS(app, resources={r"/*": {"origins": ["https://fans-club.vercel.app", "http://localhost:3000"]}}, supports_credentials=True)
 
 
+@app.after_request
+def after_request(response):
+    print("CORS headers:", response.headers.get('Access-Control-Allow-Origin'))
+    return response
+
+
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
@@ -203,7 +209,7 @@ def crear_token():
         return jsonify({'Error': "No se ha encontrado el correo o contraseña"}), 404
     
     if not check_password_hash(usuarios.usPassword, password):
-        return jsonify ({'Error': 'Contraseña incorrecta'})
+        return jsonify ({'Error': 'Contraseña incorrecta'}), 401
     
     # Se crea nuevo token de entrada del usuario a la pagina
     access_token = create_access_token(identity = usuarios.usId)
