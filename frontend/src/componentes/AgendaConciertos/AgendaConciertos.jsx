@@ -1,86 +1,22 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../../store/AppContext";
 import * as THREE from 'three';
 import styles from "./agendaconciertos.module.css";
+import Spinner from "../Spinner/Spinner";
 
 export const AgendaConciertos = () => {
     const { store, actions } = useContext(Context);
     const mountRef = useRef(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    // Llamar admin_obtenereventos una sola vez
     useEffect(() => {
-        actions.admin_obtenereventos(); // 
-    }, []); // 
+        const fetchData = async () => {
+            await actions.admin_obtenereventos();
+            setIsLoading(false);
+        };
 
-    // useEffect(() => {
-    //     let camera, scene, renderer;
-    //     let smokeParticles = [];
-    //     const clock = new THREE.Clock();
-
-    //     const init = () => {
-    //         scene = new THREE.Scene();
-    //         camera = new THREE.PerspectiveCamera(
-    //             95,
-    //             window.innerWidth / window.innerHeight,
-    //             1,
-    //             10000
-    //         );
-    //         camera.position.z = 1000;
-
-    //         renderer = new THREE.WebGLRenderer();
-    //         renderer.setSize(window.innerWidth, window.innerHeight);
-    //         renderer.domElement.style.position = 'absolute';
-    //         renderer.domElement.style.top = '0';
-    //         renderer.domElement.style.height = '236px';
-    //         renderer.domElement.style.left = '0';
-    //         renderer.domElement.style.zIndex = '-1';
-    //         mountRef.current.appendChild(renderer.domElement);
-
-    //         const smokeTexture = new THREE.TextureLoader().load(
-    //             'https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png'
-    //         );
-    //         const smokeMaterial = new THREE.MeshLambertMaterial({
-    //             color: 0x01dddd,
-    //             map: smokeTexture,
-    //             transparent: true,
-    //         });
-    //         const smokeGeo = new THREE.PlaneGeometry(300, 300);
-
-    //         for (let p = 0; p < 150; p++) {
-    //             const particle = new THREE.Mesh(smokeGeo, smokeMaterial);
-    //             particle.position.set(
-    //                 Math.random() * 500 - 250,
-    //                 Math.random() * 500 - 250,
-    //                 Math.random() * 1000 - 100
-    //             );
-    //             particle.rotation.z = Math.random() * 360;
-    //             scene.add(particle);
-    //             smokeParticles.push(particle);
-    //         }
-
-    //         const light = new THREE.DirectionalLight(0xffffff,);
-    //         light.position.set(0, -1, 1);
-    //         scene.add(light);
-
-    //         const animate = () => {
-    //             requestAnimationFrame(animate);
-    //             const delta = clock.getDelta();
-    //             smokeParticles.forEach((particle) => {
-    //                 particle.rotation.z += delta * 0.6;
-    //             });
-    //             renderer.render(scene, camera);
-    //         };
-
-    //         animate();
-    //     };
-
-    //     init();
-
-    //     // return () => {
-    //     //     mountRef.current.removeChild(renderer.domElement);
-    //     // };
-    // }, []);
-
+        fetchData();
+    }, []);
     const formateoFecha = (fechaString) => {
         const fecha = new Date(fechaString);
         return fecha.toLocaleDateString('es-ES', {
@@ -94,10 +30,11 @@ export const AgendaConciertos = () => {
         <>
             <h2 className={`titulo_movil ${styles.titulo}`}>Próximos conciertos</h2>
 
-            <div>
-                <div className={`container mt-5 ${styles.fondo}`}>
-
-                    <div className={styles.tablaResponsiva}>
+            <div className={`container mt-5 ${styles.fondo}`}>
+                <div className={styles.tablaResponsiva}>
+                    {isLoading ? (
+                        <Spinner />
+                    ) : (
                         <table className={`table table-dark text-center ${styles.tabla}`}>
                             <thead>
                                 <tr>
@@ -119,9 +56,10 @@ export const AgendaConciertos = () => {
                                             <td>{evento.evProvincia}</td>
                                             <td>{evento.evLugar}</td>
                                             <td>{evento.evHora}</td>
-                                            <td >
+                                            <td>
                                                 {evento.evEntradas ? (
-                                                    <a style={{ color: "white" }}
+                                                    <a
+                                                        style={{ color: "white" }}
                                                         href={evento.evEntradas}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
@@ -138,10 +76,9 @@ export const AgendaConciertos = () => {
                                 )}
                             </tbody>
                         </table>
-                    </div>
+                    )}
                 </div>
             </div>
         </>
-
     );
 };

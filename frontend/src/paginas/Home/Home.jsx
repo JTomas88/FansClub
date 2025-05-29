@@ -4,17 +4,35 @@ import imgJumbo from "../../assets/imagenes_jumbotron/JumboHome.png"
 import { SliderHome } from "../../componentes/Slider/SliderHome";
 import { Videos } from "../../componentes/Videos/Videos";
 import { AgendaConciertos } from "../../componentes/AgendaConciertos/AgendaConciertos";
+import Spinner from "../../componentes/Spinner/Spinner"
 import styles from "./home.module.css"
+import { Context } from "../../store/AppContext";
 
 export const Home = () => {
-    const [iframeLoaded, setIframeLoaded] = useState(false);
+    const { actions } = useContext(Context);
+    const [iframeLoaded, setIframeLoaded] = useState(true);
+    const [loadingEventos, setLoadingEventos] = useState(true)
 
-    useEffect(() => {
-        // Asegúrate de que esto solo se ejecute una vez al montar el componente
-        if (!iframeLoaded) {
-            setIframeLoaded(true);
-        }
-    }, []);
+    // useEffect(() => {
+    //     // Asegúrate de que esto solo se ejecute una vez al montar el componente
+    //     if (!iframeLoaded) {
+    //         setIframeLoaded(true);
+    //     }
+    // }, []);
+
+    // useEffect(() => {
+    //     const cargarEventos = async () => {
+    //         await new Promise(resolve => setTimeout(resolve, 5000)); // Simula espera
+    //         await actions.admin_obtenereventos(); // Carga real
+    //         setLoadingEventos(false);
+    //     };
+
+    //     cargarEventos();
+
+    //     if (!iframeLoaded) {
+    //         setIframeLoaded(true);
+    //     }
+    // }, []);
 
 
     return (

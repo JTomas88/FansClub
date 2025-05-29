@@ -46,6 +46,9 @@ Frontend
   npm run start
 ```
 
+Backend: 
+desde backend: python -m api.app
+
 
 ## Logo
 
