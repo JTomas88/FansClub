@@ -20,8 +20,10 @@ import { Sorteos } from "./paginas/Sorteos/Sorteos.jsx";
 import { Entrada } from "./paginas/Entrada/Entrada.jsx";
 import { Links } from "./paginas/Links/Links.jsx";
 import { Contacto } from "./paginas/Contacto/Contacto.jsx";
+import usePageTracking from "./usePageTracking.js";
 
 function AppContent() {
+  usePageTracking();
   const location = useLocation();
   const hideLayout = location.pathname === "/inicioSesion";
 
