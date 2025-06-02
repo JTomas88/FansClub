@@ -21,7 +21,6 @@ import { Entrada } from "./paginas/Entrada/Entrada.jsx";
 import { Links } from "./paginas/Links/Links.jsx";
 import { Contacto } from "./paginas/Contacto/Contacto.jsx";
 import usePageTracking from "./usePageTracking.js";
-import { Analytics } from "@vercel/analytics";
 
 function AppContent() {
   usePageTracking();
@@ -90,7 +89,6 @@ function App() {
   return (
     <BrowserRouter>
       {showSplash ? <Entrada /> : <AppContent />}
-      <Analytics />
     </BrowserRouter>
   );
 }
