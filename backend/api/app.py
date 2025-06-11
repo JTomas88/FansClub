@@ -113,7 +113,8 @@ def crear_usuario():
     nuevo_usuario = Usuario(
         usUsername = data['usUsername'],
         usEmail = data['usEmail'],
-        usPassword = codificar_password
+        usPassword = codificar_password,
+        user_uid=data.get('user_uid') 
     )
 
     db.session.add(nuevo_usuario)

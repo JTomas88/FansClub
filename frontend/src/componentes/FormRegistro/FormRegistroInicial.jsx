@@ -21,15 +21,21 @@ export const FormRegistroInicial = () => {
             return;
         }
 
-        store.usuarios.map((usuario) => {
+        try {
+            // 1. Crear usuario en Supabase
+            const user = await actions.registroSupabase(email, password);
+            if (!user || !user.id) throw new Error("Error en registro con Supabase");
 
-            if (usuario.email === email) {
-                setError("Este correo electrónico ya existe.Accede en Iniciar Sesion")
-            }
+            // 2. Crear usuario en backend enviando user_uid de Supabase
+            await actions.crear_usuario(email, username, password, user.id);
 
-        })
-        await actions.crear_usuario(email, username, password);
-        navigate('/completar-registro')
+            // 3. Navegar a completar registro
+            navigate('/completar-registro');
+
+        } catch (error) {
+            console.error(error);
+            setError(error.message || "Error en el proceso de registro");
+        }
 
     }
 

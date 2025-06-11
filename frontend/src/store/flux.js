@@ -1,4 +1,10 @@
 import { parse, format } from 'date-fns';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = 'https://lojwkycealchdmhqcmvg.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvandreWNlYWxjaGRtaHFjbXZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzNDcwMDYsImV4cCI6MjA2MzkyMzAwNn0.FwQc9Rk3uc_gopuAqZiDvvZj9zC65bu5DMKIOHnZl18';
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const getState = ({ getStore, getActions, setStore }) => {
     return {
@@ -43,8 +49,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             // ------------------------------- >> USUARIOS, ACCESO Y CREACIÓN DE TOKENS << -------------------------------- //
 
+            registroSupabase: async (email, password) => {
+                const { data, error } = await supabase.auth.signUp({ email, password });
+                if (error) throw error;
+                return data.user;  // user.uid está aquí
+            },
+
             //Creación de un nuevo usuario
-            crear_usuario: async (email, userName, password) => {
+            crear_usuario: async (email, userName, password, user_uid) => {
                 const store = getStore();
                 try {
                     const respuesta = await fetch(`${store.backendUrl}/registro`, {
@@ -52,7 +64,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                         body: JSON.stringify({
                             usEmail: email,
                             usUsername: userName,
-                            usPassword: password
+                            usPassword: password,
+                            user_uid
                         }),
                         headers: { 'Content-Type': 'application/json' },
                         credentials: "include"
