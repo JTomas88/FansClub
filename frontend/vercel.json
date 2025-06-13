@@ -11,5 +11,16 @@
       "destination": "https://siennafans.club/$1",
       "permanent": true
     }
+  ],
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml"
+        }
+      ]
+    }
   ]
 }
