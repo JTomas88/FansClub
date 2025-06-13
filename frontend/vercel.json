@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.siennafans.club"
+        }
+      ],
+      "destination": "https://siennafans.club/$1",
+      "permanent": true
+    }
+  ]
+}
