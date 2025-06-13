@@ -1,20 +1,16 @@
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://siennafans.club/</loc>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://siennafans.club/biografia</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://siennafans.club/musica</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://siennafans.club/eventos</loc>
-    <priority>0.8</priority>
-  </url>
-</urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
-<!-- Configuración para posicionamiento SEO -->
+
+<url>
+  <loc>https://siennafans.club/</loc>
+  <lastmod>2025-06-13T18:13:30+00:00</lastmod>
+</url>
+
+
+</urlset>
