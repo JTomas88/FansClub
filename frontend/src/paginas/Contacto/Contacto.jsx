@@ -4,6 +4,8 @@ import { Context } from "../../store/AppContext";
 import styles from "../Contacto/contacto.module.css"
 import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
 import Jumbo_contacto from "../../assets/imagenes_jumbotron/Jumbo_contacto.png"
+import Seo from "../../componentes/Seo/Seo";
+
 
 export const Contacto = () => {
     const { store, actions } = useContext(Context);
@@ -17,8 +19,13 @@ export const Contacto = () => {
 
 
     useEffect(() => {
-        setDatoUsuario(JSON.parse(localStorage.getItem('userData')))
-    }, [store.userData])
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+            setDatoUsuario(JSON.parse(userData));
+        } else {
+            setDatoUsuario(null);
+        }
+    }, [store.userData]);
 
     useEffect(() => {
         if (datoUsuario.id) {
@@ -30,9 +37,9 @@ export const Contacto = () => {
 
     //Cargamos los datos del usuario si ya está registrado, si no se muestran los campos en blanco
     useEffect(() => {
-        if (datoUsuario && datoUsuario?.id) {
-            setNombre(datoUsuario.nombre || '');
-            setEmail(datoUsuario.email || '');
+        if (datoUsuario && datoUsuario.id) {
+            actions.obtenerUsuarioPorId(datoUsuario.id)
+            setEmail(datoUsuario.email)
         }
     }, [datoUsuario]);
 
@@ -76,68 +83,76 @@ export const Contacto = () => {
 
 
     return (
-        <div className="bg-color mb-3">
-            <Jumbotron imagenFondo={{ backgroundImage: `url(${Jumbo_contacto})`, backgroundPosition: 'center 26%' }} subtitulo={"Malditas alas que nos robaron"} referencia={'registro'} />
+        <>
+            <Seo
+                title="Contacto | Sienna Fans"
+                description="Puedes hacernos llegar tus sugerencias o cualquier consulta."
+            />
+            <div className="bg-black mb-3">
+                <Jumbotron imagenFondo={{ backgroundImage: `url(${Jumbo_contacto})`, backgroundPosition: 'center 26%' }} subtitulo={"Malditas alas que nos robaron"} referencia={'registro'} />
 
-            <div>
-                <div className="d-flex justify-content-center align-items-center">
-                    <h1 className={`${styles.titulo}`}>CONTACTO</h1>
+                <div>
+                    <div className="d-flex justify-content-center align-items-center">
+                        <h1 className={`${styles.titulo}`}>CONTACTO</h1>
+                    </div>
                 </div>
-            </div>
-            <div className="container">
-                <p style={{ fontSize: '16px' }}>Puedes hacernos llegar tus sugerencias completando los siguientes datos</p>
-            </div>
+                <div className="container">
+                    <p style={{ fontSize: '16px' }}>Puedes hacernos llegar tus sugerencias completando los siguientes datos</p>
+                </div>
 
-            <form className="container" onSubmit={(evento) => enviarDatos(evento, nombre, email, asunto, mensaje)}  >
-                <div className="row">
-                    <div className="col">
-                        <div className="mb-3">
-                            <label htmlFor="nombre" className={`form-label fs-5 ${styles.labels}`} style={{ color: 'white', fontSize: '16px' }}>Nombre</label>
-                            <input type="text" className="form-control" id="nombre" placeholder="Escribe tu nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                <form className="container" onSubmit={(evento) => enviarDatos(evento, nombre, email, asunto, mensaje)}  >
+                    <div className="row">
+                        <div className="col">
+                            <div className="mb-3">
+                                <label htmlFor="nombre" className={`form-label fs-5 ${styles.labels}`} style={{ color: 'white', fontSize: '16px' }}>Nombre</label>
+                                <input type="text" className="form-control" id="nombre" placeholder="Escribe tu nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                            </div>
+                        </div>
+                        <div className="col">
+                            <div className="mb-3">
+                                <label htmlFor="email" className={`form-label fs-5 ${styles.labels}`} style={{ color: 'white', fontSize: '16px' }}>Email</label>
+                                <input type="email" className="form-control" id="email" aria-describedby="emailHelp" value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Escribe tu correo electrónico" />
+                            </div>
                         </div>
                     </div>
-                    <div className="col">
-                        <div className="mb-3">
-                            <label htmlFor="email" className={`form-label fs-5 ${styles.labels}`} style={{ color: 'white', fontSize: '16px' }}>Email</label>
-                            <input type="email" className="form-control" id="email" aria-describedby="emailHelp" value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Escribe tu correo electrónico" />
+
+                    <div className="mb-3">
+                        <label htmlFor="asunto" className={`form-label fs-5 ${styles.labels}`} style={{ color: 'white', fontSize: '16px' }}>Asunto</label>
+                        <input type="text" className="form-control" id="asunto" placeholder="Asunto" onChange={(e) => setAsunto(e.target.value)} value={asunto} />
+                    </div>
+
+                    <div className="mb-3">
+                        <label htmlFor="mensaje" className={`form-label fs-5 ${styles.labels}`} >Mensaje</label>
+                        <textarea type="text" cols={30} rows={5} className="form-control" id="mensaje" value={mensaje} onChange={(e) => setMensaje(e.target.value)} placeholder="Escribe aquí tu sugerencia" />
+                    </div>
+
+                    <div className="mb-3 text-center">
+                        <input type="checkbox" className="form-check-input me-2" id="CheckPrivacidad" onClick={() => checkeado()} checked={aceptado} />
+                        <label className="form-check-label" style={{ color: 'white', fontSize: '16px' }}>
+                            <span className={`fs-5 ${styles.labels}`} >Acepto la política de privacidad de datos</span>
+                        </label>
+                    </div>
+                    {aceptado ? (
+                        <div className="text-center">
+                            <button type="submit" className={`${styles.botonEnviar} btn fs-5`} >Enviar</button>
                         </div>
-                    </div>
-                </div>
 
-                <div className="mb-3">
-                    <label htmlFor="asunto" className={`form-label fs-5 ${styles.labels}`} style={{ color: 'white', fontSize: '16px' }}>Asunto</label>
-                    <input type="text" className="form-control" id="asunto" placeholder="Asunto" onChange={(e) => setAsunto(e.target.value)} value={asunto} />
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="mensaje" className={`form-label fs-5 ${styles.labels}`} >Mensaje</label>
-                    <textarea type="text" cols={30} rows={5} className="form-control" id="mensaje" value={mensaje} onChange={(e) => setMensaje(e.target.value)} placeholder="Escribe aquí tu sugerencia" />
-                </div>
-
-                <div className="mb-3 text-center">
-                    <input type="checkbox" className="form-check-input me-2" id="CheckPrivacidad" onClick={() => checkeado()} checked={aceptado} />
-                    <label className="form-check-label" style={{ color: 'white', fontSize: '16px' }}>
-                        <span className={`fs-5 ${styles.labels}`} >Acepto la política de privacidad de datos</span>
-                    </label>
-                </div>
-                {aceptado ? (
-                    <div className="text-center">
-                        <button type="submit" className={`${styles.botonEnviar} btn fs-5`} >Enviar</button>
-                    </div>
-
-                ) : (
-                    <div className="text-center">
-                        <button type="submit" disabled className={`${styles.botonEnviar} btn fs-5`} >Enviar</button>
-                    </div>
-                )
-                }
+                    ) : (
+                        <div className="text-center">
+                            <button type="submit" disabled className={`${styles.botonEnviar} btn fs-5`} >Enviar</button>
+                        </div>
+                    )
+                    }
 
 
 
-            </form >
+                </form >
 
-        </div >
+            </div >
+        </>
+
+
     )
 }

@@ -11,12 +11,17 @@ import { FaYoutube } from "react-icons/fa";
 import { FaTiktok } from "react-icons/fa";
 import { FaSpotify } from "react-icons/fa";
 import { FaTelegram } from "react-icons/fa";
+import Seo from "../../componentes/Seo/Seo";
 
 
 
 export const Links = () => {
   return (
     <>
+      <Seo
+        title="Links | Sienna Fans"
+        description="Accede a cualquier red del propio Sienna o del club de fans."
+      />
       <Jumbotron
         imagenFondo={{
           backgroundImage: `url(${jumbo_links})`,
@@ -26,7 +31,7 @@ export const Links = () => {
         referencia={"home"}
       ></Jumbotron>
 
-      <div className="container-fluid" style={{ height: "100vh" }}>
+      <div className="container-fluid bg-black" style={{ height: "100vh" }}>
         <div className="row">
           {/* Columna para los links oficiales de Sienna */}
           <div className="col-12 col-md-6 order-0 order-md-1">

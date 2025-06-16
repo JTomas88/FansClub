@@ -3,14 +3,14 @@
 }
 
 @font-face {
-  font-family: "Trance";
-  src: url("../../assets//whoaskssatan.ttf");
+  font-family: 'Trance';
+  src: url('../../assets//whoaskssatan.ttf');
   font-weight: bold;
   font-style: normal;
 }
 
 .titulo {
-  font-family: "Trance";
+  font-family: 'Trance';
   font-size: 80px;
   color: white;
   margin-top: 3%;
@@ -33,6 +33,7 @@
   display: flex;
   justify-content: center;
   text-align: justify;
+  color: white;
 }
 
 .que_haremos ul,
@@ -50,7 +51,7 @@
 }
 
 .decorador {
-  background-image: url("../../assets/-Pendientes-/favicon2.png");
+  background-image: url('../../assets/-Pendientes-/favicon2.png');
   background-repeat: no-repeat;
   background-size: 16px 16px;
   background-position: left center;
