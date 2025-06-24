@@ -12,7 +12,6 @@ class RolUsuarioEnum(Enum):
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
     usId = db.Column(db.Integer, primary_key=True)
-    user_uid = db.Column(db.String(36), unique=True, nullable=False) 
     usEmail = db.Column(db.String(120), nullable=False)
     usPassword = db.Column(db.String(250), nullable=False)
     usUsername = db.Column(db.String(120), nullable=False)
@@ -30,7 +29,6 @@ class Usuario(db.Model):
     def serialize(self):
         return {
             "usId": self.usId,
-            "user_uid": self.user_uid,
             "usEmail": self.usEmail,
             "usUsername": self.usUsername,
             "usNombre": self.usNombre,

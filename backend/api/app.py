@@ -114,7 +114,6 @@ def crear_usuario():
         usUsername = data['usUsername'],
         usEmail = data['usEmail'],
         usPassword = codificar_password,
-        user_uid=data.get('user_uid') 
     )
 
     db.session.add(nuevo_usuario)
@@ -353,7 +352,7 @@ def crearevento():
 #Función para obtener todos los eventos creados
 @app.route('/admin/obtenereventos', methods=['GET'])
 def obtenereventos():
-    todosLosEventos = Evento.query.all()
+    todosLosEventos = Evento.query.order_by(Evento.evFecha.asc()).all()
     return jsonify([evento.serialize() for evento in todosLosEventos])
 
 
