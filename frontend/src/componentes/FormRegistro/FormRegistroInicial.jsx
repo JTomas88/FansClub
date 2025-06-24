@@ -26,7 +26,7 @@ export const FormRegistroInicial = () => {
             const user = await actions.registroSupabase(email, password);
             if (!user || !user.id) throw new Error("Error en registro con Supabase");
 
-            // 2. Crear usuario en backend enviando user_uid de Supabase
+            // 2. Crear usuario en backend enviando user.id de Supabase
             await actions.crear_usuario(email, username, password, user.id);
 
             // 3. Navegar a completar registro

@@ -56,7 +56,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
 
             //Creación de un nuevo usuario
-            crear_usuario: async (email, userName, password, user_uid) => {
+            crear_usuario: async (email, userName, password) => {
                 const store = getStore();
                 try {
                     const respuesta = await fetch(`${store.backendUrl}/registro`, {
@@ -64,8 +64,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                         body: JSON.stringify({
                             usEmail: email,
                             usUsername: userName,
-                            usPassword: password,
-                            user_uid
+                            usPassword: password
                         }),
                         headers: { 'Content-Type': 'application/json' },
                         credentials: "include"

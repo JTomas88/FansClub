@@ -279,7 +279,7 @@ export const Agenda = () => {
 
     return (
 
-        <div className="container-fluid" style={{ height: '85.8vh', overflowY: 'hidden', overflowX: 'hidden' }}>
+        <div className="container-fluid" style={{ overflowY: 'hidden', overflowX: 'hidden' }}>
             <div>
                 {/* <!-- Button trigger modal --> */}
                 <button type="button" className="btn btn-primary mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#modalcrearEvento">
