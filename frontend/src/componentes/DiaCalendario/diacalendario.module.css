@@ -1,0 +1,72 @@
+.container {
+  display: inline-block;
+  margin: 0 1rem;
+  text-align: center;
+}
+
+.blocWrapper {
+  display: flex;
+  gap: 12px; /* Espacio entre hojas */
+  padding-top: 30px;
+  justify-content: center;
+}
+
+.perspective {
+  width: 90px; /* Tamaño idéntico para ambas */
+  height: 130px; /* Tamaño idéntico para ambas */
+  position: relative;
+  perspective: 1200px;
+}
+
+/* Las anillas (se repiten sobre cada hoja) */
+.perspective::before {
+  content: '';
+  position: absolute;
+  top: -18px;
+  left: 15%;
+  right: 15%;
+  height: 35px;
+  background: repeating-linear-gradient(
+    to right,
+    #222 0px,
+    #666 1px,
+    #222 3px,
+    transparent 3px,
+    transparent 15px
+  );
+  z-index: 20;
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* RECUERDA: Ajusta la ruta si tu carpeta assets está en otro lugar */
+  background-image: url('../../assets/papel.jpg');
+  background-size: cover;
+  background-position: center;
+  background-color: #a67c52; /* Color de respaldo si no carga la imagen */
+
+  color: rgba(43, 29, 14, 0.8); /* El color oscuro de Jennifer en tu foto */
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 900;
+  font-size: 5rem; /* Tamaño de letra igualado */
+
+  border-radius: 2px 2px 6px 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.label {
+  color: #444;
+  letter-spacing: 4px;
+  font-size: 0.75rem;
+  display: block;
+  margin-top: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}

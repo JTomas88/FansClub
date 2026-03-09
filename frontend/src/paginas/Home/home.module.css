@@ -1,3 +1,15 @@
+.fondoContenido {
+  /* Reemplaza con la ruta de tu imagen de fondo */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url('../../assets/Garra/garra_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Opcional: da un efecto muy pro */
+  min-height: 100vh;
+  padding-bottom: 50px; /* Para que el contenido no pegue abajo */
+}
+
 .spotify_iframe {
   .spotify-iframe {
     max-width: 600px;

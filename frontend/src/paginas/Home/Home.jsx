@@ -4,11 +4,13 @@ import Seo from "../../componentes/Seo/Seo";
 
 import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
 import imgJumbo from "../../assets/imagenes_jumbotron/JumboHome.png";
+import { CuentaAtras } from "../../componentes/CuentaAtras/CuentaAtras"
 import { SliderHome } from "../../componentes/Slider/SliderHome";
 import { Videos } from "../../componentes/Videos/Videos";
 import { AgendaConciertos } from "../../componentes/AgendaConciertos/AgendaConciertos";
 import styles from "./home.module.css";
 import { Context } from "../../store/AppContext";
+import adelantogarra from "../../assets/Garra/01_adelanto_garra.mp4";
 
 export const Home = () => {
     const { actions } = useContext(Context);
@@ -21,43 +23,41 @@ export const Home = () => {
                 title="Home | Sienna Fans"
                 description="Bienvenidx a la página de fans de Sienna."
             />
-            <div className="bg-black mb-3">
-                <div>
-                    <Jumbotron
-                        imagenFondo={{
-                            backgroundImage: `url(${imgJumbo})`,
-                            backgroundPosition: "center 10%",
-                        }}
-                        subtitulo={"Ya no se me para el tiempo"}
-                        referencia={"home"}
-                    />
 
-                    {iframeLoaded && (
-                        <div className="d-flex justify-content-center align-items-center text-center mt-3">
-                            <iframe
-                                className={styles.spotify_iframe}
-                                style={{ borderRadius: "12px" }}
-                                src="https://open.spotify.com/embed/artist/4PSNWFX3rYscMdKRp59uYA?utm_source=generator&theme=0&autoplay=1"
-                                width="30%"
-                                height="100"
-                                frameBorder="0"
-                                allowFullScreen
-                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                                loading="lazy"
-                                title="Spotify Artist"
-                            ></iframe>
-                        </div>
-                    )}
+            <div className="bg-black">
+                <Jumbotron
+                    imagenFondo={{
+                        backgroundImage: `url(${imgJumbo})`,
+                        backgroundPosition: "center 10%",
+                    }}
+                    subtitulo={"Ya no se me para el tiempo"}
+                    referencia={"home"}
+                />
 
-                    <div className="mt-3">
-                        <SliderHome />
+                {/* AQUÍ EMPIEZA EL FONDO DIFERENCIADO */}
+                <div className={styles.fondoContenido}>
+                    <div className="container pt-5">
+                        <CuentaAtras />
                     </div>
-                    <div className="mt-5">
-                        <AgendaConciertos />
+
+                    <div className="d-flex justify-content-center mt-5">
+                        <video
+                            src={adelantogarra}
+                            controls
+                            loop
+                            muted
+                            autoPlay
+                            style={{
+                                width: '100%',
+                                maxWidth: '400px',
+                                borderRadius: '12px',
+                                boxShadow: '0 0 20px rgba(0,0,0,0.5)'
+                            }}
+                        />
                     </div>
-                    <div className="mt-3">
-                        <Videos />
-                    </div>
+
+                    {/* Aquí puedes seguir añadiendo los demás componentes 
+                        como SliderHome, Videos, etc. */}
                 </div>
             </div>
         </>
