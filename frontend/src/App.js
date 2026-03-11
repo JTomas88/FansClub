@@ -21,9 +21,11 @@ import { Entrada } from "./paginas/Entrada/Entrada.jsx";
 import { Links } from "./paginas/Links/Links.jsx";
 import { Contacto } from "./paginas/Contacto/Contacto.jsx";
 import usePageTracking from "./usePageTracking.js";
+import { inject } from '@vercel/analytics';
 
 function AppContent() {
   usePageTracking();
+  inject();
   const location = useLocation();
   const hideLayout = location.pathname === "/inicioSesion";
 
