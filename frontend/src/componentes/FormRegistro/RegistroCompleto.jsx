@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./registrocompleto.module.css"
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/AppContext";
@@ -34,9 +34,9 @@ export const RegistroCompleto = () => {
 
     const [error, setError] = useState(null)
     const [errorValidnuevapw, setErrorvalidnuevapw] = useState('')
-    const [msjOK, setMsjOK] = useState(null)
+    const [setMsjOK] = useState(null)
 
-    const [claseAlerta, setClaseAlerta] = useState("")
+
 
 
 

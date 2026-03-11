@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/AppContext";
 import { LuPencil } from "react-icons/lu";
@@ -10,17 +10,16 @@ import styles from "./gestionsorteos.module.css"
 export const GestionSorteos = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    const [datoUsuario, setDatoUsuario] = useState({})
+    const [setDatoUsuario] = useState({})
     const [nombreSorteo, setNombreSorteo] = useState('')
     const [descripcion, setDescripcion] = useState('')
     const [fechaInicio, setFechaInicio] = useState('')
     const [fechaFin, setFechaFin] = useState('')
     const [imagen, setImagen] = useState('')
-    const [resultado, setResultado] = useState('')
-    const [imagenesSeleccionadas, setImagenesSeleccionadas] = useState(null)
+    const [setImagenesSeleccionadas] = useState(null)
     const [miniaturas, setMiniaturas] = useState([]);
     const [sorteoSeleccionado, setSorteoSeleccionado] = useState('');
-    const [error, setError] = useState('')
+    const [setError] = useState('')
     const [sorteoAEliminar, setSorteoAEliminar] = useState('')
     const fileInputRef = useRef(null)
     const hoy = new Date().toISOString().split('T')[0];
@@ -28,7 +27,7 @@ export const GestionSorteos = () => {
     const [ganador, setGanador] = useState('')
     const [filtro, setFiltro] = useState('activos')
     const [selectedItem, setSelectedItem] = useState(1);
-    const [spinner, setSpinner] = useState(false)
+    const [spinner,] = useState(false)
 
 
     //Para obtener todos los sorteos
@@ -87,7 +86,6 @@ export const GestionSorteos = () => {
             setImagen(nuevasImagenes)
 
             if (sorteoSeleccionado && sorteoSeleccionado.id) {
-                const imagenesConcat = nuevasImagenes.join(",")
                 await actions.editar_sorteo(
                 );
             }

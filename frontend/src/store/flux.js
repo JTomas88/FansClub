@@ -1,4 +1,4 @@
-import { parse, format } from 'date-fns';
+import { format } from 'date-fns';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = 'https://lojwkycealchdmhqcmvg.supabase.co';
@@ -316,7 +316,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             //Cerrar la sesión del perfil de usuario
             logOut: () => {
-                const store = getStore();
 
                 // localStorage.clear();
                 localStorage.removeItem("userData");

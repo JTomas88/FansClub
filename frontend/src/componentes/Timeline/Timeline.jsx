@@ -96,6 +96,7 @@ export const TimelineComponent = () => {
                 ) : (
                   <div>
                     <img
+                      alt="Imagen"
                       src={data.img}
                       className={styles.mini_image}
                     ></img>

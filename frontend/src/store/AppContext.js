@@ -21,9 +21,6 @@ const injectContext = (PassedComponent) => {
         );
 
 
-        const { store, actions } = state;
-
-
 
         return (
             <Context.Provider value={state}>  {/* Proveemos el contexto a los componentes */}

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../FormRegistro/formregistroinicial.module.css";
 import { Context } from "../../store/AppContext";
 
 export const FormInicioSesion = () => {
-    const { store, actions } = useContext(Context);
+    const { actions } = useContext(Context);
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [email, setEmail] = useState('');

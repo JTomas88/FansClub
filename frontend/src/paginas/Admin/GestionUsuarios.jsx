@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../Admin/gestionusuarios.module.css";
 import { Context } from "../../store/AppContext";
@@ -7,9 +7,9 @@ import { MdDelete } from "react-icons/md";
 
 export const GestionUsuarios = () => {
     const { store, actions } = useContext(Context);
-    const [datoUsuario, setDatoUsuario] = useState({})
+    const [setDatoUsuario] = useState({})
     const navigate = useNavigate();
-    const [error, setError] = useState('');
+    const [setError] = useState('');
 
     //Cargamos los usuarios al montar el componente
     useEffect(() => {
@@ -42,7 +42,7 @@ export const GestionUsuarios = () => {
     }
 
     const deleteUser = async (id) => {
-        const result = await actions.admin_eliminar_usuario_(id).then(
+        await actions.admin_eliminar_usuario_(id).then(
             navigate('/admin/gestionusuarios')
         )
     }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/AppContext";
 import styles from "../Admin/gestiongalerias.module.css"
@@ -7,9 +7,9 @@ import { FaFolder, FaPlus, FaImage } from "react-icons/fa";
 export const GestionGalerias = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    const [datoUsuario, setDatoUsuario] = useState({})
+    const [setDatoUsuario] = useState({})
     const [nombreCarpeta, setNombreCarpeta] = useState('');
-    const [foto, setFoto] = useState('');
+    const [foto] = useState('');
     const [carpetaSeleccionada, setCarpetaSeleccionada] = useState(null);
     const [carpetaAbierta, setCarpetaAbierta] = useState(null)
     const [imagenesSeleccionadas, setImagenesSeleccionadas] = useState(null)

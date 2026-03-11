@@ -1,8 +1,6 @@
-import React from "react";
 import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
 import styles from "./objetivoscf.module.css"
 import Jumbo_Objetvos from "../../assets/imagenes_jumbotron/Jumbo_Objetivos.png"
-import favicon2 from "../../assets/-Pendientes-/favicon2.png"
 import Seo from "../../componentes/Seo/Seo";
 
 export const ObjetivosCF = () => {

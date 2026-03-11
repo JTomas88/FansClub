@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/AppContext";
 import { LuPencil } from "react-icons/lu";
@@ -8,22 +8,20 @@ import styles from "./gestionentrevistas.module.css"
 export const GestionEntrevistas = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    const [datoUsuario, setDatoUsuario] = useState({})
+    const [setDatoUsuario] = useState({})
     const [fecha, setFecha] = useState('');
     const [titular, setTitular] = useState('')
     const [subtitulo, setSubtitulo] = useState('')
     const [cuerpo, setCuerpo] = useState('')
     const [imagen, setImagen] = useState([])
     const [entrevistaSeleccionada, setEntrevistaSeleccionada] = useState('');
-    const [error, setError] = useState('')
-    const [imagenesSeleccionadas, setImagenesSeleccionadas] = useState(null)
+    const [setError] = useState('')
+    const [setImagenesSeleccionadas] = useState(null)
     const [entrevistaAEliminar, setEntrevistaAEliminar] = useState('');
     const [miniaturas, setMiniaturas] = useState([]);
     const fileInputRef = useRef(null)
 
-    const handleFotoChange = (evento) => {
-        setImagen(Array.from(evento.target.files));;
-    }
+
 
 
     //Para obtener todas las entrevistas

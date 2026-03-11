@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../store/AppContext";
 import styles from "../Navbar/navbar.module.css"
@@ -19,10 +19,7 @@ export const Navbar = () => {
 
 
 
-    const logout = () => {
-        actions.logOut();
-        navigate('/')
-    }
+
 
     const irLogin = () => {
         navigate("/inicioSesion")

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/AppContext";
 import styles from "../Contacto/contacto.module.css"
 import { Jumbotron } from "../../componentes/Jumbotron/Jumbotron";
@@ -9,7 +9,6 @@ import Seo from "../../componentes/Seo/Seo";
 
 export const Contacto = () => {
     const { store, actions } = useContext(Context);
-    const navigate = useNavigate();
     const [nombre, setNombre] = useState('')
     const [email, setEmail] = useState('')
     const [asunto, setAsunto] = useState('')

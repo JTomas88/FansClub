@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../Admin/agenda.module.css";
 import { Context } from "../../store/AppContext";
@@ -10,7 +10,7 @@ import { IoIosSave } from "react-icons/io";
 export const Agenda = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    const [datoUsuario, setDatoUsuario] = useState({})
+    const [setDatoUsuario] = useState({})
     const [fecha, setFecha] = useState('')
     const [poblacion, setPoblacion] = useState('')
     const [provincia, setProvincia] = useState('')
@@ -18,8 +18,7 @@ export const Agenda = () => {
     const [hora, setHora] = useState('')
     const [entradas, setEntradas] = useState('')
     const [observaciones, setObservaciones] = useState('')
-    const [error, setError] = useState('')
-    const [inputValue, setInputValue] = useState('');
+    const [setError] = useState('')
     const [sugerencias, setSugerencias] = useState([]);
     const [idEditFila, setIdEditFila] = useState(null); //Almacena el Id de la fila que se está editando(
     const [filaEditada, setFilaEditada] = useState({}); // Almacenda los datos editados temporalmente.
