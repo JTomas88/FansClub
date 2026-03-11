@@ -61,7 +61,7 @@ export const AgendaConciertos = () => {
                                                     <a
                                                         style={{ color: "white" }}
                                                         href={evento.evEntradas}
-                                                        target="_blank"
+                                                        target="_blank" rel="noopener noreferrer"
                                                         rel="noopener noreferrer"
                                                     >
                                                         Clicka aquí para comprar las entradas!

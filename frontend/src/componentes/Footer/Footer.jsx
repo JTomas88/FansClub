@@ -12,17 +12,17 @@ export const Footer = () => {
             <div className="container">
                 <div className="row text-center justify-content-center">
                     <div className="col-1">
-                        <a href="https://www.instagram.com/siennacharts/" target="_blank" rel="noopener">
+                        <a href="https://www.instagram.com/siennacharts/" target="_blank" rel="noopener noreferrer" rel="noopener">
                             <FaInstagram fontSize={"20"} />
                         </a>
                     </div>
                     <div className="col-1">
-                        <a href="https://t.me/+meErawrgpUtmNmI8" target="_blank" rel="noopener" >
+                        <a href="https://t.me/+meErawrgpUtmNmI8" target="_blank" rel="noopener noreferrer" rel="noopener" >
                             <PiTelegramLogoLight fontSize={"20"} />
                         </a>
                     </div>
                     <div className="col-1">
-                        <a href="https://www.tiktok.com/@sienna.charts" target="_blank" rel="noopener">
+                        <a href="https://www.tiktok.com/@sienna.charts" target="_blank" rel="noopener noreferrer" rel="noopener">
                             <BsTiktok fontSize={"20"} />
                         </a>
                     </div>
@@ -48,7 +48,7 @@ export const Footer = () => {
                     </div>
                     <div className="row">
                         <div className="col text-dark fs-6">
-                            Diseñado y construido por <a href="https://www.linkedin.com/in/jtomas88/" target="_blank" rel="noopener noreferrer" className="fw-bold">JTomas</a>
+                            Diseñado y construido por <a href="https://www.linkedin.com/in/jtomas88/" target="_blank" rel="noopener noreferrer" rel="noopener noreferrer" className="fw-bold">JTomas</a>
                         </div>
                     </div>
 

@@ -38,7 +38,7 @@ export const Links = () => {
             </h4>
             <div className="row mt-3">
               <div className="col d-flex flex-column align-items-center">
-                <a href="https://www.siennaoficial.com" target="_blank" rel="noopener">
+                <a href="https://www.siennaoficial.com" target="_blank" rel="noopener noreferrer" >
                   <TbTriangleInverted fontSize={"35"} color="#8f00ff" />
                 </a>
                 <p>Web Oficial</p>
@@ -48,7 +48,7 @@ export const Links = () => {
               <div className="col d-flex flex-column align-items-center">
                 <a
                   href="https://www.instagram.com/siennamusica/"
-                  target="_blank" rel="noopener"
+                  target="_blank" rel="noopener noreferrer"
                 >
                   <FaInstagram fontSize={"30"} color="#8f00ff" />
                 </a>
@@ -57,7 +57,7 @@ export const Links = () => {
               <div className="col d-flex flex-column align-items-center">
                 <a
                   href="https://www.tiktok.com/@sienna.musica"
-                  target="_blank" rel="noopener"
+                  target="_blank" rel="noopener noreferrer"
                 >
                   <FaTiktok fontSize={"30"} color="#8f00ff" />
                 </a>
@@ -67,7 +67,7 @@ export const Links = () => {
 
             <div className="row">
               <div className="col d-flex flex-column align-items-center">
-                <a href="https://twitter.com/siennamusica" target="_blank" rel="noopener">
+                <a href="https://twitter.com/siennamusica" target="_blank" rel="noopener noreferrer" >
                   <FaXTwitter fontSize={"30"} color="#8f00ff" />
                 </a>
                 <p>Twitter / X</p>
@@ -75,7 +75,7 @@ export const Links = () => {
               <div className="col d-flex flex-column align-items-center">
                 <a
                   href="https://www.facebook.com/siennamusica"
-                  target="_blank" rel="noopener"
+                  target="_blank" rel="noopener noreferrer"
                 >
                   <FaFacebook fontSize={"30"} color="#8f00ff" />
                 </a>
@@ -85,7 +85,7 @@ export const Links = () => {
 
             <div className="row">
               <div className="col d-flex flex-column align-items-center">
-                <a href="https://youtube.com/@siennamusica" target="_blank" rel="noopener">
+                <a href="https://youtube.com/@siennamusica" target="_blank" rel="noopener noreferrer" >
                   <FaYoutube fontSize={"30"} color="#8f00ff" />
                 </a>
                 <p>Youtube</p>
@@ -93,7 +93,7 @@ export const Links = () => {
               <div className="col d-flex flex-column align-items-center">
                 <a
                   href="https://open.spotify.com/intl-es/artist/4PSNWFX3rYscMdKRp59uYA?si=hZEyrlKYQcGZN6wTPZaoFg"
-                  target="_blank" rel="noopener"
+                  target="_blank" rel="noopener noreferrer"
                 >
                   <FaSpotify fontSize={"30"} color="#8f00ff" />
                 </a>
@@ -110,7 +110,7 @@ export const Links = () => {
               </h4>
               <div className="row mt-3">
                 <div className="col d-flex flex-column align-items-center">
-                  <a href="https://t.me/+meErawrgpUtmNmI8" target="_blank" rel="noopener">
+                  <a href="https://t.me/+meErawrgpUtmNmI8" target="_blank" rel="noopener noreferrer" >
                     <FaTelegram fontSize={"30"} color="#8f00ff" />
                   </a>
                   <p>Grupo de Telegram SiennaCharts</p>
@@ -120,7 +120,7 @@ export const Links = () => {
                 <div className="col d-flex flex-column align-items-center">
                   <a
                     href="https://www.instagram.com/siennacharts/"
-                    target="_blank" rel="noopener"
+                    target="_blank" rel="noopener noreferrer"
                   >
                     <FaInstagram fontSize={"30"} color="#8f00ff" />
                   </a>
@@ -132,7 +132,7 @@ export const Links = () => {
                 <div className="col d-flex flex-column align-items-center">
                   <a
                     href="https://www.tiktok.com/@sienna.charts"
-                    target="_blank" rel="noopener"
+                    target="_blank" rel="noopener noreferrer"
                   >
                     <FaTiktok fontSize={"30"} color="#8f00ff" />
                   </a>
