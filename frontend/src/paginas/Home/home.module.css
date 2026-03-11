@@ -1,24 +1,65 @@
 .fondoContenido {
-  /* Reemplaza con la ruta de tu imagen de fondo */
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url('../../assets/Garra/garra_bg.png');
   background-size: cover;
-  background-position: center;
-  background-attachment: fixed; /* Opcional: da un efecto muy pro */
+  background-position: top;
+  background-attachment: fixed;
   min-height: 100vh;
-  padding-bottom: 50px; /* Para que el contenido no pegue abajo */
+  padding-bottom: 50px;
+  overflow-x: hidden;
+  width: 100%;
 }
 
-.spotify_iframe {
-  .spotify-iframe {
-    max-width: 600px;
-    width: 100%;
+.video_container {
+  width: 90% !important; /* Deja un 5% de margen a cada lado */
+  max-width: 1000px;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto !important; /* Centrado automático IZQ y DER */
+  display: block !important;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.video_container iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: none;
+  border-top-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.adelanto_garra {
+  max-width: 375px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  height: 660px;
+}
+
+:global(html),
+:global(body) {
+  overflow-x: hidden !important;
+  width: 100%;
+  position: relative;
+}
+
+/* * {
+  border: 1px solid red !important;
+} */
+
+@media (max-width: 768px) {
+  .video_container {
+    width: 90%;
+    max-width: 90vw;
+  }
+  .adelanto_garra {
+    max-width: 300px;
   }
 }
 
-@media (max-width: 768px) {
-  .spotify_iframe {
-    height: 80px; /* Reduce la altura en pantallas medianas */
+@media (min-width: 769px) {
+  .video_container {
+    width: 100%;
   }
 }

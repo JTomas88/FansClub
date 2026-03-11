@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DiaCalendario } from "../DiaCalendario/DiaCalendario";
+import styles from "./cuentaatras.module.css"
 
 export const CuentaAtras = () => {
     const getSecondsUntilMidnight = () => {
@@ -41,7 +42,7 @@ export const CuentaAtras = () => {
 
     const TimeBlock = ({ value, label }) => (
         <div className="d-inline-block mx-2 mx-md-4 text-center">
-            <div style={{ height: "7rem", display: "flex", alignItems: "center", justifyContent: "center", minWidth: "100px" }}>
+            <div className={`${styles.horas_min_seg}`}>
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={value}
@@ -49,39 +50,39 @@ export const CuentaAtras = () => {
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: -15, opacity: 0 }}
                         transition={{ duration: 0.4, ease: "circOut" }}
-                        style={{
-                            fontSize: "clamp(3.5rem, 12vw, 7rem)",
-                            fontWeight: "900",
-                            fontFamily: "monospace",
-                            color: "#fff",
-                            textShadow: "0 0 15px rgba(255,255,255,0.5)",
-                        }}
+                        className={`${styles.numeros_reloj}`}
                     >
                         {value}
                     </motion.div>
                 </AnimatePresence>
             </div>
-            <span style={{ color: "#444", letterSpacing: "4px", fontSize: "0.75rem", display: "block", fontWeight: "bold" }}>
+            <span className={`${styles.texto_reloj}`}>
                 {label}
             </span>
         </div>
     );
 
     return (
-        /* Envolvemos todo en un div principal para que no de error */
         <div className="text-center w-100">
-            <div className="d-flex justify-content-center align-items-center flex-wrap py-5">
-                <DiaCalendario isMidnight={isMidnight} label="DÍAS" />
 
-                <div style={{ fontSize: "2.5rem", color: "#111", alignSelf: "center", marginTop: "-30px" }}>:</div>
+            <div className={`${styles.container_reloj}`}>
 
-                <TimeBlock value={hours} label="HORAS" />
-                <div style={{ fontSize: "2.5rem", color: "#111", alignSelf: "center", marginTop: "-30px" }}>:</div>
+                {/* Bloque de Días (se verá arriba en móvil) */}
+                <div className={`${styles.seccion_dias}`}>
+                    <DiaCalendario isMidnight={isMidnight} label="DÍAS" />
+                </div>
 
-                <TimeBlock value={minutes} label="MINUTOS" />
-                <div style={{ fontSize: "2.5rem", color: "#111", alignSelf: "center", marginTop: "-30px" }}>:</div>
 
-                <TimeBlock value={seconds} label="SEGUNDOS" />
+
+                <div className={`${styles.seccion_tiempo}`}>
+                    <TimeBlock value={hours} label="HORAS" />
+                    <div className={`${styles.separador}`}>:</div>
+
+                    <TimeBlock value={minutes} label="MINUTOS" />
+                    <div className={`${styles.separador}`}>:</div>
+
+                    <TimeBlock value={seconds} label="SEGUNDOS" />
+                </div>
             </div>
 
             {/* Botón para pasar pagina */}

@@ -24,7 +24,7 @@ export const Home = () => {
                 description="Bienvenidx a la página de fans de Sienna."
             />
 
-            <div className="bg-black">
+            <div className={`bg-black ${styles.fondoContenido}`}>
                 <Jumbotron
                     imagenFondo={{
                         backgroundImage: `url(${imgJumbo})`,
@@ -35,24 +35,32 @@ export const Home = () => {
                 />
 
                 {/* AQUÍ EMPIEZA EL FONDO DIFERENCIADO */}
-                <div className={styles.fondoContenido}>
+                <div>
                     <div className="container pt-5">
                         <CuentaAtras />
                     </div>
 
+                    <div className="text-center mb-3 mt-5">
+                        <h4>
+                            Videoclip Garra
+                        </h4>
+                    </div>
+                    <div className="w-100 mt-4" style={{ overflow: 'hidden' }}>
+                        <div className={styles.video_container}>
+                            <iframe
+                                src="https://www.youtube.com/embed/SO7tO46Ks8o?si=H25FIR7Izj1MuLl6"
+                                title="YouTube video player"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    </div>
                     <div className="d-flex justify-content-center mt-5">
                         <video
                             src={adelantogarra}
                             controls
-                            loop
-                            muted
-                            autoPlay
-                            style={{
-                                width: '100%',
-                                maxWidth: '400px',
-                                borderRadius: '12px',
-                                boxShadow: '0 0 20px rgba(0,0,0,0.5)'
-                            }}
+
+
+                            className={`${styles.adelanto_garra}`}
                         />
                     </div>
 

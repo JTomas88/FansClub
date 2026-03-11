@@ -1,0 +1,72 @@
+.separador {
+  font-size: 2.5rem;
+  color: white;
+  align-self: center;
+  margin-top: -30px;
+}
+
+.numeros_reloj {
+  font-size: clamp(2.5rem, 10vw, 7rem);
+  font-weight: 900;
+  font-family: monospace;
+  color: white;
+}
+
+.texto_reloj {
+  color: white;
+  letter-spacing: 4px;
+  font-size: 0.7rem;
+  display: block;
+  font-weight: bold;
+}
+
+/* Contenedor que envuelve TODO */
+.container_reloj {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.seccion_tiempo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.horas_min_seg {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+}
+
+@media (min-width: 768px) {
+  .container_reloj {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .horas_min_seg {
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .horas_min_seg {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+  }
+}

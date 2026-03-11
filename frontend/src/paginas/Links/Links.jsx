@@ -35,9 +35,9 @@ export const Links = () => {
         <div className="row">
           {/* Columna para los links oficiales de Sienna */}
           <div className="col-12 col-md-6 order-0 order-md-1">
-            <div className={`text-center ${styles.titulo}`}>
+            <h4 className={`text-center fw-bold ${styles.titulo}`}>
               PERFILES OFICIALES DE SIENNA
-            </div>
+            </h4>
             <div className="row mt-3">
               <div className="col d-flex flex-column align-items-center">
                 <a href="https://www.siennaoficial.com" target="_blank" >
@@ -107,9 +107,9 @@ export const Links = () => {
           {/* Columna para los links del Club de Fans */}
           <div className="col-12 col-md-6 order-1 order-md-1 ">
             <div className="row">
-              <div className={`text-center ${styles.titulo}`}>
+              <h4 className={`text-center fw-bold ${styles.titulo}`}>
                 PERFILES DEL CLUB DE FANS
-              </div>
+              </h4>
               <div className="row mt-3">
                 <div className="col d-flex flex-column align-items-center">
                   <a href="https://t.me/+meErawrgpUtmNmI8" target="_blank">

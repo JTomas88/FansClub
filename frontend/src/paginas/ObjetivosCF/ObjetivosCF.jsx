@@ -26,9 +26,9 @@ export const ObjetivosCF = () => {
 
                 <div className={styles.objetivoscf}>
                     <div className="row bg-black">
-                        <div className={`text-center titulo_movil ${styles.titulo}`}>
+                        <h4 className={`fw-bold text-center titulo_movil ${styles.titulo}`}>
                             QUIENES SOMOS
-                        </div>
+                        </h4>
                         <div className={styles.quienes_somos}>
                             <p>
                                 Como el propio nombre indica, somos un grupo de gente a la que nos gusta la música y letras que compone Sienna. <br />

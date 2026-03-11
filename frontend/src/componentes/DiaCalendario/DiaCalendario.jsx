@@ -15,22 +15,27 @@ export const DiaCalendario = ({ isMidnight, label }) => {
                 <div className={styles.perspective}>
                     <AnimatePresence mode="popLayout">
                         <motion.div
-                            key={isMidnight ? "nuevo" : "actual"} // El cambio de key dispara la animación
-                            initial={{ rotateX: 0, opacity: 1 }}
-                            animate={{ rotateX: 0, opacity: 1 }}
+                            key={isMidnight ? "nuevo" : "actual"}
+                            initial={{ rotateX: 90, opacity: 0 }}
+                            animate={{
+                                rotateX: 0,
+                                opacity: 1,
+                                transition: { duration: 0.8, ease: "easeOut" }
+                            }}
                             exit={{
-                                rotateX: -160, // Aumentamos el ángulo para que se note más
+                                rotateX: -90,
                                 opacity: 0,
                                 transition: {
                                     duration: 0.8,
-                                    ease: [0.23, 1, 0.32, 1.2] // Efecto de "rebote" al levantarse
+                                    ease: "easeIn"
                                 }
                             }}
                             style={{
-                                originY: 0,
+                                originY: 1,
                                 position: "absolute",
                                 width: "100%",
                                 height: "100%",
+                                backfaceVisibility: "hidden",
                                 zIndex: isMidnight ? 5 : 10
                             }}
                             className={styles.face}
@@ -40,7 +45,7 @@ export const DiaCalendario = ({ isMidnight, label }) => {
                     </AnimatePresence>
                 </div>
             </div>
-            <span className={styles.label}>{label}</span>
+            <span className={styles.texto_reloj}>{label}</span>
         </div>
     );
 };

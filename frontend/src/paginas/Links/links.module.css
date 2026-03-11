@@ -1,17 +1,10 @@
-@font-face {
-  font-family: 'Trance';
-  src: url('../../assets//whoaskssatan.ttf');
-  font-weight: bold;
-  font-style: normal;
-}
-
 .titulo {
-  font-family: 'Trance';
-  font-size: 60px;
+  font-family: 'Rock Salt', cursive;
   color: white;
   margin-top: 3%;
   margin-bottom: 3%;
   color: white;
+  letter-spacing: 3px;
 }
 
 @media (max-width: 768px) {

@@ -1,9 +1,9 @@
 @font-face {
-  font-family: "NavBarFont";
-  src: url("../../assets/JMH\ Typewriter.otf");
+  font-family: 'NavBarFont';
+  src: url('../../assets/JMH\ Typewriter.otf');
 }
 .login_signup {
-  font-family: "NavBarFont";
+  font-family: 'NavBarFont';
   display: flex;
   gap: 15px;
   font-size: 18px;
@@ -25,7 +25,20 @@
 }
 
 .enlaces {
-  font-family: "NavBarFont";
+  font-family: 'NavBarFont';
+  position: relative;
+  z-index: 9999;
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem 1rem; /* Padding controlado */
+  overflow-x: hidden; /* Evita que este componente desborde */
+}
+
+.enlaces :global(.container-fluid) {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 0;
+  width: 100%;
 }
 
 .font_name {
@@ -60,8 +73,17 @@
   box-shadow: none;
 }
 
+li {
+  cursor: pointer !important;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
 @media (max-width: 768px) {
   .login_signup {
-    font-family: "NavBarFont";
+    font-family: 'NavBarFont';
   }
 }

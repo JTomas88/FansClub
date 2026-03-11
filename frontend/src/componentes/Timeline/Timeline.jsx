@@ -10,6 +10,7 @@ import tragicoyfugaz from "../../assets/portadas_discos/portadatragicoyfugaz.jpg
 import melancolic from "../../assets/portadas_discos/portadamelancolic.jpeg";
 import tiempos from "../../assets/portadas_discos/portadatiemposdeimpacto.jpg";
 import trance from "../../assets/portadas_discos/portadatrance.jpg";
+import portada_garra from "../../assets/Garra/portada_garra.webp"
 
 export const TimelineComponent = () => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -45,6 +46,7 @@ export const TimelineComponent = () => {
     { img: tiempos, titulo: "2020 - Tiempos de impacto", texto: "Sienna ya forma parte del panorama musical en España" },
     { img: melancolic, titulo: "2021 - Melancolic", texto: "Se lanza Melancolic, una introspección a los sentimientos" },
     { img: trance, titulo: "2024 - Trance", texto: "Se publica Trance: un disco con nuevos sonidos donde se suelta la rabia más humana" },
+    { img: portada_garra, titulo: "2026", texto: '¿?' }
   ];
 
 
@@ -95,7 +97,6 @@ export const TimelineComponent = () => {
                   <div>
                     <img
                       src={data.img}
-                      alt={`Portada ${index + 1}`}
                       className={styles.mini_image}
                     ></img>
                     <p>{data.titulo}</p>

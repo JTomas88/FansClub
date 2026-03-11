@@ -93,7 +93,7 @@ export const Contacto = () => {
 
                 <div>
                     <div className="d-flex justify-content-center align-items-center">
-                        <h1 className={`${styles.titulo}`}>CONTACTO</h1>
+                        <h4 className={`fw-bold ${styles.titulo}`}>CONTACTO</h4>
                     </div>
                 </div>
                 <div className="container">

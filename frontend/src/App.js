@@ -77,10 +77,10 @@ function App() {
   useEffect(() => {
     const splashShown = localStorage.getItem("splashShown");
     if (!splashShown) {
-      setShowSplash(true);
+      setShowSplash(false);
       const timer = setTimeout(() => {
         setShowSplash(false);
-        localStorage.setItem("splashShown", JSON.stringify(true));
+        localStorage.setItem("splashShown", JSON.stringify(false));
       }, 8000);
       return () => clearTimeout(timer);
     }

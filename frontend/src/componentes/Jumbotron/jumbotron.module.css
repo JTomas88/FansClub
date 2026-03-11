@@ -2,12 +2,8 @@
 
 /* Estilos base */
 .jumbotron_edit,
-.jumbotron_edit_home,
-.jumbotron_edit_foto {
+.jumbotron_edit_home {
   position: relative;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
   color: white;
 }
 
@@ -15,10 +11,11 @@
   display: flex;
   justify-content: center;
   font-family: 'Rock Salt', cursive;
-  font-size: 90px;
+  font-size: 30px;
   font-weight: 400;
   font-style: normal;
-  letter-spacing: 75px;
+  letter-spacing: 35px;
+  margin-right: -35px;
 }
 
 .jumbotron_edit::before,
@@ -31,42 +28,39 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 .jumbotron_content_edit {
   position: relative;
   z-index: 2;
-  text-align: start;
+  text-align: center;
   padding: 1rem 2rem;
 }
 
-.jumbotron_content_edit p {
-  font-size: 1.25rem;
-}
-
 @media (max-width: 576px) {
-  .jumbotron_content_edit {
-    padding-left: 1rem;
-    transform: translateX(-18%);
-  }
-
   .jumbotron_content_edit h1 {
     font-size: 1.5rem;
   }
-
-  .jumbotron_content_edit p {
-    font-size: 0.9rem; /* Tamaño reducido para subtítulos */
+  .titulo_jumbo {
+    font-size: 2rem;
+    letter-spacing: 10px; /* Reduce esto drásticamente en móvil */
+    margin-right: -10px; /* Debe ser el negativo exacto del letter-spacing */
+    display: inline-block;
+    width: auto; /* No fuerces el 100% si hay márgenes */
+  }
+  .jumbotron_content_edit {
+    padding: 1rem; /* Evita paddings laterales grandes */
+    margin: 0;
+    width: 100%;
   }
 }
 
 @media (max-width: 768px) {
   .jumbotron_edit,
-  .jumbotron_edit_home,
-  .jumbotron_edit_foto {
+  .jumbotron_edit_home {
     position: relative;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
     color: white;
   }
 }

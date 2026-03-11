@@ -27,7 +27,7 @@ export const Quien = () => {
         <>
             <div className="container justify-content-center align-items-center text-center">
                 <div className={`titulo_movil ${styles.titulo}`}>
-                    <h1 className={`${styles.titulo}`}>BIOGRAFIA Y CRITICAS</h1>
+                    <h4 className={`fw-bold ${styles.titulo}`}>BIOGRAFIA Y CRITICAS</h4>
                 </div>
             </div>
             <div className=" bg-black ">
