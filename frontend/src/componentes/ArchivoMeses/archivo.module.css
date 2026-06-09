@@ -1,0 +1,23 @@
+.contenedorArchivo {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 20px;
+    color: white;
+}
+
+.listaMeses {
+    list-style: none;
+    padding: 0;
+}
+
+.itemMes {
+    padding: 8px 0;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: color 0.3s;
+}
+
+.itemMes:hover {
+    color: #ff3e00;
+}

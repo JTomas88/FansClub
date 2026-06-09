@@ -1,0 +1,28 @@
+.tarjeta {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    transition: transform 0.2s;
+}
+
+.videoWrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+}
+
+.videoWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.info {
+    padding: 15px;
+    color: white;
+}

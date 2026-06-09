@@ -44,6 +44,30 @@
   position: relative;
 }
 
+.homeContainer {
+  display: flex;
+  gap: 2rem;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mainContent {
+  flex: 3;
+}
+
+.sidebar {
+  flex: 0 0 150px;
+  padding-top: 20px;
+}
+
+.sidebarContent {
+  font-size: 0.9rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 8px;
+}
+
 /* * {
   border: 1px solid red !important;
 } */
@@ -53,8 +77,13 @@
     width: 90%;
     max-width: 90vw;
   }
+
   .adelanto_garra {
     max-width: 300px;
+  }
+
+  .homeContainer {
+    flex-direction: column;
   }
 }
 
@@ -62,4 +91,5 @@
   .video_container {
     width: 100%;
   }
+  
 }

@@ -1,0 +1,36 @@
+.contenedorCalendario {
+    background: rgba(204, 203, 203, 0.6);
+    padding: 10px;
+    border-radius: 12px;
+    color: white;
+}
+
+:global(.react-calendar) {
+    background: transparent !important;
+    border: none !important;
+    color: white !important;
+    width: 100% !important;
+}
+
+:global(.react-calendar__tile--now) {
+    background: #444 !important;
+}
+
+:global(.react-calendar__tile:enabled:hover) {
+    background-color: #ff3e00 !important;
+    color: white !important;
+    border-radius: 50% !important;
+    cursor: pointer;
+}
+
+.diaConPublicacion {
+    background-color: #ff3e00 !important;
+    color: white !important;
+    border-radius: 50% !important;
+    font-weight: bold;
+}
+
+.diaConPublicacion:hover {
+    filter: brightness(1.2);
+    border-radius: 50% !important;
+}
